@@ -37,6 +37,7 @@ class Stream
     {
         if(self::$instance === null){
             spl_autoload_register([self::class,'autoLoad']);
+            //var_dump(ini_get_all()['extension_dir']['local_value']);
             (new Application)->run();
             self::$instance = new self();
             return;
@@ -49,9 +50,8 @@ class Stream
         require_once self::ROOT_PATH.DIRECTORY_SEPARATOR.$class.'.php';
     }
 
-    private function __destruct()
+    public function __destruct()
     {
-        // TODO: Implement __destruct() method.
-        echo 111;
+
     }
 }

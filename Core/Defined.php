@@ -19,6 +19,58 @@ class Defined
     private static $config;
     private static $temp;
 
+    private static $INI;
+    private static $PHP;
+    private static $ENV;
+
+    /**
+     * @return mixed
+     */
+    public static function getPHP()
+    {
+        return self::$PHP;
+    }
+
+    /**
+     * @param mixed $PHP
+     */
+    public static function setPHP($PHP)
+    {
+        self::$PHP = $PHP;
+    }
+
+    /**
+     * @return mixed
+     */
+    public static function getENV()
+    {
+        return self::$ENV;
+    }
+
+    /**
+     * @param mixed $ENV
+     */
+    public static function setENV($ENV)
+    {
+        self::$ENV = $ENV;
+    }
+
+    /**
+     * @return mixed
+     */
+    public static function getINI()
+    {
+        return self::$INI;
+    }
+
+    /**
+     * @param mixed $INI
+     */
+    public static function setINI($INI)
+    {
+        self::$INI = $INI;
+    }
+
     /**
      * @return mixed
      */
