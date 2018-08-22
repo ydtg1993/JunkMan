@@ -37,7 +37,11 @@ class Application
 
     private static function setTemp($secret)
     {
-        $file = Stream::ROOT_PATH . DIRECTORY_SEPARATOR . 'Temp' . DIRECTORY_SEPARATOR . $secret;
+        $path = Stream::ROOT_PATH . DIRECTORY_SEPARATOR . 'Temp';
+        if(!is_dir($path)){
+            mkdir($path);
+        }
+        $file = $path . DIRECTORY_SEPARATOR . $secret;
         Defined::setTemp($file);
     }
 }
