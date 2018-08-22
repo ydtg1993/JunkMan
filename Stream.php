@@ -37,7 +37,6 @@ class Stream
     {
         if(self::$instance === null){
             spl_autoload_register([self::class,'autoLoad']);
-            //var_dump(ini_get_all()['extension_dir']['local_value']);
             (new Application)->run();
             self::$instance = new self();
             return;
