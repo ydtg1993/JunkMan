@@ -41,7 +41,8 @@ class Stream
             self::$instance = new self();
             return;
         }
-        throw new Exception('Stream have already started！');
+
+        throw new \Exception('Stream have already started！');
     }
 
     private static function autoLoad($class)
