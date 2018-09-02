@@ -1,5 +1,6 @@
 <?php
 /**
+ * github:https://github.com/ydtg1993/Stream
  * Created by PhpStorm.
  * User: ydtg1
  * Date: 2018/8/19
@@ -7,9 +8,10 @@
  */
 namespace Stream;
 
+use Pipe\Driver;
 use Core\Defined;
-use Mockery\Exception;
 use Core\Application;
+use Mockery\Exception;
 
 class Stream
 {
@@ -21,9 +23,10 @@ class Stream
 
     }
 
-    static public function start()
+    static public function start($title = '')
     {
         self::init();
+        Defined::setStreamTitle($title);
         xdebug_start_trace(Defined::getTemp());
     }
 
@@ -37,7 +40,11 @@ class Stream
     {
         if(self::$instance === null){
             spl_autoload_register([self::class,'autoLoad']);
-            (new Application)->run();
+            try {
+                (new Application)->run();
+            }catch (Exception $e){
+                throw new Exception($e->getMessage());
+            }
             self::$instance = new self();
             return;
         }
@@ -52,6 +59,6 @@ class Stream
 
     public function __destruct()
     {
-
+        Driver::execute();
     }
 }

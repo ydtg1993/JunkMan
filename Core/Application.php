@@ -8,29 +8,37 @@
 
 namespace Core;
 
-use App\libs\Stream\Core\Ems;
 use Stream\Stream;
 
 class Application
 {
     public function run()
     {
+        self::setINI();
         self::config();
         Ems::examine();
         self::secret();
         self::setTemp(Defined::getSECRET());
     }
 
+    private static function setINI()
+    {
+        $data = include_once Stream::ROOT_PATH . DIRECTORY_SEPARATOR . 'Core' . DIRECTORY_SEPARATOR . 'INI.php';
+        Defined::setINI($data);
+    }
+
     private static function config()
     {
-        $data = include_once Stream::ROOT_PATH . DIRECTORY_SEPARATOR . 'Core' . DIRECTORY_SEPARATOR . 'Config.php';
-        Defined::setConfig($data);
+        $config = file_get_contents(Stream::ROOT_PATH.DIRECTORY_SEPARATOR.'config.json');
+        $config = json_decode($config, true);
+        Defined::setConfig($config);
     }
 
     private static function secret()
     {
         $config = Defined::getConfig();
-        $config_str = md5(join('@', $config)) . '&' . Defined::getTIME();
+        $app_code = isset($config['app_code']) ? $config['app_code']:'';
+        $config_str = $app_code . '@' . Defined::getTIME();
         $secret = bin2hex($config_str);
         Defined::setSECRET($secret);
     }

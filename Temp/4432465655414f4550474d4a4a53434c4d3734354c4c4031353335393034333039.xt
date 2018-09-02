@@ -1,0 +1,19 @@
+TRACE START [2018-09-02 16:05:09]
+                                                                                                                                       => $add = 10 D:\www\blog\app\Http\Controllers\Admin\MainController.php:19
+                                                                                                                                       => $i = 1 D:\www\blog\app\Http\Controllers\Admin\MainController.php:21
+                                                                                                                                       => $add = 11 D:\www\blog\app\Http\Controllers\Admin\MainController.php:22
+                                                                                                                                       => $i++ D:\www\blog\app\Http\Controllers\Admin\MainController.php:21
+                                                                                                                                       => $add = 13 D:\www\blog\app\Http\Controllers\Admin\MainController.php:22
+                                                                                                                                       => $i++ D:\www\blog\app\Http\Controllers\Admin\MainController.php:21
+                                                                                                                                       => $add = 16 D:\www\blog\app\Http\Controllers\Admin\MainController.php:22
+                                                                                                                                       => $i++ D:\www\blog\app\Http\Controllers\Admin\MainController.php:21
+                                                                                                                                       => $add = 20 D:\www\blog\app\Http\Controllers\Admin\MainController.php:22
+                                                                                                                                       => $i++ D:\www\blog\app\Http\Controllers\Admin\MainController.php:21
+    0.6111    7895488                                                                                                                 -> App\Http\Controllers\Admin\MainController->filter($add = 20) D:\www\blog\app\Http\Controllers\Admin\MainController.php:25
+                                                                                                                                         => $k = 2 D:\www\blog\app\Http\Controllers\Admin\MainController.php:30
+                                                                                                                                         => $add = 40 D:\www\blog\app\Http\Controllers\Admin\MainController.php:31
+    0.6111    7895488                                                                                                                 -> Stream\Stream::end() D:\www\blog\app\Http\Controllers\Admin\MainController.php:26
+    0.6111    7895488                                                                                                                   -> xdebug_stop_trace() D:\www\blog\app\libs\Stream\Stream.php:35
+    0.6111    7895616
+TRACE END   [2018-09-02 16:05:09]
+

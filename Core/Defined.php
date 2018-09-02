@@ -18,10 +18,27 @@ class Defined
     private static $PORT;
     private static $config;
     private static $temp;
+    private static $stream_title;
 
     private static $INI;
     private static $PHP;
     private static $ENV;
+
+    /**
+     * @return mixed
+     */
+    public static function getStreamTitle()
+    {
+        return self::$stream_title;
+    }
+
+    /**
+     * @param mixed $stream_title
+     */
+    public static function setStreamTitle($stream_title)
+    {
+        self::$stream_title = $stream_title;
+    }
 
     /**
      * @return mixed
