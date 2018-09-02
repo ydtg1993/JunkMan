@@ -67,7 +67,7 @@ class Socket
 
     public function setBoot()
     {
-        var_dump(self::$boot);exit;
+        //var_dump(self::$boot);exit;
     }
 
     public function __destruct()
