@@ -36,6 +36,11 @@ class Stream
         self::$instance = null;
     }
 
+    static public function log($data,$title = '')
+    {
+        //TODO
+    }
+
     private static function init()
     {
         if(self::$instance === null){

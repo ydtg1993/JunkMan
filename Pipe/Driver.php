@@ -16,15 +16,16 @@ class Driver
 {
     public static function execute()
     {
-        self::sync();
+        self::async();
     }
 
     private static function sync()
     {
         $ini = Defined::getINI();
         $file = Defined::getTemp() . '.xt';
+        $head = Defined::getSOCKETHEAD();
         try {
-            (new Socket($ini['SERVER'], $ini['PORT']))->write($file);
+            (new Socket($ini['SERVER'], $ini['PORT']))->setHead($head)->write($file);
         }catch (Exception $e){
             throw new Exception($e->getMessage());
         }finally {
@@ -32,15 +33,16 @@ class Driver
         }
     }
 
-    private function async()
+    private static function async()
     {
+        $file = Defined::getTemp() . '.xt';
+        $server = Defined::getINI()['SERVER'];
+        $port = Defined::getINI()['PORT'];
+        $head = Defined::getSOCKETHEAD();
+
         $pipe = Stream::ROOT_PATH.DIRECTORY_SEPARATOR.'Pipe'.DIRECTORY_SEPARATOR.'Pipeline.php';
-        $handle = popen("D:\PHP\php.exe {$pipe}","w");
-        $params = [
-            'ini' => Defined::getINI(),
-            'file' => Defined::getTemp() . '.xt',
-        ];
-        fwrite($handle, serialize($params));
+        $command = "D:\PHP\php.exe {$pipe} -I{$server} -P{$port} -F{$file} -H{$head}";
+        $handle = popen($command,"w");
         pclose($handle);
     }
 }

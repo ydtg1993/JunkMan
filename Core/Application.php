@@ -19,6 +19,7 @@ class Application
         Ems::examine();
         self::secret();
         self::setTemp(Defined::getSECRET());
+        self::setSocketHead();
     }
 
     private static function setINI()
@@ -51,5 +52,16 @@ class Application
         }
         $file = $path . DIRECTORY_SEPARATOR . $secret;
         Defined::setTemp($file);
+    }
+
+    private static function setSocketHead()
+    {
+        $data = [
+            'stream_title'=>Defined::getStreamTitle(),
+            'client_ip'=> $_SERVER['SERVER_ADDR'],
+            'client_time'=>Defined::getTIME(),
+            'secret' => Defined::getSECRET()
+        ];
+        Defined::setSOCKETHEAD($data);
     }
 }

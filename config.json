@@ -2,7 +2,7 @@
   "name": "Stream",
   "version": "0.0.1",
   "dependencies": {
-
+    "php": "D:\\PHP\\php.exe"
   },
-  "app_code":"D2FVUAOEPGMJJSCLM745LL"
+  "app_code": "D2FVUAOEPGMJJSCLM745LL"
 }

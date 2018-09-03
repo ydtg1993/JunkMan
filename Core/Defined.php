@@ -21,8 +21,24 @@ class Defined
     private static $stream_title;
 
     private static $INI;
-    private static $PHP;
     private static $ENV;
+    private static $SOCKET_HEAD;
+
+    /**
+     * @return mixed
+     */
+    public static function getSOCKETHEAD()
+    {
+        return self::$SOCKET_HEAD;
+    }
+
+    /**
+     * @param mixed $SOCKET_HEAD
+     */
+    public static function setSOCKETHEAD(array $SOCKET_HEAD)
+    {
+        self::$SOCKET_HEAD = json_encode($SOCKET_HEAD);
+    }
 
     /**
      * @return mixed
@@ -38,22 +54,6 @@ class Defined
     public static function setStreamTitle($stream_title)
     {
         self::$stream_title = $stream_title;
-    }
-
-    /**
-     * @return mixed
-     */
-    public static function getPHP()
-    {
-        return self::$PHP;
-    }
-
-    /**
-     * @param mixed $PHP
-     */
-    public static function setPHP($PHP)
-    {
-        self::$PHP = $PHP;
     }
 
     /**

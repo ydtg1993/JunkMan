@@ -6,7 +6,18 @@
  * Time: 1:14
  */
 
-//unlink("D:\www\blog\app\libs\Stream\Pipe\g.txt");
-$params = file_get_contents('php://stdin');
+try {
+    $I = (string)current(getopt('I:'));
+    $P = (string)current(getopt('P:'));
+    $FILE = (string)current(getopt('F:'));
+    $HEAD = (string)current(getopt('H:'));
 
-file_put_contents("D:\www\blog\app\libs\Stream\Pipe\g.txt",111);
+    require_once "Socket.php";
+    (new \Pipe\Socket($I, $P))->setHead($HEAD)->write($FILE);
+} catch (Exception $e) {
+    unlink($FILE);
+    exit(0);
+} finally {
+    unlink($FILE);
+    exit(0);
+}
