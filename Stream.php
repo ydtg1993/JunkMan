@@ -59,7 +59,10 @@ class Stream
 
     private static function autoLoad($class)
     {
-        require_once self::ROOT_PATH.DIRECTORY_SEPARATOR.$class.'.php';
+        $file = self::ROOT_PATH.DIRECTORY_SEPARATOR.$class.'.php';
+        if(is_file($file)) {
+            require_once $file;
+        }
     }
 
     public function __destruct()

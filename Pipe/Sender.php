@@ -10,9 +10,7 @@ namespace Pipe;
 
 use Mockery\Exception;
 
-set_time_limit(60);
-
-class Socket
+class Sender
 {
     const BUFFER_LEN = 4096;
     private $ip;
@@ -38,7 +36,7 @@ class Socket
         if ($result < 0) {
             throw new Exception('socket connect server fail');
         }
-        socket_set_nonblock($this->socket);
+
         return $this;
     }
 
@@ -78,7 +76,7 @@ class Socket
     }
 }
 
-class Filter extends Socket
+class Filter extends Sender
 {
     private static $at = ['=>', '->'];
 
