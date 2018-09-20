@@ -1,8 +1,5 @@
 {
   "name": "Stream",
-  "version": "0.0.1",
-  "dependencies": {
-    "php": "D:\\PHP\\php.exe"
-  },
+  "version": "1.0.1",
   "app_code": "D2FVUAOEPGMJJSCLM745LL"
 }

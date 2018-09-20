@@ -1,6 +1,6 @@
 <?php
 return array (
-  'SERVER' => '127.0.0.1',
+  'SERVER' => 'www.bb.com',
   'PORT' => '8890',
   'ENVIRONMENT' => false,
 );
