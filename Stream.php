@@ -41,7 +41,7 @@ class Stream
     private static function init()
     {
         if(self::$instance === null){
-            foreach (glob(self::ROOT_PATH.DIRECTORY_SEPARATOR.'*') as $file) {
+            foreach (glob(self::ROOT_PATH.DIRECTORY_SEPARATOR.'src/*') as $file) {
                 if(is_file($file)) {
                     require_once $file;
                 }
