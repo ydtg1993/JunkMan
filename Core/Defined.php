@@ -8,8 +8,6 @@
 
 namespace Core;
 
-use Mockery\Exception;
-
 class Defined
 {
     private static $TIME;
@@ -20,7 +18,6 @@ class Defined
     private static $temp;
     private static $stream_title;
 
-    private static $INI;
     private static $ENV;
     private static $SOCKET_HEAD;
 
@@ -70,22 +67,6 @@ class Defined
     public static function setENV($ENV)
     {
         self::$ENV = $ENV;
-    }
-
-    /**
-     * @return mixed
-     */
-    public static function getINI()
-    {
-        return self::$INI;
-    }
-
-    /**
-     * @param mixed $INI
-     */
-    public static function setINI($INI)
-    {
-        self::$INI = $INI;
     }
 
     /**
@@ -177,12 +158,13 @@ class Defined
     }
 
     /**
-     * @param mixed $config
+     * @param array $config
+     * @throws \Exception
      */
     public static function setConfig(array $config)
     {
         if(empty($config)){
-            throw new Exception('the config is empty');
+            throw new \Exception('the config is empty');
         }
         self::$config = $config;
     }

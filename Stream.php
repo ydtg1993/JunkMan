@@ -11,7 +11,6 @@ namespace Stream;
 use Pipe\Driver;
 use Core\Defined;
 use Core\Application;
-use Mockery\Exception;
 
 class Stream
 {
@@ -47,8 +46,8 @@ class Stream
             spl_autoload_register([self::class,'autoLoad']);
             try {
                 (new Application)->run();
-            }catch (Exception $e){
-                throw new Exception($e->getMessage());
+            }catch (\Exception $e){
+                throw new \Exception($e->getMessage());
             }
             self::$instance = new self();
             return;

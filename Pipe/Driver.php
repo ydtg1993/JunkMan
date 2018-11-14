@@ -14,6 +14,8 @@ use Stream\Stream;
 
 class Driver
 {
+    const SUFFIX = '.xt';
+
     public static function execute()
     {
         self::async();
@@ -21,14 +23,14 @@ class Driver
 
     private static function sync()
     {
-        $ini = Defined::getINI();
-        $file = Defined::getTemp() . '.xt';
+        $config = Defined::getConfig();
+        $file = Defined::getTemp() . self::SUFFIX;
         $head = Defined::getSOCKETHEAD();
         try {
-            (new Sender($ini['SERVER'], $ini['PORT']))->setHead($head)->write($file);
-        }catch (Exception $e){
+            (new Sender($config['remote']['SERVER'], $config['remote']['PORT']))->setHead($head)->write($file);
+        }catch (\Exception $e){
             unlink($file);
-            throw new Exception($e->getMessage());
+            throw new \Exception($e->getMessage());
         }finally {
             unlink($file);
         }
@@ -36,22 +38,22 @@ class Driver
 
     private static function async()
     {
-        $ini = Defined::getINI();
-        $file = Defined::getTemp() . '.xt';
+        $config = Defined::getConfig();
+        $file = Defined::getTemp() . self::SUFFIX;
         $head = Defined::getSOCKETHEAD();
 
         try {
             $pid = pcntl_fork();
             if ($pid == -1) {
-                throw new Exception('could not fork');
+                throw new \Exception('could not fork');
             } else if ($pid) {
                 pcntl_wait($status);
             } else {
-                (new Sender($ini['SERVER'], $ini['PORT']))->setHead($head)->write($file);
+                (new Sender($config['remote']['SERVER'], $config['remote']['PORT']))->setHead($head)->write($file);
             }
         }catch (\Exception $e){
             unlink($file);
-            throw new Exception($e->getMessage());
+            throw new \Exception($e->getMessage());
         }finally {
             unlink($file);
         }

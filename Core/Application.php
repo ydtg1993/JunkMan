@@ -14,18 +14,11 @@ class Application
 {
     public function run()
     {
-        self::setINI();
         self::config();
         Ems::examine();
         self::secret();
         self::setTemp(Defined::getSECRET());
         self::setSocketHead();
-    }
-
-    private static function setINI()
-    {
-        $data = include_once Stream::ROOT_PATH . DIRECTORY_SEPARATOR . 'Core' . DIRECTORY_SEPARATOR . 'INI.php';
-        Defined::setINI($data);
     }
 
     private static function config()

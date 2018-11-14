@@ -8,8 +8,6 @@
 
 namespace Pipe;
 
-use Mockery\Exception;
-
 class Sender
 {
     const BUFFER_LEN = 1024;
@@ -32,7 +30,7 @@ class Sender
         $address = 'udp://'.$this->ip.':'.$this->port;
         $this->socket = stream_socket_client($address, $create_errno, $create_errstr,STREAM_SERVER_BIND);
         if ($this->socket < 0) {
-            throw new Exception('create socket fail:'.$create_errno.$create_errstr);
+            throw new \Exception('create socket fail:'.$create_errno.$create_errstr);
         }
 
         return $this;
@@ -46,7 +44,7 @@ class Sender
     public function write($file)
     {
         if (!is_file($file)) {
-            throw new Exception('not found stream file');
+            throw new \Exception('not found stream file');
         }
 
         $handel = fopen($file, "r");

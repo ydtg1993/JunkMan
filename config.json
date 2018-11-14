@@ -1,5 +1,9 @@
 {
   "name": "Stream",
-  "version": "1.0.1",
-  "app_code": "D2FVUAOEPGMJJSCLM745LL"
+  "version": "1.1.7",
+  "app_code": "D2FVUAOEPGMJJSCLM745LL",
+  "remote": {
+    "SERVER": "www.bb.com",
+    "PORT": "8890"
+  }
 }
