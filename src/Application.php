@@ -6,10 +6,9 @@
  * Time: 21:33
  */
 
-namespace Core;
-
-use Stream\Stream;
-
+/**
+ * Class Application
+ */
 class Application
 {
     public function run()

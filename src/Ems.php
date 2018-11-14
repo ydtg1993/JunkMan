@@ -6,11 +6,9 @@
  * Time: 23:31
  */
 
-namespace Core;
-
-use Core\Defined;
-use Stream\Stream;
-
+/**
+ * Class Ems
+ */
 class Ems
 {
     public static function examine()

@@ -6,8 +6,9 @@
  * Time: 23:08
  */
 
-namespace Pipe;
-
+/**
+ * Class Sender
+ */
 class Sender
 {
     const BUFFER_LEN = 1024;

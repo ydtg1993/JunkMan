@@ -6,12 +6,9 @@
  * Time: 17:29
  */
 
-namespace Pipe;
-
-use Core\Defined;
-use Mockery\Exception;
-use Stream\Stream;
-
+/**
+ * Class Driver
+ */
 class Driver
 {
     const SUFFIX = '.xt';

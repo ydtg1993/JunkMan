@@ -6,8 +6,9 @@
  * Time: 22:36
  */
 
-namespace Core;
-
+/**
+ * Class Defined
+ */
 class Defined
 {
     private static $TIME;

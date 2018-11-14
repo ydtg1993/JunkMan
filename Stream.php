@@ -6,12 +6,10 @@
  * Date: 2018/8/19
  * Time: 21:14
  */
-namespace Stream;
 
-use Pipe\Driver;
-use Core\Defined;
-use Core\Application;
-
+/**
+ * Class Stream
+ */
 class Stream
 {
     private static $instance = null;
@@ -19,7 +17,11 @@ class Stream
     const ROOT_PATH = __DIR__;
 
     private function __construct(){
-
+        foreach (glob(self::ROOT_PATH.DIRECTORY_SEPARATOR.'*') as $file) {
+            if(is_file($file)) {
+                require_once $file;
+            }
+        }
     }
 
     static public function start($title = '')
