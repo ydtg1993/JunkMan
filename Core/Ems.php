@@ -13,19 +13,15 @@ use Stream\Stream;
 
 class Ems
 {
-    private static $INI;
-    private static $config;
-
     public static function examine()
     {
         date_default_timezone_set('Asia/Shanghai');
         Defined::setTIME(time());
-        self::$config = Defined::getConfig();
 
-        self::setPhpIni();
+        self::setXdebug();
     }
 
-    private static function setPhpIni()
+    private static function setXdebug()
     {
         ini_set('xdebug.collect_params', 4);
         ini_set('xdebug.collect_return', 1);
