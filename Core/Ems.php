@@ -17,8 +17,16 @@ class Ems
     {
         date_default_timezone_set('Asia/Shanghai');
         Defined::setTIME(time());
-
         self::setXdebug();
+
+        try {
+            $bool = xdebug_is_enabled();
+            if(!$bool){
+                throw new \Exception('xdebug is not Unavailable');
+            }
+        }catch (\Exception $e){
+            throw new \Exception('xdebug is not Unavailable');
+        }
     }
 
     private static function setXdebug()
@@ -27,7 +35,7 @@ class Ems
         ini_set('xdebug.collect_return', 1);
         ini_set('xdebug.show_mem_delta', 0);
         ini_set('xdebug.collect_assignments', 1);
-        //ini_set('xdebug.collect_vars', 1);
+        ini_set('xdebug.collect_includes', 0);
         ini_set('xdebug.trace_format', 0);
         ini_set('xdebug.profiler_enable', 1);
         ini_set('xdebug.var_display_max_depth',10);
