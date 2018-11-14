@@ -25,6 +25,7 @@ class Ems
         }catch (\Exception $e){
             throw new \Exception('xdebug is not Unavailable');
         }
+        xdebug_set_filter(XDEBUG_FILTER_CODE_COVERAGE, XDEBUG_PATH_WHITELIST, [ __DIR__ . "/src/" ] );
     }
 
     private static function setXdebug()
