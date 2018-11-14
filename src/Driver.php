@@ -15,7 +15,12 @@ class Driver
 
     public static function execute()
     {
-        self::sync();
+        $bool = Defined::getConfig()['async'];
+        if($bool) {
+            self::async();
+        }else{
+            self::sync();
+        }
     }
 
     private static function sync()
@@ -43,6 +48,10 @@ class Driver
         $file = Defined::getTemp() . self::SUFFIX;
         $head = Defined::getSOCKETHEAD();
 
+        if(!function_exists('pcntl_fork')){
+            throw new \Exception('Need to install pcntl');
+        }
+
         try {
             $pid = pcntl_fork();
             if ($pid == -1) {
@@ -61,7 +70,6 @@ class Driver
             if(is_file($file)) {
                 @unlink($file);
             }
-            throw new \Exception('pcntl is not Unavailable');
         }
     }
 }

@@ -22,7 +22,6 @@ class Stream
 
     static public function start($title = '')
     {
-        var_dump(__FUNCTION__);exit;
         self::init();
         Defined::setStreamTitle($title);
         xdebug_start_trace(Defined::getTemp());

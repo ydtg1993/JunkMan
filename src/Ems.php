@@ -15,17 +15,17 @@ class Ems
     {
         date_default_timezone_set('Asia/Shanghai');
         Defined::setTIME(time());
-        self::setXdebug();
 
         try {
-            $bool = xdebug_is_enabled();
-            if(!$bool){
-                throw new \Exception('xdebug is not Unavailable');
+            $call_func_data = self::multiQuery2Array(debug_backtrace(),['function'=>'start','class' =>'Stream']);
+            if(!function_exists('xdebug_set_filter')){
+                throw new \Exception('Need to install Xdebug version >= 2.6');
             }
+            xdebug_set_filter(XDEBUG_FILTER_CODE_COVERAGE, XDEBUG_PATH_WHITELIST, [$call_func_data['file']] );
         }catch (\Exception $e){
-            throw new \Exception('xdebug is not Unavailable');
+            throw new \Exception('Need to install Xdebug version >= 2.6');
         }
-        xdebug_set_filter(XDEBUG_FILTER_CODE_COVERAGE, XDEBUG_PATH_WHITELIST, [ __DIR__ . "/src/" ] );
+        self::setXdebug();
     }
 
     private static function setXdebug()
@@ -42,4 +42,20 @@ class Ems
         ini_set('xdebug.coverage_enable',1);
     }
 
+    private static function multiQuery2Array($array, array $params)
+    {
+        foreach ($array as $item) {
+            $add = true;
+            foreach ($params as $field => $value) {
+                if ($item[$field] != $value) {
+                    $add = false;
+                }
+            }
+            if ($add) {
+                return $item;
+            }
+        }
+
+        return [];
+    }
 }
