@@ -15,7 +15,7 @@ class Driver
 
     public static function execute()
     {
-        self::async();
+        self::sync();
     }
 
     private static function sync()
@@ -26,10 +26,14 @@ class Driver
         try {
             (new Sender($config['remote']['SERVER'], $config['remote']['PORT']))->setHead($head)->write($file);
         }catch (\Exception $e){
-            unlink($file);
+            if(is_file($file)) {
+                @unlink($file);
+            }
             throw new \Exception($e->getMessage());
         }finally {
-            unlink($file);
+            if(is_file($file)) {
+                @unlink($file);
+            }
         }
     }
 
@@ -49,10 +53,15 @@ class Driver
                 (new Sender($config['remote']['SERVER'], $config['remote']['PORT']))->setHead($head)->write($file);
             }
         }catch (\Exception $e){
-            unlink($file);
+            if(is_file($file)) {
+                @unlink($file);
+            }
             throw new \Exception($e->getMessage());
         }finally {
-            unlink($file);
+            if(is_file($file)) {
+                @unlink($file);
+            }
+            throw new \Exception('pcntl is not Unavailable');
         }
     }
 }

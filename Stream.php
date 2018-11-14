@@ -17,11 +17,7 @@ class Stream
     const ROOT_PATH = __DIR__;
 
     private function __construct(){
-        foreach (glob(self::ROOT_PATH.DIRECTORY_SEPARATOR.'*') as $file) {
-            if(is_file($file)) {
-                require_once $file;
-            }
-        }
+
     }
 
     static public function start($title = '')
@@ -45,7 +41,7 @@ class Stream
     private static function init()
     {
         if(self::$instance === null){
-            spl_autoload_register([self::class,'autoLoad']);
+            
             try {
                 (new Application)->run();
             }catch (\Exception $e){
@@ -56,14 +52,6 @@ class Stream
         }
 
         throw new \Exception('Stream have already started！');
-    }
-
-    private static function autoLoad($class)
-    {
-        $file = self::ROOT_PATH.DIRECTORY_SEPARATOR.$class.'.php';
-        if(is_file($file)) {
-            require_once $file;
-        }
     }
 
     public function __destruct()
