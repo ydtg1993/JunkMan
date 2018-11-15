@@ -18,9 +18,20 @@ class Defined
     private static $config;
     private static $temp;
     private static $stream_title;
+    private static $trace_file;
 
     private static $ENV;
     private static $SOCKET_HEAD;
+
+    public static function getTraceFile()
+    {
+        return self::$trace_file;
+    }
+
+    public static function setTraceFile($file)
+    {
+        self::$trace_file = $file;
+    }
 
     /**
      * @return mixed

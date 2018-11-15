@@ -11,7 +11,6 @@
  */
 class Sender
 {
-    const BUFFER_LEN = 1024;
     private $ip;
     private $port;
     private $socket;
@@ -21,11 +20,7 @@ class Sender
     {
         $this->ip = $ip;
         $this->port = $port;
-        $this->start();
-    }
 
-    public function start()
-    {
         $create_errno = '';
         $create_errstr = '';
         $address = 'udp://'.$this->ip.':'.$this->port;
@@ -33,24 +28,31 @@ class Sender
         if ($this->socket < 0) {
             throw new \Exception('create socket fail:'.$create_errno.$create_errstr);
         }
-
-        return $this;
     }
 
     public function setHead($head)
     {
+        fwrite($this->socket, $head);
+
         return $this;
     }
 
     public function write($file)
     {
+        //trace
+        $trace_file = Defined::getTraceFile();
+        if(is_file($trace_file)){
+            fwrite($this->socket, $trace_file);
+        }
+
+        //boday
         if (!is_file($file)) {
             throw new \Exception('not found stream file');
         }
 
         $handel = fopen($file, "r");
         if ($handel) {
-            while (($buffer = fgets($handel, self::BUFFER_LEN)) !== false) {
+            while (($buffer = fgets($handel)) !== false) {
                 if ($buffer) {
                     fwrite($this->socket, $buffer);
                 }
