@@ -51,10 +51,12 @@ class Application
     private static function setSocketHead()
     {
         $data = [
-            'stream_title' => Defined::getStreamTitle(),
-            'client_ip' => $_SERVER['SERVER_ADDR'],
-            'client_time' => Defined::getTIME(),
-            'secret' => Defined::getSECRET()
+            'header' => [
+                'stream_title' => Defined::getStreamTitle(),
+                'client_ip' => $_SERVER['SERVER_ADDR'],
+                'client_time' => Defined::getTIME(),
+                'secret' => Defined::getSECRET()
+            ]
         ];
         Defined::setSOCKETHEAD($data);
     }

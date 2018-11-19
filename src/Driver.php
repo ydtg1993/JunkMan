@@ -32,9 +32,6 @@ class Driver
         try {
             (new Sender(self::SERVER, self::PORT))->setHead($head)->write($file);
         }catch (\Exception $e){
-            if(is_file($file)) {
-                @unlink($file);
-            }
             throw new \Exception($e->getMessage());
         }finally {
             if(is_file($file)) {
