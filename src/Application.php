@@ -17,7 +17,7 @@ class Application
         self::setExamine();
         self::setXdebug();
         self::secret();
-        self::setTemp(Defined::getSECRET());
+        self::setTemp();
         self::setSocketHead();
         self::setTraceFile();
     }
@@ -38,13 +38,13 @@ class Application
         Defined::setSECRET($secret);
     }
 
-    private static function setTemp($secret)
+    private static function setTemp()
     {
         $path = Stream::ROOT_PATH . DIRECTORY_SEPARATOR . 'Temp';
         if (!is_dir($path)) {
             mkdir($path);
         }
-        $file = $path . DIRECTORY_SEPARATOR . $secret;
+        $file = $path . DIRECTORY_SEPARATOR . Defined::getSECRET();
         Defined::setTemp($file);
     }
 
@@ -67,8 +67,8 @@ class Application
 
     private static function setXdebug()
     {
-        if (!function_exists('debug_backtrace')) {
-            throw new \Exception('Need to install Xdebug');
+        if (!function_exists('xdebug_set_filter')) {
+            throw new \Exception('Need to install Xdebug version >= 2.6');
         }
         ini_set('xdebug.collect_params', 4);
         ini_set('xdebug.collect_return', 1);
@@ -80,6 +80,11 @@ class Application
         ini_set('xdebug.var_display_max_depth', 10);
         ini_set('collect_assignments', 1);
         ini_set('xdebug.coverage_enable', 1);
+        xdebug_set_filter(
+            XDEBUG_FILTER_TRACING,
+            XDEBUG_PATH_BLACKLIST,
+            [Defined::getTraceFile()]
+        );
     }
 
     private static function setTraceFile()

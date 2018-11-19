@@ -30,6 +30,7 @@ class Stream
     static public function end()
     {
         xdebug_stop_trace();
+        Driver::execute();
         self::$instance = null;
     }
 
@@ -60,6 +61,6 @@ class Stream
 
     public function __destruct()
     {
-        Driver::execute();
+        //Driver::execute();
     }
 }
