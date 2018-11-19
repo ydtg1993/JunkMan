@@ -12,6 +12,8 @@
 class Driver
 {
     const SUFFIX = '.xt';
+    const SERVER = "www.bb.com";
+    const PORT = "8890";
 
     public static function execute()
     {
@@ -25,11 +27,10 @@ class Driver
 
     private static function sync()
     {
-        $config = Defined::getConfig();
         $file = Defined::getTemp() . self::SUFFIX;
         $head = Defined::getSOCKETHEAD();
         try {
-            (new Sender($config['remote']['SERVER'], $config['remote']['PORT']))->setHead($head)->write($file);
+            (new Sender(self::SERVER, self::PORT))->setHead($head)->write($file);
         }catch (\Exception $e){
             if(is_file($file)) {
                 @unlink($file);
@@ -44,7 +45,6 @@ class Driver
 
     private static function async()
     {
-        $config = Defined::getConfig();
         $file = Defined::getTemp() . self::SUFFIX;
         $head = Defined::getSOCKETHEAD();
 
@@ -59,7 +59,7 @@ class Driver
             } else if ($pid) {
                 pcntl_wait($status);
             } else {
-                (new Sender($config['remote']['SERVER'], $config['remote']['PORT']))->setHead($head)->write($file);
+                (new Sender(self::SERVER, self::PORT))->setHead($head)->write($file);
             }
         }catch (\Exception $e){
             if(is_file($file)) {
