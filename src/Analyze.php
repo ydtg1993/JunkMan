@@ -123,7 +123,7 @@ class Analyze
             ];
         }
 
-        $flag = preg_match('/^array/U', $data);
+        $flag = preg_match('/^array/', $data);
         if ($flag) {
             $file = Defined::getTemp() . '_temp.php';
             file_put_contents($file, "<?php return " . $data . ';');
@@ -136,11 +136,11 @@ class Analyze
             ];
         }
 
-        $flag = preg_match('/^class stdClass (.*)$/U', $data,$matches);
+        $flag = preg_match('/^class\s(.*)\s{(.*)}$/U', $data,$matches);
         if($flag) {
             return [
-                'val' => isset($matches[1]) ? $matches[1] : '{}',
-                'type' => self::CLA
+                'val' => isset($matches[2]) && $matches[2] ? '{'.$matches[2].'}' : '{}',
+                'type' => isset($matches[1]) && $matches[1] ? $matches[1] : self::CLA
             ];
         }
     }
