@@ -23,7 +23,7 @@ class Sender
 
         $create_errno = '';
         $create_errstr = '';
-        $address = 'udp://' . $this->ip . ':' . $this->port;
+        $address = 'tcp://' . $this->ip . ':' . $this->port;
         $this->socket = stream_socket_client($address, $create_errno, $create_errstr, STREAM_SERVER_BIND);
         if ($this->socket < 0) {
             throw new \Exception('create socket fail:' . $create_errno . $create_errstr);
