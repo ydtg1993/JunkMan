@@ -125,7 +125,7 @@ class Analyze
 
         $flag = preg_match('/^array/', $data);
         if ($flag) {
-            $file = Defined::getTemp() . '_temp.php';
+            $file = Defined::getTemp() . microtime() . '_temp.php';
             file_put_contents($file, "<?php return " . $data . ';');
             $data = include_once $file;
             @unlink($file);
