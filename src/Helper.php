@@ -25,7 +25,7 @@ class Helper
         return [];
     }
 
-    public static function cutFile($file,$start,$to)
+    public static function cutFile($file, $start, $to)
     {
         $txt = '';
         $line = 1;
@@ -33,8 +33,8 @@ class Helper
         if ($handle) {
             while (($buffer = fgets($handle)) !== false) {
                 $buffer = fgets($handle);
-                if($line < $to && $line > $start){
-                    $txt.= $buffer;
+                if ($line < $to && $line > $start) {
+                    $txt .= $buffer;
                 }
                 $line++;
             }
@@ -42,5 +42,14 @@ class Helper
         }
 
         return $txt;
+    }
+
+    public static function secret($code, $time)
+    {
+        $data = json_encode([
+            'app_code' => $code,
+            'time' => $time,
+        ]);
+        return bin2hex($data);
     }
 }

@@ -27,9 +27,7 @@ class LogDriver
             $config = file_get_contents(Stream::ROOT_PATH . DIRECTORY_SEPARATOR . 'config.json');
             $config = (array)json_decode($config, true);
 
-            $app_code = isset($config['app_code']) ? $config['app_code'] : '';
-            $config_str = $app_code . '@' . $time;
-            $secret = bin2hex($config_str);
+            $secret = Helper::secret($config['app_code'],$time);
             $head = json_encode([
                 'header' => [
                     'log_title' => $title,
@@ -44,10 +42,10 @@ class LogDriver
                 'trace_file' => Helper::cutFile(self::$trace_file,self::$trace_line - 5, self::$trace_line + 5)
             ]);
             self::$SENDER->setHead($head)->write($trace_file)->write(self::parseData($message));
-
-
         } catch (Exception $e) {
             throw new \Exception($e->getMessage());
+        }finally{
+            self::$SENDER = null;
         }
     }
 

@@ -32,9 +32,7 @@ class Application
     private static function secret()
     {
         $config = Defined::getConfig();
-        $app_code = isset($config['app_code']) ? $config['app_code'] : '';
-        $config_str = $app_code . '@' . Defined::getTIME();
-        $secret = bin2hex($config_str);
+        $secret = Helper::secret($config['app_code'],Defined::getTIME());
         Defined::setSECRET($secret);
     }
 
