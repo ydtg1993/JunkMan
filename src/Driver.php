@@ -30,6 +30,10 @@ class Driver
         $file = Defined::getTemp() . self::SUFFIX;
         $head = Defined::getSOCKETHEAD();
         try {
+            if (!is_file($file)) {
+                throw new \Exception('not found stream file');
+            }
+
             self::$SENDER = (new Sender(Defined::SERVER, Defined::PORT))->setHead($head);
             //trace
             $trace_file = Defined::getTraceFile();
@@ -38,9 +42,6 @@ class Driver
                 self::$SENDER->write(json_encode([
                     'trace_file' => $trace_file
                 ]));
-            }
-            if (!is_file($file)) {
-                throw new \Exception('not found stream file');
             }
 
             $handle = fopen($file, "r");
@@ -75,6 +76,10 @@ class Driver
             } else if ($pid) {
                 pcntl_wait($status);
             } else {
+                if (!is_file($file)) {
+                    throw new \Exception('not found stream file');
+                }
+
                 self::$SENDER = (new Sender(Defined::SERVER, Defined::PORT))->setHead($head);
                 //trace
                 $trace_file = Defined::getTraceFile();
@@ -83,9 +88,6 @@ class Driver
                     self::$SENDER->write(json_encode([
                         'trace_file' => $trace_file
                     ]));
-                }
-                if (!is_file($file)) {
-                    throw new \Exception('not found stream file');
                 }
 
                 $handle = fopen($file, "r");

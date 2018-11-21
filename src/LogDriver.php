@@ -19,7 +19,8 @@ class LogDriver
         }
 
         try {
-            $call_func_data = self::multiQuery2Array(debug_backtrace(), ['function' => 'log', 'class' => 'Stream']);
+            $time = time();
+            $call_func_data = Helper::multiQuery2Array(debug_backtrace(), ['function' => 'log', 'class' => 'Stream']);
             self::$trace_file = $call_func_data['file'];
             self::$trace_line = $call_func_data['line'];
 
@@ -27,12 +28,12 @@ class LogDriver
             $config = (array)json_decode($config, true);
 
             $app_code = isset($config['app_code']) ? $config['app_code'] : '';
-            $config_str = $app_code . '@' . Defined::getTIME();
+            $config_str = $app_code . '@' . $time;
             $secret = bin2hex($config_str);
             $head = json_encode([
                 'header' => [
                     'log_title' => $title,
-                    'client_time' => time(),
+                    'time' => $time,
                     'secret' => $secret,
                     'trace_file' => self::$trace_file
                 ]
@@ -40,7 +41,7 @@ class LogDriver
 
             self::$SENDER = new Sender(Defined::SERVER, Defined::PORT);
             $trace_file = json_encode([
-                'trace_file' => self::cutFile()
+                'trace_file' => Helper::cutFile(self::$trace_file,self::$trace_line - 5, self::$trace_line + 5)
             ]);
             self::$SENDER->setHead($head)->write($trace_file)->write(self::parseData($message));
 
@@ -80,41 +81,5 @@ class LogDriver
             ],
             'line'=>self::$trace_line
         ]);
-    }
-
-    private static function multiQuery2Array($array, array $params)
-    {
-        foreach ($array as $item) {
-            $add = true;
-            foreach ($params as $field => $value) {
-                if ($item[$field] != $value) {
-                    $add = false;
-                }
-            }
-            if ($add) {
-                return $item;
-            }
-        }
-
-        return [];
-    }
-
-    private static function cutFile()
-    {
-        $txt = '';
-        $i = 1;
-        $handle = @fopen(self::$trace_file, "r");
-        if ($handle) {
-            while (($buffer = fgets($handle)) !== false) {
-                $buffer = fgets($handle);
-                if(self::$trace_line < ($i + 5) && self::$trace_line > ($i - 5)){
-                    $txt.= $buffer;
-                }
-                $i++;
-            }
-            fclose($handle);
-        }
-
-        return $txt;
     }
 }

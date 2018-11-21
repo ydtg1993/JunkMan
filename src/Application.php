@@ -91,24 +91,7 @@ class Application
 
     private static function setTraceFile()
     {
-        $call_func_data = self::multiQuery2Array(debug_backtrace(), ['function' => 'start', 'class' => 'Stream']);
+        $call_func_data = Helper::multiQuery2Array(debug_backtrace(), ['function' => 'start', 'class' => 'Stream']);
         Defined::setTraceFile($call_func_data['file']);
-    }
-
-    private static function multiQuery2Array($array, array $params)
-    {
-        foreach ($array as $item) {
-            $add = true;
-            foreach ($params as $field => $value) {
-                if ($item[$field] != $value) {
-                    $add = false;
-                }
-            }
-            if ($add) {
-                return $item;
-            }
-        }
-
-        return [];
     }
 }
