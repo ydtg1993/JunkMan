@@ -53,8 +53,7 @@ class Application
         $data = [
             'header' => [
                 'stream_title' => Defined::getStreamTitle(),
-                'client_ip' => $_SERVER['SERVER_ADDR'],
-                'client_time' => Defined::getTIME(),
+                'time' => Defined::getTIME(),
                 'secret' => Defined::getSECRET()
             ]
         ];

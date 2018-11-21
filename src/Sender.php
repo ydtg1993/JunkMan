@@ -25,9 +25,6 @@ class Sender
         $create_errstr = '';
         $address = 'tcp://' . $this->ip . ':' . $this->port;
         $this->socket = stream_socket_client($address, $create_errno, $create_errstr, STREAM_SERVER_BIND);
-        if ($this->socket < 0) {
-            throw new \Exception('create socket fail:' . $create_errno . $create_errstr);
-        }
     }
 
     public function setHead($head)
@@ -37,43 +34,17 @@ class Sender
         return $this;
     }
 
-    public function write($file)
+    public function write($data)
     {
-        //trace
-        $trace_file = Defined::getTraceFile();
-        if (is_file($trace_file)) {
-            $data = serialize(file_get_contents($trace_file));
-            fwrite($this->socket, $data);
+        if(!$data){
+            return $this;
         }
-
-        //boday
-        if (!is_file($file)) {
-            throw new \Exception('not found stream file');
-        }
-
-        $handel = fopen($file, "r");
-        if ($handel) {
-            while (($buffer = fgets($handel)) !== false) {
-                Analyze::index($buffer);
-                if (!$buffer) {
-                    continue;
-                }
-
-                fwrite($this->socket, $buffer);
-            }
-
-            fclose($handel);
-        }
-    }
-
-    public function setBoot()
-    {
-        //var_dump(self::$boot);exit;
+        fwrite($this->socket, $data);
+        return $this;
     }
 
     public function __destruct()
     {
-        $this->setBoot();
         fclose($this->socket);
     }
 }

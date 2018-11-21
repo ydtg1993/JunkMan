@@ -12,15 +12,15 @@
 class Driver
 {
     const SUFFIX = '.xt';
-    const SERVER = "www.bb.com";
-    const PORT = "8890";
+
+    private static $SENDER = null;
 
     public static function execute()
     {
         $bool = Defined::getConfig()['async'];
-        if($bool) {
+        if ($bool) {
             self::async();
-        }else{
+        } else {
             self::sync();
         }
     }
@@ -30,11 +30,30 @@ class Driver
         $file = Defined::getTemp() . self::SUFFIX;
         $head = Defined::getSOCKETHEAD();
         try {
-            (new Sender(self::SERVER, self::PORT))->setHead($head)->write($file);
-        }catch (\Exception $e){
+            self::$SENDER = (new Sender(Defined::SERVER, Defined::PORT))->setHead($head);
+            //trace
+            $trace_file = Defined::getTraceFile();
+            if (is_file($trace_file)) {
+                $trace_file = serialize(file_get_contents($trace_file));
+                self::$SENDER->write(json_encode([
+                    'trace_file' => $trace_file
+                ]));
+            }
+            if (!is_file($file)) {
+                throw new \Exception('not found stream file');
+            }
+
+            $handle = fopen($file, "r");
+            if ($handle) {
+                while (($buffer = fgets($handle)) !== false) {
+                    $buffer = Analyze::index($buffer);
+                    self::$SENDER->write($buffer);
+                }
+            }
+        } catch (\Exception $e) {
             throw new \Exception($e->getMessage());
-        }finally {
-            if(is_file($file)) {
+        } finally {
+            if (is_file($file)) {
                 @unlink($file);
             }
         }
@@ -45,7 +64,7 @@ class Driver
         $file = Defined::getTemp() . self::SUFFIX;
         $head = Defined::getSOCKETHEAD();
 
-        if(!function_exists('pcntl_fork')){
+        if (!function_exists('pcntl_fork')) {
             throw new \Exception('Need to install pcntl');
         }
 
@@ -56,15 +75,31 @@ class Driver
             } else if ($pid) {
                 pcntl_wait($status);
             } else {
-                (new Sender(self::SERVER, self::PORT))->setHead($head)->write($file);
+                self::$SENDER = (new Sender(Defined::SERVER, Defined::PORT))->setHead($head);
+                //trace
+                $trace_file = Defined::getTraceFile();
+                if (is_file($trace_file)) {
+                    $trace_file = serialize(file_get_contents($trace_file));
+                    self::$SENDER->write(json_encode([
+                        'trace_file' => $trace_file
+                    ]));
+                }
+                if (!is_file($file)) {
+                    throw new \Exception('not found stream file');
+                }
+
+                $handle = fopen($file, "r");
+                if ($handle) {
+                    while (($buffer = fgets($handle)) !== false) {
+                        $buffer = Analyze::index($buffer);
+                        self::$SENDER->write($buffer);
+                    }
+                }
             }
-        }catch (\Exception $e){
-            if(is_file($file)) {
-                @unlink($file);
-            }
+        } catch (\Exception $e) {
             throw new \Exception($e->getMessage());
-        }finally {
-            if(is_file($file)) {
+        } finally {
+            if (is_file($file)) {
                 @unlink($file);
             }
         }

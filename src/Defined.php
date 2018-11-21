@@ -11,10 +11,11 @@
  */
 class Defined
 {
+    const SERVER = "127.0.0.1";
+    const PORT = "55533";
+
     private static $TIME;
     private static $SECRET;
-    private static $SERVER;
-    private static $PORT;
     private static $config;
     private static $temp;
     private static $stream_title;
@@ -127,38 +128,6 @@ class Defined
     public static function setSECRET($SECRET)
     {
         self::$SECRET = $SECRET;
-    }
-
-    /**
-     * @return mixed
-     */
-    public static function getSERVER()
-    {
-        return self::$SERVER;
-    }
-
-    /**
-     * @param mixed $SERVER
-     */
-    public static function setSERVER($SERVER)
-    {
-        self::$SERVER = $SERVER;
-    }
-
-    /**
-     * @return mixed
-     */
-    public static function getPORT()
-    {
-        return self::$PORT;
-    }
-
-    /**
-     * @param mixed $PORT
-     */
-    public static function setPORT($PORT)
-    {
-        self::$PORT = $PORT;
     }
 
     /**
