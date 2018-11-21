@@ -15,11 +15,11 @@ class Application
     {
         self::config();
         self::setExamine();
+        self::setTraceFile();
         self::setXdebug();
         self::secret();
         self::setTemp();
         self::setSocketHead();
-        self::setTraceFile();
     }
 
     private static function config()
@@ -54,7 +54,8 @@ class Application
             'header' => [
                 'stream_title' => Defined::getStreamTitle(),
                 'time' => Defined::getTIME(),
-                'secret' => Defined::getSECRET()
+                'secret' => Defined::getSECRET(),
+                'trace_file' => Defined::getTraceFile()
             ]
         ];
         Defined::setSOCKETHEAD($data);

@@ -33,7 +33,8 @@ class LogDriver
                 'header' => [
                     'log_title' => $title,
                     'client_time' => time(),
-                    'secret' => $secret
+                    'secret' => $secret,
+                    'trace_file' => self::$trace_file
                 ]
             ]);
 
