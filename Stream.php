@@ -20,23 +20,33 @@ class Stream
 
     }
 
-    static public function start($title = '')
+    public static function start($title = '')
     {
         self::init();
         Defined::setStreamTitle($title);
         xdebug_start_trace(Defined::getTemp());
     }
 
-    static public function end()
+    public static function flush()
+    {
+        Driver::execute();
+    }
+
+    public static function end()
     {
         xdebug_stop_trace();
         Driver::execute();
         self::$instance = null;
     }
 
-    static public function log($data,$title = '')
+    public static function log($message,$title = '')
     {
-        //TODO
+        foreach (glob(self::ROOT_PATH.DIRECTORY_SEPARATOR.'src/*') as $file) {
+            if(is_file($file)) {
+                require_once $file;
+            }
+        }
+        LogDriver::execute($message,$title);
     }
 
     private static function init()
@@ -56,11 +66,7 @@ class Stream
             return;
         }
 
+        self::$instance = null;
         throw new \Exception('Stream have already started！');
-    }
-
-    public function __destruct()
-    {
-        //Driver::execute();
     }
 }

@@ -91,5 +91,6 @@ class Application
     {
         $call_func_data = Helper::multiQuery2Array(debug_backtrace(), ['function' => 'start', 'class' => 'Stream']);
         Defined::setTraceFile($call_func_data['file']);
+        Defined::setTraceStart($call_func_data['line']);
     }
 }

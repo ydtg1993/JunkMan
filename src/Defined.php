@@ -20,6 +20,40 @@ class Defined
     private static $temp;
     private static $stream_title;
     private static $trace_file;
+    private static $trace_start;
+    private static $trace_end;
+
+    /**
+     * @return mixed
+     */
+    public static function getTraceStart()
+    {
+        return self::$trace_start;
+    }
+
+    /**
+     * @param mixed $trace_start
+     */
+    public static function setTraceStart($trace_start): void
+    {
+        self::$trace_start = $trace_start;
+    }
+
+    /**
+     * @return mixed
+     */
+    public static function getTraceEnd()
+    {
+        return self::$trace_end;
+    }
+
+    /**
+     * @param mixed $trace_end
+     */
+    public static function setTraceEnd($trace_end): void
+    {
+        self::$trace_end = $trace_end;
+    }
 
     private static $ENV;
     private static $SOCKET_HEAD;

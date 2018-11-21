@@ -38,7 +38,10 @@ class Driver
             //trace
             $trace_file = Defined::getTraceFile();
             if (is_file($trace_file)) {
-                $trace_file = serialize(file_get_contents($trace_file));
+                $call_func_data = Helper::multiQuery2Array(debug_backtrace(), ['function' => 'end', 'class' => 'Stream']);
+                $trace_to = $call_func_data['line'];
+
+                $trace_file = Helper::cutFile($trace_file,Defined::getTraceStart() - 5,$trace_to + 5);
                 self::$SENDER->write(json_encode([
                     'trace_file' => $trace_file
                 ]));

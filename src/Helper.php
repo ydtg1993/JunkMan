@@ -32,9 +32,8 @@ class Helper
         $handle = @fopen($file, "r");
         if ($handle) {
             while (($buffer = fgets($handle)) !== false) {
-                $buffer = fgets($handle);
-                if ($line < $to && $line > $start) {
-                    $txt .= $buffer;
+                if ($line <= $to && $line >= $start) {
+                    $txt.= $buffer;
                 }
                 $line++;
             }
