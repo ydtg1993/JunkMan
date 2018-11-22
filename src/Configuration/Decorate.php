@@ -8,7 +8,7 @@
 
 namespace JunkMan\Configuration;
 
-use JunkMan\Container\Collecter;
+use JunkMan\Container\Collector;
 use JunkMan\JunkMan;
 use JunkMan\Tool\Helper;
 
@@ -18,13 +18,13 @@ use JunkMan\Tool\Helper;
 class Decorate
 {
     /**
-     * @var Collecter
+     * @var Collector
      */
-    private $collecter;
+    private $collector;
 
-    public function __construct($collecter)
+    public function __construct($collector = null)
     {
-        $this->collecter = $collecter;
+        $this->collector = $collector;
         $this->config();
         $this->setXdebug();
         $this->secret();
@@ -36,14 +36,14 @@ class Decorate
     {
         $config = file_get_contents(JunkMan::ROOT_PATH . DIRECTORY_SEPARATOR . 'config.json');
         $config = (array)json_decode($config, true);
-        $this->collecter->setConfig($config);
+        $this->collector->setConfig($config);
     }
 
     private function secret()
     {
-        $config = $this->collecter->getConfig();
-        $secret = Helper::secret($config['app_code'], $this->collecter->getTIME());
-        $this->collecter->setSecret($secret);
+        $config = $this->collector->getConfig();
+        $secret = Helper::secret($config['app_code'], $this->collector->getTIME());
+        $this->collector->setSecret($secret);
     }
 
     private function setTemp()
@@ -52,21 +52,21 @@ class Decorate
         if (!is_dir($path)) {
             mkdir($path);
         }
-        $file = $path . DIRECTORY_SEPARATOR . $this->collecter->getSecret();
-        $this->collecter->setTemp($file);
+        $file = $path . DIRECTORY_SEPARATOR . $this->collector->getSecret();
+        $this->collector->setTemp($file);
     }
 
     private function setHead()
     {
         $data = [
             'header' => [
-                'stream_title' => $this->collecter->getStreamTitle(),
-                'time' => $this->collecter->getTIME(),
-                'secret' => $this->collecter->getSecret(),
-                'trace_file' => $this->collecter->getTraceFile()
+                'stream_title' => $this->collector->getStreamTitle(),
+                'time' => $this->collector->getTIME(),
+                'secret' => $this->collector->getSecret(),
+                'trace_file' => $this->collector->getTraceFile()
             ]
         ];
-        $this->collecter->setHeader($data);
+        $this->collector->setHeader($data);
     }
 
     private function setXdebug()
@@ -87,7 +87,7 @@ class Decorate
         xdebug_set_filter(
             XDEBUG_FILTER_TRACING,
             XDEBUG_PATH_BLACKLIST,
-            [$this->collecter->getTraceFile()]
+            [$this->collector->getTraceFile()]
         );
     }
 }

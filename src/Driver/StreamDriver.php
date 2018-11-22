@@ -8,7 +8,7 @@
 namespace JunkMan\Driver;
 
 use JunkMan\Abstracts\Singleton;
-use JunkMan\Container\Collecter;
+use JunkMan\Container\Collector;
 use JunkMan\Pipeline\TcpSender;
 use JunkMan\Resolver\StreamAnalyze;
 use JunkMan\Tool\Helper;
@@ -24,14 +24,14 @@ class StreamDriver extends Singleton
     private static $SENDER = null;
 
     /**
-     * @var Collecter
+     * @var Collector
      */
-    private $collecter;
+    private $collector;
 
-    public function execute($collecter = null)
+    public function execute($collector = null)
     {
-        $this->collecter = $collecter;
-        $bool = $this->collecter->getConfig()['async'];
+        $this->collector = $collector;
+        $bool = $this->collector->getConfig()['async'];
         if ($bool) {
             $this->async();
         } else {
@@ -41,18 +41,18 @@ class StreamDriver extends Singleton
 
     private function sync()
     {
-        $file = $this->collecter->getTemp() . self::SUFFIX;
-        $head = $this->collecter->getHeader();
+        $file = $this->collector->getTemp() . self::SUFFIX;
+        $head = $this->collector->getHeader();
         try {
             if (!is_file($file)) {
                 throw new \Exception('not found stream file');
             }
 
-            self::$SENDER = (new TcpSender(Collecter::SERVER, Collecter::PORT))->setHead($head);
+            self::$SENDER = (new TcpSender(Collector::SERVER, Collector::PORT))->setHead($head);
             //trace
-            $trace_file = $this->collecter->getTraceFile();
+            $trace_file = $this->collector->getTraceFile();
             if (is_file($trace_file)) {
-                $trace_file = Helper::cutFile($trace_file,$this->collecter->getTraceStart() - 5,$this->collecter->getTraceEnd() + 5);
+                $trace_file = Helper::cutFile($trace_file,$this->collector->getTraceStart() - 5,$this->collector->getTraceEnd() + 5);
                 self::$SENDER->write(['trace_file' => $trace_file]);
             }
 
@@ -74,8 +74,8 @@ class StreamDriver extends Singleton
 
     private function async()
     {
-        $file = $this->collecter->getTemp() . self::SUFFIX;
-        $head = $this->collecter->getSOCKETHEAD();
+        $file = $this->collector->getTemp() . self::SUFFIX;
+        $head = $this->collector->getSOCKETHEAD();
 
         if (!function_exists('pcntl_fork')) {
             throw new \Exception('Need to install pcntl');
@@ -92,11 +92,11 @@ class StreamDriver extends Singleton
                     throw new \Exception('not found stream file');
                 }
 
-                self::$SENDER = (new TcpSender(Collecter::SERVER, Collecter::PORT))->setHead($head);
+                self::$SENDER = (new TcpSender(Collector::SERVER, Collector::PORT))->setHead($head);
                 //trace
-                $trace_file = $this->collecter->getTraceFile();
+                $trace_file = $this->collector->getTraceFile();
                 if (is_file($trace_file)) {
-                    $trace_file = Helper::cutFile($trace_file,$this->collecter->getTraceStart() - 5,$this->collecter->getTraceEnd() + 5);
+                    $trace_file = Helper::cutFile($trace_file,$this->collector->getTraceStart() - 5,$this->collector->getTraceEnd() + 5);
                     self::$SENDER->write(['trace_file' => $trace_file]);
                 }
 

@@ -9,7 +9,7 @@
 namespace JunkMan\Resolver;
 
 
-use JunkMan\Container\Collecter;
+use JunkMan\Container\Collector;
 
 /**
  * Class StreamAnalyze
@@ -42,9 +42,9 @@ class StreamAnalyze extends Analyze
         $content = substr($content, 3);
 
         if (DIRECTORY_SEPARATOR == '\\') {
-            $pattern = '/(' . str_replace("\\", '\\\\', Collecter::getTraceFile()) . '):(\d+)/';
+            $pattern = '/(' . str_replace("\\", '\\\\', Collector::getTraceFile()) . '):(\d+)/';
         } else {
-            $pattern = '/(' . Collecter::getTraceFile() . '):(\d+)/';
+            $pattern = '/(' . Collector::getTraceFile() . '):(\d+)/';
         }
         $flag = preg_match($pattern, $content, $matches);
         if (!$flag) {
@@ -123,7 +123,7 @@ class StreamAnalyze extends Analyze
 
         $flag = preg_match('/^array/', $data);
         if ($flag) {
-            $file = Collecter::getTemp() . microtime() . '_temp.php';
+            $file = Collector::getTemp() . microtime() . '_temp.php';
             file_put_contents($file, "<?php return " . $data . ';');
             $data = include_once $file;
             @unlink($file);

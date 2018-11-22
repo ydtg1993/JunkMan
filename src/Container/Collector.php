@@ -11,7 +11,7 @@ date_default_timezone_set('Asia/Shanghai');
 /**
  * Class Configure
  */
-class Collecter
+class Collector
 {
     const SERVER = "127.0.0.1";
     const PORT = "55533";
