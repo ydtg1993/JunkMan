@@ -24,7 +24,7 @@ class Application
 
     private static function config()
     {
-        $config = file_get_contents(Stream::ROOT_PATH . DIRECTORY_SEPARATOR . 'config.json');
+        $config = file_get_contents(JunkMan::ROOT_PATH . DIRECTORY_SEPARATOR . 'config.json');
         $config = json_decode($config, true);
         Defined::setConfig($config);
     }
@@ -38,7 +38,7 @@ class Application
 
     private static function setTemp()
     {
-        $path = Stream::ROOT_PATH . DIRECTORY_SEPARATOR . 'Temp';
+        $path = JunkMan::ROOT_PATH . DIRECTORY_SEPARATOR . 'Temp';
         if (!is_dir($path)) {
             mkdir($path);
         }
@@ -89,7 +89,7 @@ class Application
 
     private static function setTraceFile()
     {
-        $call_func_data = Helper::multiQuery2Array(debug_backtrace(), ['function' => 'start', 'class' => 'Stream']);
+        $call_func_data = Helper::multiQuery2Array(debug_backtrace(), ['function' => 'start', 'class' => 'JunkMan']);
         Defined::setTraceFile($call_func_data['file']);
         Defined::setTraceStart($call_func_data['line']);
     }

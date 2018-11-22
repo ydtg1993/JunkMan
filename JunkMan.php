@@ -10,7 +10,7 @@
 /**
  * Class Stream
  */
-class Stream
+class JunkMan
 {
     private static $instance = null;
 

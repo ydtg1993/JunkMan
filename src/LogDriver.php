@@ -20,11 +20,11 @@ class LogDriver
 
         try {
             $time = time();
-            $call_func_data = Helper::multiQuery2Array(debug_backtrace(), ['function' => 'log', 'class' => 'Stream']);
+            $call_func_data = Helper::multiQuery2Array(debug_backtrace(), ['function' => 'log', 'class' => 'JunkMan']);
             self::$trace_file = $call_func_data['file'];
             self::$trace_line = $call_func_data['line'];
 
-            $config = file_get_contents(Stream::ROOT_PATH . DIRECTORY_SEPARATOR . 'config.json');
+            $config = file_get_contents(JunkMan::ROOT_PATH . DIRECTORY_SEPARATOR . 'config.json');
             $config = (array)json_decode($config, true);
 
             $secret = Helper::secret($config['app_code'],$time);
