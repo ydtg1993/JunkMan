@@ -34,27 +34,10 @@ class Collector
     private $header;
     private $message;
     private $trace_type;
-    private $stream_step_line = 0;
 
     public function __construct()
     {
         $this->setTime(time());
-    }
-
-    /**
-     * @return int
-     */
-    public function getStreamStepLine(): int
-    {
-        return $this->stream_step_line;
-    }
-
-    /**
-     * @param int $stream_step_line
-     */
-    public function setStreamStepLine(int $stream_step_line)
-    {
-        $this->stream_step_line = $stream_step_line;
     }
 
     /**
