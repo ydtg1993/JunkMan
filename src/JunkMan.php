@@ -15,9 +15,15 @@ class JunkMan
 {
     const ROOT_PATH = __DIR__;
 
+    /**
+     * @var OperateStream
+     */
+    private static $STEAM;
+
     public static function stream()
     {
-        return OperateStream::getInstance();
+        self::$STEAM = OperateStream::getInstance();
+        return self::$STEAM;
     }
 
     public static function spot()

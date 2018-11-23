@@ -17,6 +17,10 @@ class Collector
     const PORT = "55534";
     const STREAM_SUFFIX = '.xt';
 
+    const TRACE_STREAM = 'stream';
+    const TRACE_SPOT = 'spot';
+    const TRACE_FLUSH = 'flush';
+
     private $time;
     private $secret;
     private $config;
@@ -27,10 +31,27 @@ class Collector
     private $trace_end;
     private $header;
     private $message;
+    private $trace_type;
 
     public function __construct()
     {
         $this->setTime(time());
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getTraceType()
+    {
+        return $this->trace_type;
+    }
+
+    /**
+     * @param mixed $trace_type
+     */
+    public function setTraceType($trace_type)
+    {
+        $this->trace_type = $trace_type;
     }
 
     /**

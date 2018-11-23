@@ -63,7 +63,8 @@ class Decorate
                 'stream_title' => $this->collector->getStreamTitle(),
                 'time' => $this->collector->getTime(),
                 'secret' => $this->collector->getSecret(),
-                'trace_file' => $this->collector->getTraceFile()
+                'trace_file' => $this->collector->getTraceFile(),
+                'stream_type' => $this->collector->getTraceType()
             ]
         ];
         $this->collector->setHeader($data);
