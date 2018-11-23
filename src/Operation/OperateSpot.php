@@ -12,8 +12,12 @@ use JunkMan\Configuration\Decorate;
 use JunkMan\Container\Collector;
 use JunkMan\Driver\SpotDriver;
 use JunkMan\E\OperateException;
-use JunkMan\Tool\Helper;
+use JunkMan\Instrument\Helper;
 
+/**
+ * Class OperateSpot
+ * @package JunkMan\Operation
+ */
 class OperateSpot
 {
     /**

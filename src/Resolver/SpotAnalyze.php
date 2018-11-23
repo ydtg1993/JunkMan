@@ -9,8 +9,6 @@
 namespace JunkMan\Resolver;
 
 
-use JunkMan\Container\Collector;
-
 /**
  * Class StreamAnalyze
  * @package JunkMan\Resolver

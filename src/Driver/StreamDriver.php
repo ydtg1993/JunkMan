@@ -9,10 +9,11 @@ namespace JunkMan\Driver;
 
 use JunkMan\Abstracts\Singleton;
 use JunkMan\Container\Collector;
+use JunkMan\E\IoException;
 use JunkMan\E\OperateException;
+use JunkMan\Instrument\Io;
 use JunkMan\Pipeline\TcpSender;
 use JunkMan\Resolver\StreamAnalyze;
-use JunkMan\Tool\Helper;
 
 /**
  * Class StreamDriver
@@ -44,14 +45,14 @@ class StreamDriver extends Singleton implements DriverInterface
         $head = $this->collector->getHeader();
         try {
             if (!is_file($file)) {
-                throw new \Exception('not found stream file');
+                throw new IoException('not found stream file');
             }
 
             $this->SENDER = (new TcpSender(Collector::SERVER, Collector::PORT))->setHead($head);
             //trace
             $trace_file = $this->collector->getTraceFile();
             if (is_file($trace_file)) {
-                $trace_file = Helper::cutFile($trace_file,$this->collector->getTraceStart() - 5,$this->collector->getTraceEnd() + 5);
+                $trace_file = Io::cutFile($trace_file,$this->collector->getTraceStart() - 5,$this->collector->getTraceEnd() + 5);
                 $this->SENDER->write(['trace_file' => $trace_file]);
             }
 
@@ -59,10 +60,12 @@ class StreamDriver extends Singleton implements DriverInterface
             if ($handle) {
                 StreamAnalyze::setTemp($this->collector->getTemp());
                 StreamAnalyze::setTraceFile($this->collector->getTraceFile());
-                while (($buffer = fgets($handle)) !== false) {
+
+                $sender = $this->SENDER;
+                Io::stepFile($file,function ($buffer)use($sender){
                     $buffer = StreamAnalyze::index($buffer);
-                    $this->SENDER->write($buffer);
-                }
+                    $sender->write($buffer);
+                });
             }
         } catch (\Exception $e) {
             throw new OperateException($e->getMessage());
@@ -92,14 +95,14 @@ class StreamDriver extends Singleton implements DriverInterface
                 pcntl_wait($status);
             } else {
                 if (!is_file($file)) {
-                    throw new \Exception('not found stream file');
+                    throw new IoException('not found stream file');
                 }
 
                 $this->SENDER = (new TcpSender(Collector::SERVER, Collector::PORT))->setHead($head);
                 //trace
                 $trace_file = $this->collector->getTraceFile();
                 if (is_file($trace_file)) {
-                    $trace_file = Helper::cutFile($trace_file,$this->collector->getTraceStart() - 5,$this->collector->getTraceEnd() + 5);
+                    $trace_file = Io::cutFile($trace_file,$this->collector->getTraceStart() - 5,$this->collector->getTraceEnd() + 5);
                     $this->SENDER->write(['trace_file' => $trace_file]);
                 }
 
@@ -107,10 +110,12 @@ class StreamDriver extends Singleton implements DriverInterface
                 if ($handle) {
                     StreamAnalyze::setTemp($this->collector->getTemp());
                     StreamAnalyze::setTraceFile($this->collector->getTraceFile());
-                    while (($buffer = fgets($handle)) !== false) {
+
+                    $sender = $this->SENDER;
+                    Io::stepFile($file,function ($buffer)use($sender){
                         $buffer = StreamAnalyze::index($buffer);
-                        $this->SENDER->write($buffer);
-                    }
+                        $sender->write($buffer);
+                    });
                 }
             }
         } catch (\Exception $e) {

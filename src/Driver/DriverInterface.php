@@ -8,7 +8,10 @@
 
 namespace JunkMan\Driver;
 
-
+/**
+ * Interface DriverInterface
+ * @package JunkMan\Driver
+ */
 interface DriverInterface
 {
     public function execute();

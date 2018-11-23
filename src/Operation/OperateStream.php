@@ -11,11 +11,14 @@ namespace JunkMan\Operation;
 use JunkMan\Abstracts\Singleton;
 use JunkMan\Configuration\Decorate;
 use JunkMan\Container\Collector;
+use JunkMan\Driver\FlushDriver;
 use JunkMan\Driver\StreamDriver;
-use JunkMan\E\IoException;
-use JunkMan\E\OperateException;
-use JunkMan\Tool\Helper;
+use JunkMan\Instrument\Helper;
 
+/**
+ * Class OperateStream
+ * @package JunkMan\Operation
+ */
 class OperateStream extends Singleton
 {
     /**
@@ -35,11 +38,6 @@ class OperateStream extends Singleton
         }catch (\Exception $e){
             throw new \Exception($e->getMessage());
         }
-    }
-
-    public function flush()
-    {
-
     }
 
     public function end()

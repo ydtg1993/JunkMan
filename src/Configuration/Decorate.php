@@ -10,10 +10,11 @@ namespace JunkMan\Configuration;
 
 use JunkMan\Container\Collector;
 use JunkMan\JunkMan;
-use JunkMan\Tool\Helper;
+use JunkMan\Instrument\Helper;
 
 /**
- * Class Application
+ * Class Decorate
+ * @package JunkMan\Configuration
  */
 class Decorate
 {
@@ -32,6 +33,9 @@ class Decorate
         $this->setHead();
     }
 
+    /**
+     * @throws \Exception
+     */
     private function config()
     {
         $config = file_get_contents(JunkMan::ROOT_PATH . DIRECTORY_SEPARATOR . 'config.json');
@@ -70,6 +74,9 @@ class Decorate
         $this->collector->setHeader($data);
     }
 
+    /**
+     * @throws \Exception
+     */
     private function setXdebug()
     {
         if (!function_exists('xdebug_set_filter')) {

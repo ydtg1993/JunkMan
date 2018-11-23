@@ -13,9 +13,6 @@ namespace JunkMan;
 
 /**
  * Implements a lightweight PSR-0 compliant autoloader for Predis.
- *
- * @author Eric Naeseth <eric@thumbtack.com>
- * @author Daniele Alessandri <suppakilla@gmail.com>
  */
 class Autoloader
 {

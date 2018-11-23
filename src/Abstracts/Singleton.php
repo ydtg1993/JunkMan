@@ -7,6 +7,10 @@
  */
 namespace JunkMan\Abstracts;
 
+/**
+ * Class Singleton
+ * @package JunkMan\Abstracts
+ */
 abstract class Singleton
 {
     private static $_instances;

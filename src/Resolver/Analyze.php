@@ -7,6 +7,10 @@
  */
 namespace JunkMan\Resolver;
 
+/**
+ * Class Analyze
+ * @package JunkMan\Resolver
+ */
 abstract class Analyze
 {
     const at = '=>';

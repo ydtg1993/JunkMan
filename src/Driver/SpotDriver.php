@@ -7,12 +7,11 @@
  */
 namespace JunkMan\Driver;
 
-use JunkMan\Abstracts\Singleton;
 use JunkMan\Container\Collector;
 use JunkMan\E\OperateException;
+use JunkMan\Instrument\Io;
 use JunkMan\Pipeline\TcpSender;
 use JunkMan\Resolver\SpotAnalyze;
-use JunkMan\Tool\Helper;
 
 /**
  * Class StreamDriver
@@ -37,7 +36,7 @@ class SpotDriver implements DriverInterface
             //trace
             $trace_file = $this->collector->getTraceFile();
             if (is_file($trace_file)) {
-                $trace_file = Helper::cutFile($trace_file,$this->collector->getTraceStart() - 5,$this->collector->getTraceStart() + 5);
+                $trace_file = Io::cutFile($trace_file,$this->collector->getTraceStart() - 5,$this->collector->getTraceStart() + 5);
                 $this->SENDER->write(['trace_file' => $trace_file]);
             }
             SpotAnalyze::setLine($this->collector->getTraceStart());
