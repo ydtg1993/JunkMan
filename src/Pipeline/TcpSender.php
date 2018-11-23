@@ -18,7 +18,6 @@ class TcpSender
     private $ip;
     private $port;
     private $socket;
-    protected static $boot = [];
 
     public function __construct($ip, $port)
     {
