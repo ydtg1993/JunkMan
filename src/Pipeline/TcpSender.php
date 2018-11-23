@@ -7,6 +7,8 @@
  */
 namespace JunkMan\Pipeline;
 
+use JunkMan\E\IoException;
+
 /**
  * Class TcpSender
  * @package JunkMan\Pipeline
@@ -26,7 +28,11 @@ class TcpSender
         $create_errno = '';
         $create_errstr = '';
         $address = 'tcp://' . $this->ip . ':' . $this->port;
-        $this->socket = stream_socket_client($address, $create_errno, $create_errstr, STREAM_SERVER_BIND);
+        try {
+            $this->socket = stream_socket_client($address, $create_errno, $create_errstr, STREAM_SERVER_BIND);
+        }catch (\Exception $e){
+            throw new IoException($create_errno);
+        }
     }
 
     public function setHead($head)
