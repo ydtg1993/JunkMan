@@ -64,7 +64,7 @@ class Decorate
     {
         $data = [
             'header' => [
-                'stream_title' => $this->collector->getStreamTitle(),
+                'title' => $this->collector->getStreamTitle(),
                 'time' => $this->collector->getTime(),
                 'secret' => $this->collector->getSecret(),
                 'trace_file' => $this->collector->getTraceFile(),
