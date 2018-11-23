@@ -9,6 +9,7 @@ namespace JunkMan\Driver;
 
 use JunkMan\Abstracts\Singleton;
 use JunkMan\Container\Collector;
+use JunkMan\E\OperateException;
 use JunkMan\Pipeline\TcpSender;
 use JunkMan\Resolver\StreamAnalyze;
 use JunkMan\Tool\Helper;
@@ -17,11 +18,9 @@ use JunkMan\Tool\Helper;
  * Class StreamDriver
  * @package JunkMan\Driver
  */
-class StreamDriver extends Singleton
+class StreamDriver extends Singleton implements DriverInterface
 {
-    const SUFFIX = '.xt';
-
-    private static $SENDER = null;
+    private $SENDER = null;
 
     /**
      * @var Collector
@@ -41,31 +40,35 @@ class StreamDriver extends Singleton
 
     private function sync()
     {
-        $file = $this->collector->getTemp() . self::SUFFIX;
+        $file = $this->collector->getTemp() . Collector::STREAM_SUFFIX;
         $head = $this->collector->getHeader();
         try {
             if (!is_file($file)) {
                 throw new \Exception('not found stream file');
             }
 
-            self::$SENDER = (new TcpSender(Collector::SERVER, Collector::PORT))->setHead($head);
+            $this->SENDER = (new TcpSender(Collector::SERVER, Collector::PORT))->setHead($head);
             //trace
             $trace_file = $this->collector->getTraceFile();
             if (is_file($trace_file)) {
                 $trace_file = Helper::cutFile($trace_file,$this->collector->getTraceStart() - 5,$this->collector->getTraceEnd() + 5);
-                self::$SENDER->write(['trace_file' => $trace_file]);
+                $this->SENDER->write(['trace_file' => $trace_file]);
             }
 
             $handle = fopen($file, "r");
             if ($handle) {
+                StreamAnalyze::setTemp($this->collector->getTemp());
+                StreamAnalyze::setTraceFile($this->collector->getTraceFile());
                 while (($buffer = fgets($handle)) !== false) {
                     $buffer = StreamAnalyze::index($buffer);
-                    self::$SENDER->write($buffer);
+                    $this->SENDER->write($buffer);
                 }
             }
         } catch (\Exception $e) {
-            throw new \Exception($e->getMessage());
+            throw new OperateException($e->getMessage());
         } finally {
+            $this->SENDER = null;
+            $this->collector = null;
             if (is_file($file)) {
                 @unlink($file);
             }
@@ -74,8 +77,8 @@ class StreamDriver extends Singleton
 
     private function async()
     {
-        $file = $this->collector->getTemp() . self::SUFFIX;
-        $head = $this->collector->getSOCKETHEAD();
+        $file = $this->collector->getTemp() . Collector::STREAM_SUFFIX;
+        $head = $this->collector->getHeader();
 
         if (!function_exists('pcntl_fork')) {
             throw new \Exception('Need to install pcntl');
@@ -92,25 +95,29 @@ class StreamDriver extends Singleton
                     throw new \Exception('not found stream file');
                 }
 
-                self::$SENDER = (new TcpSender(Collector::SERVER, Collector::PORT))->setHead($head);
+                $this->SENDER = (new TcpSender(Collector::SERVER, Collector::PORT))->setHead($head);
                 //trace
                 $trace_file = $this->collector->getTraceFile();
                 if (is_file($trace_file)) {
                     $trace_file = Helper::cutFile($trace_file,$this->collector->getTraceStart() - 5,$this->collector->getTraceEnd() + 5);
-                    self::$SENDER->write(['trace_file' => $trace_file]);
+                    $this->SENDER->write(['trace_file' => $trace_file]);
                 }
 
                 $handle = fopen($file, "r");
                 if ($handle) {
+                    StreamAnalyze::setTemp($this->collector->getTemp());
+                    StreamAnalyze::setTraceFile($this->collector->getTraceFile());
                     while (($buffer = fgets($handle)) !== false) {
                         $buffer = StreamAnalyze::index($buffer);
-                        self::$SENDER->write($buffer);
+                        $this->SENDER->write($buffer);
                     }
                 }
             }
         } catch (\Exception $e) {
-            throw new \Exception($e->getMessage());
+            throw new OperateException($e->getMessage());
         } finally {
+            $this->SENDER = null;
+            $this->collector = null;
             if (is_file($file)) {
                 @unlink($file);
             }

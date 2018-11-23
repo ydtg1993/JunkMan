@@ -8,7 +8,7 @@
 
 namespace JunkMan;
 
-use JunkMan\Operation\OperateLog;
+use JunkMan\Operation\OperateSpot;
 use JunkMan\Operation\OperateStream;
 
 class JunkMan
@@ -20,8 +20,8 @@ class JunkMan
         return OperateStream::getInstance();
     }
 
-    public static function log()
+    public static function spot()
     {
-        return OperateLog::getInstance();
+        return new OperateSpot();
     }
 }

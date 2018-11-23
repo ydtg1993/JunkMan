@@ -14,9 +14,10 @@ date_default_timezone_set('Asia/Shanghai');
 class Collector
 {
     const SERVER = "127.0.0.1";
-    const PORT = "55533";
+    const PORT = "55534";
+    const STREAM_SUFFIX = '.xt';
 
-    private $TIME;
+    private $time;
     private $secret;
     private $config;
     private $temp;
@@ -25,26 +26,43 @@ class Collector
     private $trace_start;
     private $trace_end;
     private $header;
+    private $message;
 
     public function __construct()
     {
-        $this->setTIME(time());
+        $this->setTime(time());
     }
 
     /**
      * @return mixed
      */
-    public function getTIME()
+    public function getMessage()
     {
-        return $this->TIME;
+        return $this->message;
     }
 
     /**
-     * @param mixed $TIME
+     * @param mixed $message
      */
-    public function setTIME($TIME)
+    public function setMessage($message)
     {
-        $this->TIME = $TIME;
+        $this->message = $message;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getTime()
+    {
+        return $this->time;
+    }
+
+    /**
+     * @param $time
+     */
+    public function setTime($time)
+    {
+        $this->time = $time;
     }
 
     /**

@@ -42,7 +42,7 @@ class Decorate
     private function secret()
     {
         $config = $this->collector->getConfig();
-        $secret = Helper::secret($config['app_code'], $this->collector->getTIME());
+        $secret = Helper::secret($config['app_code'], $this->collector->getTime());
         $this->collector->setSecret($secret);
     }
 
@@ -61,7 +61,7 @@ class Decorate
         $data = [
             'header' => [
                 'stream_title' => $this->collector->getStreamTitle(),
-                'time' => $this->collector->getTIME(),
+                'time' => $this->collector->getTime(),
                 'secret' => $this->collector->getSecret(),
                 'trace_file' => $this->collector->getTraceFile()
             ]

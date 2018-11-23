@@ -11,5 +11,5 @@ namespace JunkMan\Driver;
 
 interface DriverInterface
 {
-
+    public function execute();
 }

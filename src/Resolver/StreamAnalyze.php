@@ -17,6 +17,25 @@ use JunkMan\Container\Collector;
  */
 class StreamAnalyze extends Analyze
 {
+    private static $traceFile;
+    private static $temp;
+
+    /**
+     * @param mixed $traceFile
+     */
+    public static function setTraceFile($traceFile)
+    {
+        self::$traceFile = $traceFile;
+    }
+
+    /**
+     * @param mixed $temp
+     */
+    public static function setTemp($temp): void
+    {
+        self::$temp = $temp;
+    }
+
     /**
      * @param $content
      * @return string|void
@@ -42,9 +61,9 @@ class StreamAnalyze extends Analyze
         $content = substr($content, 3);
 
         if (DIRECTORY_SEPARATOR == '\\') {
-            $pattern = '/(' . str_replace("\\", '\\\\', Collector::getTraceFile()) . '):(\d+)/';
+            $pattern = '/(' . str_replace("\\", '\\\\', self::$traceFile) . '):(\d+)/';
         } else {
-            $pattern = '/(' . Collector::getTraceFile() . '):(\d+)/';
+            $pattern = '/(' . self::$traceFile . '):(\d+)/';
         }
         $flag = preg_match($pattern, $content, $matches);
         if (!$flag) {
@@ -123,7 +142,7 @@ class StreamAnalyze extends Analyze
 
         $flag = preg_match('/^array/', $data);
         if ($flag) {
-            $file = Collector::getTemp() . microtime() . '_temp.php';
+            $file = self::$temp . microtime() . '_temp.php';
             file_put_contents($file, "<?php return " . $data . ';');
             $data = include_once $file;
             @unlink($file);
