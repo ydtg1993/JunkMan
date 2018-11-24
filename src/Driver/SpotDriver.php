@@ -31,8 +31,8 @@ class SpotDriver implements DriverInterface
         $this->collector = $collector;
         $head = $this->collector->getHeader();
         try {
-
-            $this->SENDER = (new TcpSender(Collector::SERVER, Collector::PORT))->setHead($head);
+            $this->SENDER = $this->collector->getSENDER();
+            $this->SENDER->setHead($head);
             //trace
             $trace_file = $this->collector->getTraceFile();
             if (is_file($trace_file)) {

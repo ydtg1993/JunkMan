@@ -7,6 +7,8 @@
  */
 namespace JunkMan\Container;
 
+use JunkMan\Pipeline\TcpSender;
+
 date_default_timezone_set('Asia/Shanghai');
 
 /**
@@ -36,9 +38,28 @@ class Collector
     private $trace_type;
     private $error_message;
 
+    private $SENDER;
+
     public function __construct()
     {
         $this->setTime(time());
+        $this->setSENDER((new TcpSender(Collector::SERVER, Collector::PORT)));
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getSENDER()
+    {
+        return $this->SENDER;
+    }
+
+    /**
+     * @param mixed $SENDER
+     */
+    public function setSENDER($SENDER)
+    {
+        $this->SENDER = $SENDER;
     }
 
     /**

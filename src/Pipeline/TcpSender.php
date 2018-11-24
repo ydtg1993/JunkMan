@@ -13,7 +13,7 @@ use JunkMan\E\IoException;
  * Class TcpSender
  * @package JunkMan\Pipeline
  */
-class TcpSender
+class TcpSender implements PipelineInterface
 {
     private $ip;
     private $port;

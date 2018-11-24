@@ -12,6 +12,7 @@ use JunkMan\Container\Collector;
 use JunkMan\E\IoException;
 use JunkMan\E\OperateException;
 use JunkMan\Instrument\Io;
+use JunkMan\Pipeline\PipelineInterface;
 use JunkMan\Pipeline\TcpSender;
 use JunkMan\Resolver\StreamAnalyze;
 
@@ -21,6 +22,9 @@ use JunkMan\Resolver\StreamAnalyze;
  */
 class ErrorDriver extends Singleton implements DriverInterface
 {
+    /**
+     * @var TcpSender
+     */
     private $SENDER = null;
 
     /**
@@ -38,8 +42,9 @@ class ErrorDriver extends Singleton implements DriverInterface
                 throw new IoException('not found stream file');
             }
 
-            $this->SENDER = (new TcpSender(Collector::SERVER, Collector::PORT))->setHead($head);
-            //trace
+            $this->SENDER = $this->collector->getSENDER();
+            $this->SENDER->setHead($head);
+
             $trace_file = $this->collector->getTraceFile();
             if (is_file($trace_file)) {
                 $trace_file = Io::cutFile(
