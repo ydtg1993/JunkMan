@@ -41,7 +41,7 @@ class ErrorDriver extends Singleton implements DriverInterface
             }
 
             $this->SENDER = $this->collector->getSENDER();
-            $this->SENDER->setHead($head);
+            $this->SENDER->write($head);
 
             $trace_file = $this->collector->getTraceFile();
             if (is_file($trace_file)) {
@@ -50,7 +50,7 @@ class ErrorDriver extends Singleton implements DriverInterface
                     $this->collector->getTraceStart() - 5,
                     $this->collector->getErrorMessage()['error_line'] + 5
                 );
-                $this->SENDER->write(['trace_file' => $trace_file]);
+                $this->SENDER->write(['trace_file_content' => $trace_file]);
             }
 
             $this->SENDER->write($this->collector->getErrorMessage());

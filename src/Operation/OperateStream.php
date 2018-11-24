@@ -11,8 +11,8 @@ namespace JunkMan\Operation;
 use JunkMan\Abstracts\Singleton;
 use JunkMan\Configuration\Decorate;
 use JunkMan\Container\Collector;
-use JunkMan\Driver\ErrorDriver;
 use JunkMan\Driver\StreamDriver;
+use JunkMan\E\OperateException;
 use JunkMan\Instrument\Helper;
 
 /**
@@ -33,23 +33,23 @@ class OperateStream extends Singleton
             $this->collector->setTraceFile($trace_file_info['file']);
             $this->collector->setTraceStart($trace_file_info['line']);
             $this->collector->setStreamTitle($title);
+            $this->collector->setTraceType(Collector::TRACE_SPOT);
             new Decorate($this->collector);
             xdebug_start_trace($this->collector->getTemp());
 
-            $collector = $this->collector;
-            set_error_handler(function ($error_no, $error_message, $error_file, $error_line) use ($collector) {
+            set_error_handler(function ($error_no, $error_message, $error_file, $error_line){
                 xdebug_stop_trace();
-                $collector->setErrorMessage([
+                $this->collector->setErrorMessage([
                     'error_no' => $error_no,
                     'error_message' => $error_message,
                     'error_file' => $error_file,
                     'error_line' => $error_line
                 ]);
-                ErrorDriver::getInstance($collector);
-                throw new \Exception(json_encode($collector->getErrorMessage()));
+                OperateError::getInstance($this->collector)->dot();
+                throw new \Exception(json_encode($this->collector->getErrorMessage()));
             });
         } catch (\Exception $e) {
-            throw new \Exception($e->getMessage());
+            throw new OperateException($e->getMessage());
         }
     }
 
@@ -62,7 +62,7 @@ class OperateStream extends Singleton
             $this->collector->setTraceEnd($trace_to);
             StreamDriver::getInstance($this->collector);
         } catch (\Exception $e) {
-            throw new \Exception($e->getMessage());
+            throw new OperateException($e->getMessage());
         }
     }
 

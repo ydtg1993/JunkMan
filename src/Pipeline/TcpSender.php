@@ -34,19 +34,12 @@ class TcpSender implements PipelineInterface
         }
     }
 
-    public function setHead($head)
-    {
-        fwrite($this->socket, json_encode($head));
-
-        return $this;
-    }
-
     public function write($data)
     {
         if(!$data){
             return $this;
         }
-        fwrite($this->socket, json_encode($data));
+        fwrite($this->socket, json_encode($data).PHP_EOL);
         return $this;
     }
 

@@ -23,7 +23,7 @@ class Collector
 
     const TRACE_STREAM = 'stream';
     const TRACE_SPOT = 'spot';
-    const TRACE_FLUSH = 'flush';
+    const TRACE_ERR = 'error';
 
     private $time;
     private $secret;

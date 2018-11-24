@@ -44,12 +44,14 @@ class StreamAnalyze extends Analyze
 
         $flag = strpos($content, Analyze::start_mark);
         if ($flag === 0) {
-            return $content = json_encode(['content_start' => $content]);
+            preg_match("/\[(.*)\]/",$content,$matches);
+            return ['content_start' => $matches[1]];
         }
 
         $flag = strpos($content, Analyze::end_mark);
         if ($flag === 0) {
-            return $content = json_encode(['content_end' => $content]);
+            preg_match("/\[(.*)\]/",$content,$matches);
+            return ['content_end' => $matches[1]];
         }
 
         $flag = strpos($content, Analyze::at);
