@@ -44,24 +44,4 @@ class Io
 
         return $txt;
     }
-
-    /**
-     * @param $file
-     * @param callable $callback
-     * @throws IoException
-     */
-    public static function stepFile($file,callable $callback)
-    {
-        try {
-            $handle = new \SplFileObject($file,'r');
-            while (!$handle->eof()) {
-                $content = $handle->current();
-                $callback($content);
-                $handle->next();
-            }
-            $handle = null;
-        }catch (\Exception $e){
-            throw new IoException($e->getMessage());
-        }
-    }
 }

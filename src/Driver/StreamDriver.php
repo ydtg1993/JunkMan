@@ -61,11 +61,12 @@ class StreamDriver extends Singleton implements DriverInterface
                 StreamAnalyze::setTemp($this->collector->getTemp());
                 StreamAnalyze::setTraceFile($this->collector->getTraceFile());
 
-                $sender = $this->SENDER;
-                Io::stepFile($file,function ($buffer)use($sender){
-                    $buffer = StreamAnalyze::index($buffer);
-                    $sender->write($buffer);
-                });
+                $handle = fopen($file, "r");
+                while (!feof($handle)) {
+                    $data = StreamAnalyze::index(fgets($handle));
+                    $this->SENDER->write($data);
+                }
+                fclose($handle);
             }
         } catch (\Exception $e) {
             throw new OperateException($e->getMessage());
@@ -111,11 +112,12 @@ class StreamDriver extends Singleton implements DriverInterface
                     StreamAnalyze::setTemp($this->collector->getTemp());
                     StreamAnalyze::setTraceFile($this->collector->getTraceFile());
 
-                    $sender = $this->SENDER;
-                    Io::stepFile($file,function ($buffer)use($sender){
-                        $buffer = StreamAnalyze::index($buffer);
-                        $sender->write($buffer);
-                    });
+                    $handle = fopen($file, "r");
+                    while (!feof($handle)) {
+                        $data = StreamAnalyze::index(fgets($handle));
+                        $this->SENDER->write($data);
+                    }
+                    fclose($handle);
                 }
             }
         } catch (\Exception $e) {

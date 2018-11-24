@@ -11,9 +11,12 @@ namespace JunkMan\Operation;
 use JunkMan\Abstracts\Singleton;
 use JunkMan\Configuration\Decorate;
 use JunkMan\Container\Collector;
+use JunkMan\Driver\ErrorDriver;
 use JunkMan\Driver\FlushDriver;
 use JunkMan\Driver\StreamDriver;
 use JunkMan\Instrument\Helper;
+use JunkMan\Pipeline\TcpSender;
+use Mockery\Exception;
 
 /**
  * Class OperateStream
@@ -35,7 +38,20 @@ class OperateStream extends Singleton
             $this->collector->setStreamTitle($title);
             new Decorate($this->collector);
             xdebug_start_trace($this->collector->getTemp());
-        }catch (\Exception $e){
+
+            $collector = $this->collector;
+            set_error_handler(function ($error_no, $error_message, $error_file, $error_line) use ($collector) {
+                xdebug_stop_trace();
+                $collector->setErrorMessage([
+                    'error_no' => $error_no,
+                    'error_message' => $error_message,
+                    'error_file' => $error_file,
+                    'error_line' => $error_line
+                ]);
+                ErrorDriver::getInstance($collector);
+                throw new \Exception(json_encode($collector->getErrorMessage()));
+            });
+        } catch (\Exception $e) {
             throw new \Exception($e->getMessage());
         }
     }
@@ -48,7 +64,7 @@ class OperateStream extends Singleton
             $trace_to = $call_func_data['line'];
             $this->collector->setTraceEnd($trace_to);
             StreamDriver::getInstance($this->collector);
-        }catch (\Exception $e){
+        } catch (\Exception $e) {
             throw new \Exception($e->getMessage());
         }
     }
