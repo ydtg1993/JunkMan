@@ -12,11 +12,8 @@ use JunkMan\Abstracts\Singleton;
 use JunkMan\Configuration\Decorate;
 use JunkMan\Container\Collector;
 use JunkMan\Driver\ErrorDriver;
-use JunkMan\Driver\FlushDriver;
 use JunkMan\Driver\StreamDriver;
 use JunkMan\Instrument\Helper;
-use JunkMan\Pipeline\TcpSender;
-use Mockery\Exception;
 
 /**
  * Class OperateStream

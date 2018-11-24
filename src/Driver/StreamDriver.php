@@ -12,7 +12,6 @@ use JunkMan\Container\Collector;
 use JunkMan\E\IoException;
 use JunkMan\E\OperateException;
 use JunkMan\Instrument\Io;
-use JunkMan\Pipeline\TcpSender;
 use JunkMan\Resolver\StreamAnalyze;
 
 /**
