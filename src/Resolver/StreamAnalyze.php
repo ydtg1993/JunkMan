@@ -158,5 +158,10 @@ class StreamAnalyze extends Analyze
                 'type' => isset($matches[1]) && $matches[1] ? $matches[1] : self::CLA
             ];
         }
+
+        return [
+            'val' => $data,
+            'type' => self::UNDEFINED
+        ];
     }
 }

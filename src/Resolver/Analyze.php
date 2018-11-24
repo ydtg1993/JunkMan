@@ -23,6 +23,7 @@ abstract class Analyze
     const STR = 'string';
     const ARRAY = 'array';
     const CLA = 'stdClass';
+    const UNDEFINED = 'undefined';
 
     /**
      * @param $content
