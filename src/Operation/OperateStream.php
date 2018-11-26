@@ -33,7 +33,7 @@ class OperateStream extends Singleton
             $this->collector->setTraceFile($trace_file_info['file']);
             $this->collector->setTraceStart($trace_file_info['line']);
             $this->collector->setStreamTitle($title);
-            $this->collector->setTraceType(Collector::TRACE_SPOT);
+            $this->collector->setTraceType(Collector::TRACE_STREAM);
             new Decorate($this->collector);
             xdebug_start_trace($this->collector->getTemp());
 
