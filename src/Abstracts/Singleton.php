@@ -29,7 +29,7 @@ abstract class Singleton
         return self::$_instances[get_called_class()];
     }
 
-    public abstract function execute($data = null);
+    protected abstract function execute($data = null);
 
     private function __clone()
     {

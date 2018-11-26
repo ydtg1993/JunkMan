@@ -39,7 +39,7 @@ class OperateError extends Singleton
         }
     }
 
-    public function execute($collector = null)
+    protected function execute($collector = null)
     {
         $this->collector = $collector;
     }

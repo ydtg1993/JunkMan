@@ -66,7 +66,7 @@ class OperateStream extends Singleton
         }
     }
 
-    public function execute($data = null)
+    protected function execute($data = null)
     {
         $this->collector = new Collector();
     }

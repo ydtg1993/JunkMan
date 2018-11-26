@@ -29,7 +29,7 @@ class StreamAnalyze extends Analyze
     /**
      * @param mixed $temp
      */
-    public static function setTemp($temp): void
+    public static function setTemp($temp)
     {
         self::$temp = $temp;
     }
