@@ -29,13 +29,10 @@ class OperateSpot
     {
         try {
             $this->collector = new Collector();
-            $trace_file_info = Helper::multiQuery2Array(debug_backtrace(), ['function' => 'dot', 'class' => get_class()]);
-            $this->collector->setTraceFile($trace_file_info['file']);
-            $this->collector->setTraceStart($trace_file_info['line']);
-            $this->collector->setStreamTitle($title);
-            $this->collector->setTraceType(Collector::TRACE_SPOT);
             $this->collector->setMessage($content);
-            new Decorate($this->collector);
+
+            $trace_file_info = Helper::multiQuery2Array(debug_backtrace(), ['function' => 'dot', 'class' => get_class()]);
+            (new Decorate($this->collector))->before($title,$trace_file_info,Collector::TRACE_SPOT)->carry();
             (new SpotDriver())->execute($this->collector);
         }catch (\Exception $e){
             throw new OperateException($e->getMessage());

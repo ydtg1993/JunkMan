@@ -55,9 +55,9 @@ class Collector
     }
 
     /**
-     * @param mixed $SENDER
+     * @param TcpSender $SENDER
      */
-    public function setSENDER($SENDER)
+    public function setSENDER(TcpSender $SENDER)
     {
         $this->SENDER = $SENDER;
     }

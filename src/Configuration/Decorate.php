@@ -23,14 +23,38 @@ class Decorate
      */
     private $collector;
 
+    /**
+     * Decorate constructor.
+     * @param null $collector
+     */
     public function __construct($collector = null)
     {
         $this->collector = $collector;
+    }
+
+    /**
+     * @param $title
+     * @param $trace_file_info
+     * @param $trace_type
+     * @return $this\
+     */
+    public function before($title,$trace_file_info,$trace_type)
+    {
+        $this->collector->setTraceFile($trace_file_info['file']);
+        $this->collector->setTraceStart($trace_file_info['line']);
+        $this->collector->setStreamTitle($title);
+        $this->collector->setTraceType($trace_type);
+        return $this;
+    }
+
+    public function carry()
+    {
         $this->config();
-        $this->setXdebug();
         $this->secret();
         $this->setTemp();
+        $this->setXdebug();
         $this->setHead();
+        return $this;
     }
 
     /**
@@ -60,20 +84,6 @@ class Decorate
         $this->collector->setTemp($file);
     }
 
-    private function setHead()
-    {
-        $data = [
-            'header' => [
-                'title' => $this->collector->getStreamTitle(),
-                'time' => $this->collector->getTime(),
-                'secret' => $this->collector->getSecret(),
-                'trace_file' => $this->collector->getTraceFile(),
-                'stream_type' => $this->collector->getTraceType()
-            ]
-        ];
-        $this->collector->setHeader($data);
-    }
-
     /**
      * @throws \Exception
      */
@@ -97,5 +107,19 @@ class Decorate
             XDEBUG_PATH_BLACKLIST,
             [$this->collector->getTraceFile()]
         );
+    }
+
+    private function setHead()
+    {
+        $data = [
+            'header' => [
+                'title' => $this->collector->getStreamTitle(),
+                'time' => $this->collector->getTime(),
+                'secret' => $this->collector->getSecret(),
+                'trace_file' => $this->collector->getTraceFile(),
+                'stream_type' => $this->collector->getTraceType()
+            ]
+        ];
+        $this->collector->setHeader($data);
     }
 }

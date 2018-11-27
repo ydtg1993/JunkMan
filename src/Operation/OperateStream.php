@@ -11,6 +11,7 @@ namespace JunkMan\Operation;
 use JunkMan\Abstracts\Singleton;
 use JunkMan\Configuration\Decorate;
 use JunkMan\Container\Collector;
+use JunkMan\Driver\ErrorDriver;
 use JunkMan\Driver\StreamDriver;
 use JunkMan\E\OperateException;
 use JunkMan\Instrument\Helper;
@@ -30,11 +31,8 @@ class OperateStream extends Singleton
     {
         try {
             $trace_file_info = Helper::multiQuery2Array(debug_backtrace(), ['function' => 'start', 'class' => get_class()]);
-            $this->collector->setTraceFile($trace_file_info['file']);
-            $this->collector->setTraceStart($trace_file_info['line']);
-            $this->collector->setStreamTitle($title);
-            $this->collector->setTraceType(Collector::TRACE_STREAM);
-            new Decorate($this->collector);
+            (new Decorate($this->collector))->before($title,$trace_file_info,Collector::TRACE_STREAM)->carry();
+
             xdebug_start_trace($this->collector->getTemp());
 
             set_error_handler(function ($error_no, $error_message, $error_file, $error_line){
@@ -45,7 +43,13 @@ class OperateStream extends Singleton
                     'error_file' => $error_file,
                     'error_line' => $error_line
                 ]);
-                OperateError::getInstance($this->collector)->dot();
+                $this->collector->setTraceType(Collector::TRACE_ERR);
+                $header = $this->collector->getHeader();
+                if(!empty($header) && isset($header['header']['stream_type'])){
+                    $header['header']['stream_type'] = $this->collector->getTraceType();
+                    $this->collector->setHeader($header);
+                }
+                ErrorDriver::getInstance($this->collector);
                 throw new \Exception(json_encode($this->collector->getErrorMessage()));
             });
         } catch (\Exception $e) {
