@@ -5,7 +5,13 @@
  * Date: 2018/11/27 0027
  * Time: 下午 5:55
  */
-require_once '../autoload.php';
+require_once __DIR__.'/../autoload.php';
+
+//测试调用
+//test1();
+//test2();
+//test3();
+//test4();
 
 /**
  * stream
