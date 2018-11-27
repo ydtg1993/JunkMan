@@ -43,12 +43,7 @@ class OperateStream extends Singleton
                     'error_file' => $error_file,
                     'error_line' => $error_line
                 ]);
-                $this->collector->setTraceType(Collector::TRACE_ERR);
-                $header = $this->collector->getHeader();
-                if(!empty($header) && isset($header['header']['stream_type'])){
-                    $header['header']['stream_type'] = $this->collector->getTraceType();
-                    $this->collector->setHeader($header);
-                }
+                (new Decorate($this->collector))->updateHeader(Collector::TRACE_ERR);
                 ErrorDriver::getInstance($this->collector);
                 throw new \Exception(json_encode($this->collector->getErrorMessage()));
             });

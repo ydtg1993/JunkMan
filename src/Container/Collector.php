@@ -23,8 +23,11 @@ class Collector
     const STREAM_SUFFIX = '.xt';
 
     const TRACE_STREAM = 'stream';
+    const TRACE_FLUSH = 'flush';
     const TRACE_SPOT = 'spot';
     const TRACE_ERR = 'error';
+
+    const SIDE_LINE = 5;
 
     private $time;
     private $secret;
@@ -44,7 +47,7 @@ class Collector
     public function __construct()
     {
         $this->setTime(time());
-        $this->setSENDER(new TcpSender(Collector::SERVER, Collector::PORT));
+        $this->setSENDER(TcpSender::getInstance(['server'=>self::SERVER,'port'=>self::PORT]));
     }
 
     /**

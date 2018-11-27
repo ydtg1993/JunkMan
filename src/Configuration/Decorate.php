@@ -57,6 +57,16 @@ class Decorate
         return $this;
     }
 
+    public function updateHeader($trace_type)
+    {
+        $this->collector->setTraceType($trace_type);
+        $header = $this->collector->getHeader();
+        if(!empty($header) && isset($header['header']['stream_type'])){
+            $header['header']['stream_type'] = $this->collector->getTraceType();
+            $this->collector->setHeader($header);
+        }
+    }
+
     /**
      * @throws \Exception
      */

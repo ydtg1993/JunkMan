@@ -7,22 +7,23 @@
  */
 namespace JunkMan\Pipeline;
 
+use JunkMan\Abstracts\Singleton;
 use JunkMan\E\IoException;
 
 /**
  * Class TcpSender
  * @package JunkMan\Pipeline
  */
-class TcpSender implements PipelineInterface
+class TcpSender extends Singleton implements PipelineInterface
 {
     private $ip;
     private $port;
     private $socket;
 
-    public function __construct($ip, $port)
+    public function execute($data = null)
     {
-        $this->ip = $ip;
-        $this->port = $port;
+        $this->ip = $data['server'];
+        $this->port = $data['port'];
 
         $create_errno = '';
         $create_errstr = '';

@@ -47,8 +47,8 @@ class ErrorDriver extends Singleton implements DriverInterface
             if (is_file($trace_file)) {
                 $trace_file = Io::cutFile(
                     $trace_file,
-                    $this->collector->getTraceStart() - 5,
-                    $this->collector->getErrorMessage()['error_line'] + 5
+                    $this->collector->getTraceStart() - Collector::SIDE_LINE,
+                    $this->collector->getErrorMessage()['error_line'] + Collector::SIDE_LINE
                 );
                 $this->SENDER->write(['trace_file_content' => $trace_file]);
             }

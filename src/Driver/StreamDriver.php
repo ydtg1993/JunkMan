@@ -52,7 +52,10 @@ class StreamDriver extends Singleton implements DriverInterface
             //trace
             $trace_file = $this->collector->getTraceFile();
             if (is_file($trace_file)) {
-                $trace_file = Io::cutFile($trace_file,$this->collector->getTraceStart() - 5,$this->collector->getTraceEnd() + 5);
+                $trace_file = Io::cutFile(
+                    $trace_file,
+                    $this->collector->getTraceStart() - Collector::SIDE_LINE,
+                    $this->collector->getTraceEnd() + Collector::SIDE_LINE);
                 $this->SENDER->write(['trace_file_content' => $trace_file]);
             }
 
@@ -104,7 +107,10 @@ class StreamDriver extends Singleton implements DriverInterface
                 //trace
                 $trace_file = $this->collector->getTraceFile();
                 if (is_file($trace_file)) {
-                    $trace_file = Io::cutFile($trace_file,$this->collector->getTraceStart() - 5,$this->collector->getTraceEnd() + 5);
+                    $trace_file = Io::cutFile(
+                        $trace_file,
+                        $this->collector->getTraceStart() - Collector::SIDE_LINE,
+                        $this->collector->getTraceEnd() + Collector::SIDE_LINE);
                     $this->SENDER->write(['trace_file_content' => $trace_file]);
                 }
 
