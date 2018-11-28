@@ -41,23 +41,13 @@ class FlushDriver implements DriverInterface
     private function sync()
     {
         $file = $this->collector->getTemp() . Collector::STREAM_SUFFIX;
-        $head = $this->collector->getHeader();
         try {
             if (!is_file($file)) {
                 throw new IoException('not found stream file');
             }
-
             $this->SENDER = $this->collector->getSENDER();
-            $this->SENDER->write($head);
-            //trace
-            $trace_file = $this->collector->getTraceFile();
-            if (is_file($trace_file)) {
-                $trace_file = Io::cutFile(
-                    $trace_file,
-                    $this->collector->getTraceStart() - Collector::SIDE_LINE,
-                    $this->collector->getTraceEnd() + Collector::SIDE_LINE);
-                $this->SENDER->write(['trace_file_content' => $trace_file]);
-            }
+
+            $this->SENDER->write($this->collector->getHeader());
 
             $handle = fopen($file, "r");
             if ($handle) {
@@ -85,7 +75,6 @@ class FlushDriver implements DriverInterface
     private function async()
     {
         $file = $this->collector->getTemp() . Collector::STREAM_SUFFIX;
-        $head = $this->collector->getHeader();
 
         if (!function_exists('pcntl_fork')) {
             throw new \Exception('Need to install pcntl');
@@ -101,18 +90,9 @@ class FlushDriver implements DriverInterface
                 if (!is_file($file)) {
                     throw new IoException('not found stream file');
                 }
-
                 $this->SENDER = $this->collector->getSENDER();
-                $this->SENDER->write($head);
-                //trace
-                $trace_file = $this->collector->getTraceFile();
-                if (is_file($trace_file)) {
-                    $trace_file = Io::cutFile(
-                        $trace_file,
-                        $this->collector->getTraceStart() - Collector::SIDE_LINE,
-                        $this->collector->getTraceEnd() + Collector::SIDE_LINE);
-                    $this->SENDER->write(['trace_file_content' => $trace_file]);
-                }
+
+                $this->SENDER->write($this->collector->getHeader());
 
                 $handle = fopen($file, "r");
                 if ($handle) {

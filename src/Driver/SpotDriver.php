@@ -28,19 +28,10 @@ class SpotDriver implements DriverInterface
     public function execute($collector = null)
     {
         $this->collector = $collector;
-        $head = $this->collector->getHeader();
         try {
             $this->SENDER = $this->collector->getSENDER();
-            $this->SENDER->write($head);
-            //trace
-            $trace_file = $this->collector->getTraceFile();
-            if (is_file($trace_file)) {
-                $trace_file = Io::cutFile(
-                    $trace_file,
-                    $this->collector->getTraceStart() - Collector::SIDE_LINE,
-                    $this->collector->getTraceStart() + Collector::SIDE_LINE);
-                $this->SENDER->write(['trace_file_content' => $trace_file]);
-            }
+            $this->SENDER->write($this->collector->getHeader());
+
             SpotAnalyze::setLine($this->collector->getTraceStart());
             $content = SpotAnalyze::index($this->collector->getMessage());
             $this->SENDER->write($content);

@@ -34,24 +34,14 @@ class ErrorDriver extends Singleton implements DriverInterface
     {
         $this->collector = $collector;
         $file = $this->collector->getTemp() . Collector::STREAM_SUFFIX;
-        $head = $this->collector->getHeader();
         try {
             if (!is_file($file)) {
                 throw new IoException('not found stream file');
             }
 
             $this->SENDER = $this->collector->getSENDER();
-            $this->SENDER->write($head);
 
-            $trace_file = $this->collector->getTraceFile();
-            if (is_file($trace_file)) {
-                $trace_file = Io::cutFile(
-                    $trace_file,
-                    $this->collector->getTraceStart() - Collector::SIDE_LINE,
-                    $this->collector->getErrorMessage()['error_line'] + Collector::SIDE_LINE
-                );
-                $this->SENDER->write(['trace_file_content' => $trace_file]);
-            }
+            $this->SENDER->write($this->collector->getHeader());
 
             $this->SENDER->write($this->collector->getErrorMessage());
         } catch (\Exception $e) {

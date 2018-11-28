@@ -8,7 +8,7 @@
 
 namespace JunkMan\Operation;
 
-use JunkMan\Configuration\Decorate;
+use JunkMan\Configuration\Labour;
 use JunkMan\Container\Collector;
 use JunkMan\Driver\SpotDriver;
 use JunkMan\E\OperateException;
@@ -32,7 +32,8 @@ class OperateSpot
             $this->collector->setMessage($content);
 
             $trace_file_info = Helper::multiQuery2Array(debug_backtrace(), ['function' => 'dot', 'class' => get_class()]);
-            (new Decorate($this->collector))->before($title,$trace_file_info,Collector::TRACE_SPOT)->carry();
+            Labour::run($this->collector,$title,$trace_file_info,Collector::TRACE_SPOT);
+
             (new SpotDriver())->execute($this->collector);
         }catch (\Exception $e){
             throw new OperateException($e->getMessage());
