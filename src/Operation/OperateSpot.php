@@ -33,6 +33,7 @@ class OperateSpot
 
             $trace_file_info = Helper::multiQuery2Array(debug_backtrace(), ['function' => 'dot', 'class' => get_class()]);
             Labour::run($this->collector,$title,$trace_file_info,Collector::TRACE_SPOT);
+            Labour::stop();
 
             (new SpotDriver())->execute($this->collector);
         }catch (\Exception $e){

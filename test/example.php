@@ -8,7 +8,7 @@
 require_once __DIR__.'/../autoload.php';
 use JunkMan\JunkMan;
 //测试调用
-//test1();
+test1();
 //test2();
 //test3();
 //test4();
@@ -40,10 +40,11 @@ function test2()
     //测试代码
     $i = 1;
     $data = [];
-    while($i <= 10){
+    while($i <= 3){
         $data[] = $i;
         JunkMan::flush()->refurbish();
         sleep(1);
+        $i++;
     }
     JunkMan::flush()->end();
 }
