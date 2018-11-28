@@ -27,7 +27,7 @@ class Collector
     const TRACE_SPOT = 'spot';
     const TRACE_ERR = 'error';
 
-    const SIDE_LINE = 5;
+    const SIDE_LINE = 1;
 
     private $time;
     private $secret;
