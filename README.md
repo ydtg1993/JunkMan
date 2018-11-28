@@ -11,7 +11,7 @@
 
     require_once YOUR_PATH/JunkMan/autoload.php;
     JunkMan::stream()->start('this is a test');
-    代码段
+    #监测代码段
     JunkMan::stream()->end();
     
     
@@ -21,7 +21,7 @@
     JunkMan::flush()->start('this is a test');
     
     while(true){
-      代码段
+      #监测代码段
       JunkMan::flush()->refurbish();
     }
     
@@ -30,5 +30,5 @@
 #### 单个数据消息
 
     require_once YOUR_PATH/JunkMan/autoload.php;
-    代码段
+    #监测代码段
     JunkMan::spot()->dot('test',$data); 
