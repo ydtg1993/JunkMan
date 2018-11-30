@@ -9,12 +9,19 @@
     ],
     "license": "MIT",
     "require": {
-        "php": ">=7.0",
-        "xdebug": ">=2.6"
+        "php": ">=7.0"
     },
     "autoload": {
         "psr-4": {
-            "JunkMan\\*": "src/*"
+            "JunkMan\\Abstracts\\": "src/Abstracts",
+            "JunkMan\\Configuration\\": "src/Configuration",
+            "JunkMan\\Container\\": "src/Container",
+            "JunkMan\\Driver\\": "src/Driver",
+            "JunkMan\\E\\": "src/E",
+            "JunkMan\\Instrument\\": "src/Instrument",
+            "JunkMan\\Operation\\": "src/Operation",
+            "JunkMan\\Pipeline\\": "src/Pipeline",
+            "JunkMan\\Resolver\\": "src/Resolver"
         }
     }
 }
