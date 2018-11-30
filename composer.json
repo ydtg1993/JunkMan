@@ -21,7 +21,8 @@
             "JunkMan\\Instrument\\": "src/Instrument",
             "JunkMan\\Operation\\": "src/Operation",
             "JunkMan\\Pipeline\\": "src/Pipeline",
-            "JunkMan\\Resolver\\": "src/Resolver"
+            "JunkMan\\Resolver\\": "src/Resolver",
+            "JunkMan\\": "src/"
         }
     }
 }
