@@ -1,0 +1,20 @@
+{
+    "name": "junkman/junkman",
+    "description": "php运行环境代码段实时监控,gc日志收集分析",
+    "authors": [
+        {
+            "name": "hikki",
+            "email": "946818508@qq.com"
+        }
+    ],
+    "license": "MIT",
+    "require": {
+        "php": ">=7.0",
+        "xdebug": ">=2.6"
+    },
+    "autoload": {
+        "psr-4": {
+            "JunkMan\\*": "/src/*"
+        }
+    }
+}
