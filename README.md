@@ -9,7 +9,7 @@
 
 #### 代码段监测
 
-    require_once YOUR_PATH/JunkMan/autoload.php;
+    require_once YOUR_PATH/Junkman/autoload.php;
     JunkMan::stream()->start('this is a test');
     #监测代码段
     JunkMan::stream()->end();
