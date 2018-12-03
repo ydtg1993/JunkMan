@@ -1,5 +1,5 @@
 {
-    "name": "stream/junkman",
+    "name": "stream/JunkMan",
     "description": "php运行环境代码段实时监控,gc日志收集分析",
     "authors": [
         {
