@@ -17,7 +17,7 @@
     
 #### 长时间循环代码段监测 用flush的refurbish冲刷消息
 
-    require_once YOUR_PATH/JunkMan/autoload.php;
+    require_once YOUR_PATH/Junkman/autoload.php;
     JunkMan::flush()->start('this is a test');
     
     while(true){
@@ -29,6 +29,6 @@
     
 #### 单个数据消息
 
-    require_once YOUR_PATH/JunkMan/autoload.php;
+    require_once YOUR_PATH/Junkman/autoload.php;
     #监测代码段
     JunkMan::spot()->dot('test',$data); 
