@@ -1,9 +1,9 @@
 {
-    "name": "stream/JunkMan",
+    "name": "stream/junkman",
     "description": "php运行环境代码段实时监控,gc日志收集分析",
     "authors": [
         {
-            "name": "hikki",
+            "name": "Hikki",
             "email": "946818508@qq.com"
         }
     ],

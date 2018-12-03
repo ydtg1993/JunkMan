@@ -1,7 +1,7 @@
 <?php
 /**
  * Created by PhpStorm.
- * User: ydtg1
+ * User: Hikki
  * Date: 2018/9/2
  * Time: 17:29
  */
@@ -11,7 +11,6 @@ use JunkMan\Abstracts\Singleton;
 use JunkMan\Container\Collector;
 use JunkMan\E\IoException;
 use JunkMan\E\OperateException;
-use JunkMan\Instrument\Io;
 use JunkMan\Pipeline\TcpSender;
 
 /**

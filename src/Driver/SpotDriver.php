@@ -1,7 +1,7 @@
 <?php
 /**
  * Created by PhpStorm.
- * User: ydtg1
+ * User: Hikki
  * Date: 2018/9/2
  * Time: 17:29
  */
@@ -9,7 +9,6 @@ namespace JunkMan\Driver;
 
 use JunkMan\Container\Collector;
 use JunkMan\E\OperateException;
-use JunkMan\Instrument\Io;
 use JunkMan\Resolver\SpotAnalyze;
 
 /**

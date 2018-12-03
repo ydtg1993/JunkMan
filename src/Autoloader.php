@@ -3,7 +3,7 @@
 /*
  * This file is part of the junkman package.
  *
- * (c) hikki <946818508@qq.com>
+ * (c) Hikki <946818508@qq.com>
  *
  */
 
