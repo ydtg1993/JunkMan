@@ -79,9 +79,7 @@ class FlushDriver implements DriverInterface
         $config = json_encode($this->collector->getConfig());
         $command = JunkMan::PHP . " /../Pipeline/AsyncSender.php -header {$header} -config {$config}  > /dev/null &";
         try {
-            shell_exec($command, [
-                'collector' => $this->collector
-            ]);
+            shell_exec($command);
         } catch (\Exception $e) {
             throw new OperateException($e->getMessage());
         }

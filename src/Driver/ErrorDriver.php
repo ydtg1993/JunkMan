@@ -37,7 +37,7 @@ class ErrorDriver extends Singleton implements DriverInterface
             if (!is_file($file)) {
                 throw new IoException('not found stream file');
             }
-
+            $this->collector->setSENDER();
             $this->SENDER = $this->collector->getSENDER();
 
             $this->SENDER->write($this->collector->getHeader());

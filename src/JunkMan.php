@@ -22,7 +22,7 @@ class JunkMan
     /**
      * service app code
      */
-    const PASSPORT_CODE = "YOUR APP CODE";
+    const PASSPORT_CODE = "YOUR_APP_CODE";
 
     /**
      * only for linux

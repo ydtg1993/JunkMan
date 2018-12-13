@@ -38,7 +38,6 @@ class OperateFlush extends Singleton
 
             set_error_handler(function ($error_no, $error_message, $error_file, $error_line){
                 xdebug_stop_trace();
-                $this->collector->setSENDER();
                 $this->collector->setErrorMessage([
                     'error_no' => $error_no,
                     'error_message' => $error_message,
