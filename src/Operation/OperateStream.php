@@ -33,7 +33,7 @@ class OperateStream extends Singleton
             $trace_file_info = Helper::multiQuery2Array(debug_backtrace(), ['function' => 'start', 'class' => get_class()]);
             Labour::run($this->collector,$title,$trace_file_info,Collector::TRACE_STREAM);
 
-            xdebug_start_trace($this->collector->getTemp());
+            xdebug_start_trace(trim($this->collector->getTemp(),Collector::STREAM_SUFFIX));
 
             set_error_handler(function ($error_no, $error_message, $error_file, $error_line){
                 xdebug_stop_trace();
