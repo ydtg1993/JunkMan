@@ -14,7 +14,7 @@ use JunkMan\E\IoException;
  * Class TcpSender
  * @package JunkMan\Pipeline
  */
-class TcpSender extends Singleton implements PipelineInterface
+class Sender extends Singleton implements PipelineInterface
 {
     private $ip;
     private $port;
@@ -42,6 +42,11 @@ class TcpSender extends Singleton implements PipelineInterface
         }
         fwrite($this->socket, json_encode($data).PHP_EOL);
         return $this;
+    }
+
+    public function close()
+    {
+        fclose($this->socket);
     }
 
     public function __destruct()

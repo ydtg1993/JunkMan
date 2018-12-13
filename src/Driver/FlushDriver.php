@@ -38,7 +38,7 @@ class FlushDriver implements DriverInterface
 
     private function sync()
     {
-        $file = $this->collector->getTemp() . Collector::STREAM_SUFFIX;
+        $file = $this->collector->getTemp();
         try {
             if (!is_file($file)) {
                 throw new IoException('not found stream file');
@@ -72,7 +72,7 @@ class FlushDriver implements DriverInterface
 
     private function async()
     {
-        $file = $this->collector->getTemp() . Collector::STREAM_SUFFIX;
+        $file = $this->collector->getTemp();
 
         if (!function_exists('pcntl_fork')) {
             throw new \Exception('Need to install pcntl');

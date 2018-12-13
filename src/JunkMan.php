@@ -14,7 +14,27 @@ use JunkMan\Operation\OperateStream;
 
 class JunkMan
 {
+    /**
+     * project root path
+     */
     const ROOT_PATH = __DIR__;
+
+    /**
+     * service app code
+     */
+    const PASSPORT_CODE = "YOUR APP CODE";
+
+    /**
+     * only for linux
+     * stream log async exec
+     */
+    const ASYNC = false;
+
+    /**
+     * only for linux
+     * php path
+     */
+    const PHP = PHP_BINDIR.'/php';
 
     /**
      * @var OperateStream

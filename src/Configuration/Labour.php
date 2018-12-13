@@ -31,7 +31,7 @@ class Labour
      * @param $trace_type
      * @throws \Exception
      */
-    public static function run($collector,$title,$trace_file_info,$trace_type)
+    public static function run($collector, $title, $trace_file_info, $trace_type)
     {
         self::$collector = $collector;
         self::$collector->setTraceFile($trace_file_info['file']);
@@ -78,15 +78,16 @@ class Labour
      */
     private static function config()
     {
-        $config = file_get_contents(JunkMan::ROOT_PATH . DIRECTORY_SEPARATOR . 'config.json');
-        $config = (array)json_decode($config, true);
+        $config = [
+            'async' => JunkMan::ASYNC,
+            'php' => JunkMan::PHP
+        ];
         self::$collector->setConfig($config);
     }
 
     private static function secret()
     {
-        $config = self::$collector->getConfig();
-        $secret = Helper::secret($config['app_code'], self::$collector->getTime());
+        $secret = Helper::secret(JunkMan::PASSPORT_CODE, self::$collector->getTime());
         self::$collector->setSecret($secret);
     }
 
@@ -96,7 +97,7 @@ class Labour
         if (!is_dir($path)) {
             mkdir($path);
         }
-        $file = $path . DIRECTORY_SEPARATOR . self::$collector->getSecret();
+        $file = $path . DIRECTORY_SEPARATOR . self::$collector->getSecret() . Collector::STREAM_SUFFIX;
         self::$collector->setTemp($file);
     }
 
@@ -105,9 +106,6 @@ class Labour
      */
     private static function setXdebug()
     {
-        if (!function_exists('xdebug_set_filter')) {
-            throw new \Exception('Need to install Xdebug version >= 2.6');
-        }
         ini_set('xdebug.collect_params', 4);
         ini_set('xdebug.collect_return', 1);
         ini_set('xdebug.show_mem_delta', 0);

@@ -8,7 +8,7 @@
 namespace JunkMan\Container;
 
 use JunkMan\Pipeline\PipelineInterface;
-use JunkMan\Pipeline\TcpSender;
+use JunkMan\Pipeline\Sender;
 
 date_default_timezone_set('Asia/Shanghai');
 
@@ -47,7 +47,7 @@ class Collector
     public function __construct()
     {
         $this->setTime(time());
-        $this->setSENDER(TcpSender::getInstance(['server'=>self::SERVER,'port'=>self::PORT]));
+        $this->setSENDER(Sender::getInstance(['server'=>self::SERVER,'port'=>self::PORT]));
     }
 
     /**

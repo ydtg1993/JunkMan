@@ -11,7 +11,7 @@ use JunkMan\Abstracts\Singleton;
 use JunkMan\Container\Collector;
 use JunkMan\E\IoException;
 use JunkMan\E\OperateException;
-use JunkMan\Pipeline\TcpSender;
+use JunkMan\Pipeline\Sender;
 
 /**
  * Class StreamDriver
@@ -20,7 +20,7 @@ use JunkMan\Pipeline\TcpSender;
 class ErrorDriver extends Singleton implements DriverInterface
 {
     /**
-     * @var TcpSender
+     * @var Sender
      */
     private $SENDER = null;
 
@@ -32,7 +32,7 @@ class ErrorDriver extends Singleton implements DriverInterface
     public function execute($collector = null)
     {
         $this->collector = $collector;
-        $file = $this->collector->getTemp() . Collector::STREAM_SUFFIX;
+        $file = $this->collector->getTemp();
         try {
             if (!is_file($file)) {
                 throw new IoException('not found stream file');
