@@ -29,6 +29,7 @@ class OperateSpot
     {
         try {
             $this->collector = new Collector();
+            $this->collector->setSENDER();
             $this->collector->setMessage($content);
 
             $trace_file_info = Helper::multiQuery2Array(debug_backtrace(), ['function' => 'dot', 'class' => get_class()]);

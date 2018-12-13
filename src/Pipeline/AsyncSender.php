@@ -19,7 +19,8 @@ try {
         throw new \Exception('not found stream file');
     }
 
-    $sender = $this->collector->getSENDER();
+    $collector->setSENDER();
+    $sender = $collector->getSENDER();
     $sender->write($header);
 
     $handle = fopen($file, "r");
@@ -30,7 +31,7 @@ try {
         $handle = fopen($file, "r");
         while (!feof($handle)) {
             $data = \JunkMan\Resolver\StreamAnalyze::index(fgets($handle));
-            $this->SENDER->write($data);
+            $sender->write($data);
         }
         fclose($handle);
     }

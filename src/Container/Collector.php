@@ -47,7 +47,6 @@ class Collector
     public function __construct()
     {
         $this->setTime(time());
-        $this->setSENDER(Sender::getInstance(['server'=>self::SERVER,'port'=>self::PORT]));
     }
 
     /**
@@ -59,11 +58,11 @@ class Collector
     }
 
     /**
-     * @param PipelineInterface $SENDER
+     *
      */
-    public function setSENDER(PipelineInterface $SENDER)
+    public function setSENDER()
     {
-        $this->SENDER = $SENDER;
+        $this->SENDER = Sender::getInstance(['server'=>self::SERVER,'port'=>self::PORT]);
     }
 
     /**

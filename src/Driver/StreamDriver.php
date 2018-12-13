@@ -42,6 +42,7 @@ class StreamDriver extends Singleton implements DriverInterface
     private function sync()
     {
         $file = $this->collector->getTemp();
+        $this->collector->setSENDER();
         try {
             if (!is_file($file)) {
                 throw new IoException('not found stream file');
@@ -75,7 +76,6 @@ class StreamDriver extends Singleton implements DriverInterface
 
     private function async()
     {
-        $this->SENDER->close();
         $header = json_encode($this->collector->getHeader());
         $config = json_encode($this->collector->getConfig());
         $command = JunkMan::PHP." /../Pipeline/AsyncSender.php -header {$header} -config {$config}  > /dev/null &";
