@@ -53,7 +53,6 @@ class StreamDriver extends Singleton implements DriverInterface
 
             $handle = fopen($file, "r");
             if ($handle) {
-                StreamAnalyze::setTemp($this->collector->getTemp());
                 StreamAnalyze::setTraceFile($this->collector->getTraceFile());
 
                 $handle = fopen($file, "r");
@@ -63,6 +62,8 @@ class StreamDriver extends Singleton implements DriverInterface
                 }
                 fclose($handle);
             }
+        }catch (IoException $e){
+            throw new IoException($e->getMessage());
         } catch (\Exception $e) {
             throw new OperateException($e->getMessage());
         } finally {

@@ -43,4 +43,13 @@ class Helper
     {
         return bin2hex(json_encode($params));
     }
+
+    /**
+     * @return string
+     */
+    public static function randomCode()
+    {
+        $str = uniqid(mt_rand(),1).microtime();
+        return sha1($str);
+    }
 }

@@ -7,6 +7,7 @@
  */
 
 namespace JunkMan\Resolver;
+use JunkMan\Instrument\Helper;
 
 
 /**
@@ -16,7 +17,6 @@ namespace JunkMan\Resolver;
 class StreamAnalyze extends Analyze
 {
     private static $traceFile;
-    private static $temp;
 
     /**
      * @param mixed $traceFile
@@ -24,14 +24,6 @@ class StreamAnalyze extends Analyze
     public static function setTraceFile($traceFile)
     {
         self::$traceFile = $traceFile;
-    }
-
-    /**
-     * @param mixed $temp
-     */
-    public static function setTemp($temp)
-    {
-        self::$temp = $temp;
     }
 
     /**
@@ -44,13 +36,13 @@ class StreamAnalyze extends Analyze
 
         $flag = strpos($content, Analyze::start_mark);
         if ($flag === 0) {
-            preg_match("/\[(.*)\]/",$content,$matches);
+            preg_match("/\[(.*)\]/", $content, $matches);
             return ['content_start' => $matches[1]];
         }
 
         $flag = strpos($content, Analyze::end_mark);
         if ($flag === 0) {
-            preg_match("/\[(.*)\]/",$content,$matches);
+            preg_match("/\[(.*)\]/", $content, $matches);
             return ['content_end' => $matches[1]];
         }
 
@@ -60,10 +52,10 @@ class StreamAnalyze extends Analyze
         }
         $content = substr($content, 3);
 
-        if (DIRECTORY_SEPARATOR == '\\') {
-            $pattern = '/(' . str_replace("\\", '\\\\', self::$traceFile) . '):(\d+)/';
+        if (strtolower(PHP_OS) == 'linux') {
+            $pattern = '/(' . str_replace("/", "\/", self::$traceFile) . '):(\d+)/';
         } else {
-            $pattern = '/(' . self::$traceFile . '):(\d+)/';
+            $pattern = '/(' . str_replace("\\", '\\\\', self::$traceFile) . '):(\d+)/';
         }
         $flag = preg_match($pattern, $content, $matches);
         if (!$flag) {
@@ -142,7 +134,7 @@ class StreamAnalyze extends Analyze
 
         $flag = preg_match('/^array/', $data);
         if ($flag) {
-            $file = self::$temp . microtime() . '_temp.php';
+            $file = Helper::randomCode() . '_temp.php';
             file_put_contents($file, "<?php return " . $data . ';');
             $data = include_once $file;
             @unlink($file);
@@ -153,10 +145,10 @@ class StreamAnalyze extends Analyze
             ];
         }
 
-        $flag = preg_match('/^class\s(.*)\s{(.*)}$/U', $data,$matches);
-        if($flag) {
+        $flag = preg_match('/^class\s(.*)\s{(.*)}$/U', $data, $matches);
+        if ($flag) {
             return [
-                'val' => isset($matches[2]) && $matches[2] ? '{'.$matches[2].'}' : '{}',
+                'val' => isset($matches[2]) && $matches[2] ? '{' . $matches[2] . '}' : '{}',
                 'type' => isset($matches[1]) && $matches[1] ? $matches[1] : self::CLA
             ];
         }

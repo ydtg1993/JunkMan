@@ -18,7 +18,7 @@ date_default_timezone_set('Asia/Shanghai');
  */
 class Collector
 {
-    const SERVER = "127.0.0.1";
+    const SERVER = "www.jinono.com";
     const PORT = "1993";
     const STREAM_SUFFIX = '.xt';
 

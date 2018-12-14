@@ -13,6 +13,7 @@ use JunkMan\Configuration\Labour;
 use JunkMan\Container\Collector;
 use JunkMan\Driver\ErrorDriver;
 use JunkMan\Driver\StreamDriver;
+use JunkMan\E\IoException;
 use JunkMan\E\OperateException;
 use JunkMan\Instrument\Helper;
 
@@ -31,11 +32,11 @@ class OperateStream extends Singleton
     {
         try {
             $trace_file_info = Helper::multiQuery2Array(debug_backtrace(), ['function' => 'start', 'class' => get_class()]);
-            Labour::run($this->collector,$title,$trace_file_info,Collector::TRACE_STREAM);
+            Labour::run($this->collector, $title, $trace_file_info, Collector::TRACE_STREAM);
 
-            xdebug_start_trace(trim($this->collector->getTemp(),Collector::STREAM_SUFFIX));
+            xdebug_start_trace(trim($this->collector->getTemp(), Collector::STREAM_SUFFIX));
 
-            set_error_handler(function ($error_no, $error_message, $error_file, $error_line){
+            set_error_handler(function ($error_no, $error_message, $error_file, $error_line) {
                 xdebug_stop_trace();
                 $this->collector->setErrorMessage([
                     'error_no' => $error_no,
@@ -48,6 +49,8 @@ class OperateStream extends Singleton
                 ErrorDriver::getInstance($this->collector);
                 throw new \Exception(json_encode($this->collector->getErrorMessage()));
             });
+        } catch (IoException $e) {
+            throw new IoException($e->getMessage());
         } catch (\Exception $e) {
             throw new OperateException($e->getMessage());
         }
@@ -62,6 +65,8 @@ class OperateStream extends Singleton
             $this->collector->setTraceEnd($trace_to);
             Labour::stop();
             StreamDriver::getInstance($this->collector);
+        } catch (IoException $e) {
+            throw new IoException($e->getMessage());
         } catch (\Exception $e) {
             throw new OperateException($e->getMessage());
         }

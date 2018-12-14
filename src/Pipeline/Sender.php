@@ -31,7 +31,7 @@ class Sender extends Singleton implements PipelineInterface
         try {
             $this->socket = stream_socket_client($address, $create_errno, $create_errstr, STREAM_SERVER_BIND);
         }catch (\Exception $e){
-            throw new IoException($create_errno);
+            throw new IoException($create_errno.$e->getMessage());
         }
     }
 
@@ -40,7 +40,11 @@ class Sender extends Singleton implements PipelineInterface
         if(!$data){
             return $this;
         }
-        fwrite($this->socket, json_encode($data).PHP_EOL);
+        try {
+            fwrite($this->socket, json_encode($data) . PHP_EOL);
+        }catch (\Exception $e){
+            throw new IoException($e->getMessage());
+        }
         return $this;
     }
 
