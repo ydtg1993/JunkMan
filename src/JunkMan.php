@@ -28,13 +28,13 @@ class JunkMan
      * only for linux
      * stream log async exec
      */
-    const ASYNC = true;
+    const ASYNC = false;
 
     /**
      * only for linux
      * php path
      */
-    const PHP = 'php';
+    const PHP = PHP_BINDIR.'/php';
 
     /**
      * @var OperateStream
