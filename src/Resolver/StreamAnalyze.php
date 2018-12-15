@@ -7,8 +7,6 @@
  */
 
 namespace JunkMan\Resolver;
-use JunkMan\Instrument\Helper;
-
 
 /**
  * Class StreamAnalyze
@@ -134,13 +132,11 @@ class StreamAnalyze extends Analyze
 
         $flag = preg_match('/^array/', $data);
         if ($flag) {
-            $file = Helper::randomCode() . '_temp.php';
-            file_put_contents($file, "<?php return " . $data . ';');
-            $data = include_once $file;
-            @unlink($file);
+            $paragraph = "\$data = json_encode($data);";
+            eval($paragraph);
 
             return [
-                'val' => $data === true ? [] : $data,
+                'val' => $data === true ? [] : json_decode($data,true),
                 'type' => self::ARRAY
             ];
         }
