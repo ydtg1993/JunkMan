@@ -45,6 +45,15 @@ class Helper
     }
 
     /**
+     * @param $data
+     * @return array
+     */
+    public static function parseSecret($data)
+    {
+        return (array)json_decode(hex2bin($data));
+    }
+
+    /**
      * @return string
      */
     public static function randomCode()

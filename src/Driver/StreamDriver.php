@@ -12,6 +12,7 @@ use JunkMan\Abstracts\Singleton;
 use JunkMan\Container\Collector;
 use JunkMan\E\IoException;
 use JunkMan\E\OperateException;
+use JunkMan\Instrument\Helper;
 use JunkMan\JunkMan;
 use JunkMan\Resolver\StreamAnalyze;
 
@@ -88,9 +89,11 @@ class StreamDriver extends Singleton implements DriverInterface
      */
     private function async()
     {
-        $header = json_encode($this->collector->getHeader());
-        $config = json_encode($this->collector->getConfig());
-        $command = JunkMan::PHP." /../Pipeline/AsyncSender.php -header {$header} -config {$config}  > /dev/null &";
+        $header = Helper::secret($this->collector->getHeader());
+        $config = Helper::secret($this->collector->getConfig());
+        $execute_file = JunkMan::ROOT_PATH.'/Pipeline/AsyncSender.php';
+        $command = JunkMan::PHP." {$execute_file} -h {$header} -c {$config}  > /dev/null &";
+
         try {
             shell_exec($command);
         } catch (\Exception $e) {

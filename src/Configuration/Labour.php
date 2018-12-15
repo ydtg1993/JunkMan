@@ -61,16 +61,14 @@ class Labour
         }
 
         $data = [
-            'header' => [
-                'title' => self::$collector->getStreamTitle(),
-                'time' => self::$collector->getTime(),
-                'secret' => self::$collector->getSecret(),
-                'trace_file' => self::$collector->getTraceFile(),
-                'stream_type' => self::$collector->getTraceType()
-            ]
-        ];
+            'title' => self::$collector->getStreamTitle(),
+            'time' => self::$collector->getTime(),
+            'secret' => self::$collector->getSecret(),
+            'trace_file' => self::$collector->getTraceFile(),
+            'stream_type' => self::$collector->getTraceType()];
+
         self::$collector->setHeader($data);
-        self::$collector->setTraceFileParagraph(['trace_file_content'=>$trace_file_content]);
+        self::$collector->setTraceFileParagraph(['trace_file_content' => $trace_file_content]);
     }
 
     /**
