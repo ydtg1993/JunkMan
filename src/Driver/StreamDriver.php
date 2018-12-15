@@ -89,12 +89,14 @@ class StreamDriver extends Singleton implements DriverInterface
      */
     private function async()
     {
-        $header = Helper::secret($this->collector->getHeader());
-        $config = Helper::secret($this->collector->getConfig());
-        $execute_file = JunkMan::ROOT_PATH.'/Pipeline/AsyncSender.php';
-        $command = JunkMan::PHP." {$execute_file} -h {$header} -c {$config}  > /dev/null &";
-
         try {
+            $header = Helper::secret($this->collector->getHeader());
+            $config = Helper::secret($this->collector->getConfig());
+            $trace_start = $this->collector->getTraceStart();
+            $trace_end = $this->collector->getTraceEnd();
+
+            $execute_file = JunkMan::ROOT_PATH.'/Pipeline/AsyncSender.php';
+            $command = JunkMan::PHP." {$execute_file} -h {$header} -c {$config} -s {$trace_start} -t {$trace_end}  > /dev/null &";
             shell_exec($command);
         } catch (\Exception $e) {
             throw new OperateException($e->getMessage());

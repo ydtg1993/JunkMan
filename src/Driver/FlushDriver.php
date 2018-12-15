@@ -10,6 +10,7 @@ namespace JunkMan\Driver;
 use JunkMan\Container\Collector;
 use JunkMan\E\IoException;
 use JunkMan\E\OperateException;
+use JunkMan\Instrument\Helper;
 use JunkMan\JunkMan;
 use JunkMan\Resolver\StreamAnalyze;
 
@@ -82,11 +83,11 @@ class FlushDriver implements DriverInterface
 
     private function async()
     {
-        $this->SENDER->close();
-        $header = json_encode($this->collector->getHeader());
-        $config = json_encode($this->collector->getConfig());
-        $command = JunkMan::PHP . " /../Pipeline/AsyncSender.php -header {$header} -config {$config}  > /dev/null &";
         try {
+            $header = Helper::secret($this->collector->getHeader());
+            $config = Helper::secret($this->collector->getConfig());
+            $execute_file = JunkMan::ROOT_PATH.'/Pipeline/AsyncSender.php';
+            $command = JunkMan::PHP." {$execute_file} -h {$header} -c {$config}  > /dev/null &";
             shell_exec($command);
         } catch (\Exception $e) {
             throw new OperateException($e->getMessage());
