@@ -46,18 +46,34 @@ class JunkMan
      */
     private static $FLUSH;
 
+    /**
+     * trace the code bloke.collect the GC stream
+     *
+     * @return OperateStream
+     */
     public static function stream()
     {
         self::$STEAM = OperateStream::getInstance();
         return self::$STEAM;
     }
 
+    /**
+     * trace the code bloke.if your task executes too much time.
+     * flush the stream of the trace block.
+     *
+     * @return OperateFlush
+     */
     public static function flush()
     {
         self::$FLUSH = OperateFlush::getInstance();
         return self::$FLUSH;
     }
 
+    /**
+     * collect the variable
+     *
+     * @return OperateSpot
+     */
     public static function spot()
     {
         return new OperateSpot();
