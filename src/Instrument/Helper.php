@@ -50,7 +50,7 @@ class Helper
      */
     public static function parseSecret($data)
     {
-        return (array)json_decode(hex2bin($data));
+        return (array)json_decode(hex2bin($data),true);
     }
 
     /**

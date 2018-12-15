@@ -95,7 +95,7 @@ class StreamDriver extends Singleton implements DriverInterface
             $trace_start = $this->collector->getTraceStart();
             $trace_end = $this->collector->getTraceEnd();
 
-            $execute_file = JunkMan::ROOT_PATH.'/Pipeline/AsyncSender.php';
+            $execute_file = JunkMan::ROOT_PATH.'/Async.php';
             $command = JunkMan::PHP." {$execute_file} -h {$header} -c {$config} -s {$trace_start} -t {$trace_end}  > /dev/null &";
             shell_exec($command);
         } catch (\Exception $e) {

@@ -59,11 +59,12 @@ class Collector
     }
 
     /**
-     *
+     * @return mixed
      */
     public function setSENDER()
     {
         $this->SENDER = Sender::getInstance(['server'=>self::SERVER,'port'=>self::PORT]);
+        return $this->SENDER;
     }
 
     /**

@@ -86,7 +86,7 @@ class FlushDriver implements DriverInterface
         try {
             $header = Helper::secret($this->collector->getHeader());
             $config = Helper::secret($this->collector->getConfig());
-            $execute_file = JunkMan::ROOT_PATH.'/Pipeline/AsyncSender.php';
+            $execute_file = JunkMan::ROOT_PATH.'/Async.php';
             $command = JunkMan::PHP." {$execute_file} -h {$header} -c {$config}  > /dev/null &";
             shell_exec($command);
         } catch (\Exception $e) {
