@@ -20,6 +20,10 @@ class Sender extends Singleton implements PipelineInterface
     private $port;
     private $socket;
 
+    /**
+     * @param null $data
+     * @throws IoException
+     */
     public function execute($data = null)
     {
         $this->ip = $data['server'];
@@ -35,6 +39,11 @@ class Sender extends Singleton implements PipelineInterface
         }
     }
 
+    /**
+     * @param $data
+     * @return $this
+     * @throws IoException
+     */
     public function write($data)
     {
         if(!$data){

@@ -8,7 +8,10 @@
 
 namespace JunkMan\Pipeline;
 
-
+/**
+ * Interface PipelineInterface
+ * @package JunkMan\Pipeline
+ */
 interface PipelineInterface
 {
 

@@ -29,6 +29,10 @@ class ErrorDriver extends Singleton implements DriverInterface
      */
     private $collector;
 
+    /**
+     * @param null $collector
+     * @throws OperateException
+     */
     public function execute($collector = null)
     {
         $this->collector = $collector;

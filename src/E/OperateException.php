@@ -8,7 +8,10 @@
 
 namespace JunkMan\E;
 
-
+/**
+ * Class OperateException
+ * @package JunkMan\E
+ */
 class OperateException extends \Exception
 {
     public function __toString()

@@ -28,6 +28,9 @@ class StreamDriver extends Singleton implements DriverInterface
      */
     private $collector;
 
+    /**
+     * @param null $collector
+     */
     public function execute($collector = null)
     {
         $this->collector = $collector;
@@ -39,6 +42,10 @@ class StreamDriver extends Singleton implements DriverInterface
         }
     }
 
+    /**
+     * @throws IoException
+     * @throws OperateException
+     */
     private function sync()
     {
         $file = $this->collector->getTemp();
@@ -75,6 +82,9 @@ class StreamDriver extends Singleton implements DriverInterface
         }
     }
 
+    /**
+     * @throws OperateException
+     */
     private function async()
     {
         $header = json_encode($this->collector->getHeader());

@@ -20,6 +20,10 @@ abstract class Singleton
         $this->execute($data);
     }
 
+    /**
+     * @param null $data
+     * @return mixed
+     */
     public static function getInstance($data = null)
     {
         if (!isset(self::$_instances[get_called_class()]) || !self::$_instances[get_called_class()] instanceof self) {
@@ -29,6 +33,10 @@ abstract class Singleton
         return self::$_instances[get_called_class()];
     }
 
+    /**
+     * @param null $data
+     * @return mixed
+     */
     protected abstract function execute($data = null);
 
     private function __clone()

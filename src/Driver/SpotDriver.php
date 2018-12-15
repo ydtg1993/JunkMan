@@ -25,6 +25,11 @@ class SpotDriver implements DriverInterface
      */
     private $collector;
 
+    /**
+     * @param null $collector
+     * @throws IoException
+     * @throws OperateException
+     */
     public function execute($collector = null)
     {
         $this->collector = $collector;

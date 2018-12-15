@@ -28,6 +28,11 @@ class OperateStream extends Singleton
      */
     private $collector = null;
 
+    /**
+     * @param string $title
+     * @throws IoException
+     * @throws OperateException
+     */
     public function start($title = '')
     {
         try {
@@ -56,6 +61,10 @@ class OperateStream extends Singleton
         }
     }
 
+    /**
+     * @throws IoException
+     * @throws OperateException
+     */
     public function end()
     {
         try {
@@ -72,6 +81,9 @@ class OperateStream extends Singleton
         }
     }
 
+    /**
+     * @param null $data
+     */
     protected function execute($data = null)
     {
         $this->collector = new Collector();

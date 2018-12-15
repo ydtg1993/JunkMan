@@ -26,6 +26,9 @@ class FlushDriver implements DriverInterface
      */
     private $collector;
 
+    /**
+     * @param null $collector
+     */
     public function execute($collector = null)
     {
         $this->collector = $collector;
@@ -37,6 +40,10 @@ class FlushDriver implements DriverInterface
         }
     }
 
+    /**
+     * @throws IoException
+     * @throws OperateException
+     */
     private function sync()
     {
         $file = $this->collector->getTemp();

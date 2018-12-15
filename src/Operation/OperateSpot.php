@@ -26,6 +26,12 @@ class OperateSpot
      */
     private $collector = null;
 
+    /**
+     * @param string $title
+     * @param string $content
+     * @throws IoException
+     * @throws OperateException
+     */
     public function dot($title = '', $content = '')
     {
         try {

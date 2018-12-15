@@ -29,6 +29,11 @@ class OperateFlush extends Singleton
      */
     private $collector = null;
 
+    /**
+     * @param string $title
+     * @throws IoException
+     * @throws OperateException
+     */
     public function start($title = '')
     {
         try {
@@ -57,6 +62,10 @@ class OperateFlush extends Singleton
         }
     }
 
+    /**
+     * @throws IoException
+     * @throws OperateException
+     */
     public function refurbish()
     {
         try {
@@ -76,6 +85,10 @@ class OperateFlush extends Singleton
         }
     }
 
+    /**
+     * @throws IoException
+     * @throws OperateException
+     */
     public function end()
     {
         try {
@@ -93,6 +106,9 @@ class OperateFlush extends Singleton
         }
     }
 
+    /**
+     * @param null $data
+     */
     protected function execute($data = null)
     {
         $this->collector = new Collector();

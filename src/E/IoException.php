@@ -8,7 +8,10 @@
 
 namespace JunkMan\E;
 
-
+/**
+ * Class IoException
+ * @package JunkMan\E
+ */
 class IoException extends \Exception
 {
     public function __toString()
