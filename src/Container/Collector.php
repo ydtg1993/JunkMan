@@ -35,6 +35,7 @@ class Collector
     private $temp;
     private $stream_title;
     private $trace_file;
+    private $trace_file_paragraph;
     private $trace_start;
     private $trace_end;
     private $header;
@@ -199,6 +200,23 @@ class Collector
     public function setTraceFile($trace_file)
     {
         $this->trace_file = $trace_file;
+    }
+
+
+    /**
+     * @return mixed
+     */
+    public function getTraceFileParagraph()
+    {
+        return $this->trace_file_paragraph;
+    }
+
+    /**
+     * @param mixed $trace_file_paragraph
+     */
+    public function setTraceFileParagraph($trace_file_paragraph)
+    {
+        $this->trace_file_paragraph = $trace_file_paragraph;
     }
 
     /**

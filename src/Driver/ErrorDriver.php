@@ -43,8 +43,8 @@ class ErrorDriver extends Singleton implements DriverInterface
             }
             $this->collector->setSENDER();
             $this->SENDER = $this->collector->getSENDER();
-
             $this->SENDER->write($this->collector->getHeader());
+            $this->SENDER->write($this->collector->getTraceFileParagraph());
 
             $this->SENDER->write($this->collector->getErrorMessage());
         } catch (\Exception $e) {

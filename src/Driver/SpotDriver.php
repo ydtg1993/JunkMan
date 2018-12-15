@@ -36,6 +36,7 @@ class SpotDriver implements DriverInterface
         try {
             $this->SENDER = $this->collector->getSENDER();
             $this->SENDER->write($this->collector->getHeader());
+            $this->SENDER->write($this->collector->getTraceFileParagraph());
 
             SpotAnalyze::setLine($this->collector->getTraceStart());
             $content = SpotAnalyze::index($this->collector->getMessage());

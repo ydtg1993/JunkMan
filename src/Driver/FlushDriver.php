@@ -53,8 +53,8 @@ class FlushDriver implements DriverInterface
                 throw new IoException('not found stream file');
             }
             $this->SENDER = $this->collector->getSENDER();
-
             $this->SENDER->write($this->collector->getHeader());
+            $this->SENDER->write($this->collector->getTraceFileParagraph());
 
             $handle = fopen($file, "r");
             if ($handle) {

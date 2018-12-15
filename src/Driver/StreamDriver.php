@@ -29,7 +29,7 @@ class StreamDriver extends Singleton implements DriverInterface
     private $collector;
 
     /**
-     * @param null $collector
+     * @param $collector
      */
     public function execute($collector = null)
     {
@@ -57,6 +57,7 @@ class StreamDriver extends Singleton implements DriverInterface
 
             $this->SENDER = $this->collector->getSENDER();
             $this->SENDER->write($this->collector->getHeader());
+            $this->SENDER->write($this->collector->getTraceFileParagraph());
 
             $handle = fopen($file, "r");
             if ($handle) {

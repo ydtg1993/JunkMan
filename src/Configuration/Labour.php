@@ -66,11 +66,11 @@ class Labour
                 'time' => self::$collector->getTime(),
                 'secret' => self::$collector->getSecret(),
                 'trace_file' => self::$collector->getTraceFile(),
-                'trace_file_content' => $trace_file_content,
                 'stream_type' => self::$collector->getTraceType()
             ]
         ];
         self::$collector->setHeader($data);
+        self::$collector->setTraceFileParagraph(['trace_file_content'=>$trace_file_content]);
     }
 
     /**
