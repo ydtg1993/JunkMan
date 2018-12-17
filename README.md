@@ -10,7 +10,7 @@
     
     方式二. 使用composer直接引入 composer require stream/junkman
     
-### \* Linux环境异步模式
+### \*Linux环境异步模式
 JunkMan.php文件
 
 ![explain](https://github.com/ydtg1993/JunkMan/blob/master/test/explain.png)
