@@ -11,7 +11,7 @@
     方式二. 使用composer直接引入 composer require stream/junkman
     
 ### 初始化配置
-JunkMan.php文件
+    JunkMan.php文件中
 
 ![explain](https://github.com/ydtg1993/JunkMan/blob/master/test/explain.png)
 
