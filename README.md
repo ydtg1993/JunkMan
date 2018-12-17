@@ -4,20 +4,21 @@
 
     环境要求:
     xdebug >= 2.6
-    
+
+### 安装方式
+    1.直接clone到项目目录 require_once YOUR_PATH/JunkMan/autoload.php;
+    2.使用composer引入 composer require stream/junkman
 
 #### 代码段监测
 
-    require_once YOUR_PATH/JunkMan/autoload.php;
-    JunkMan::stream()->start('this is a test');
+    JunkMan::stream()->start('监测点名称');
     #监测代码段
     JunkMan::stream()->end();
     
     
 #### 长时间循环代码段监测 用flush的refurbish冲刷消息
 
-    require_once YOUR_PATH/JunkMan/autoload.php;
-    JunkMan::flush()->start('this is a test');
+    JunkMan::flush()->start('监测点名称');
     
     while(true){
       #监测代码段
@@ -28,6 +29,4 @@
     
 #### 单个数据消息
 
-    require_once YOUR_PATH/JunkMan/autoload.php;
-    #监测代码段
-    JunkMan::spot()->dot('test',$data); 
+    JunkMan::spot()->dot('监测点名称',$data); 
