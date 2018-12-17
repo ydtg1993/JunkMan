@@ -28,6 +28,6 @@
     
     JunkMan::flush()->end();   
     
-#### 单个数据消息
+#### 单条数据收集
 
     JunkMan::spot()->dot('监测点名称',$data); 
