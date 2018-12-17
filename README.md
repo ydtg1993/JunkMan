@@ -6,8 +6,9 @@
     xdebug >= 2.6
 
 ### 安装方式
-    1.直接clone到项目目录 require_once YOUR_PATH/JunkMan/autoload.php;
-    2.使用composer引入 composer require stream/junkman
+    方式一. 直接clone到项目目录 require_once YOUR_PATH/JunkMan/autoload.php;
+    
+    方式二. 使用composer引入 composer require stream/junkman
 
 #### 代码段监测
 
