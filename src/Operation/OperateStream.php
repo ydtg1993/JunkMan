@@ -13,7 +13,6 @@ use JunkMan\Configuration\Labour;
 use JunkMan\Container\Collector;
 use JunkMan\Driver\ErrorDriver;
 use JunkMan\Driver\StreamDriver;
-use JunkMan\E\IoException;
 use JunkMan\E\OperateException;
 use JunkMan\Instrument\Helper;
 
@@ -30,7 +29,6 @@ class OperateStream extends Singleton
 
     /**
      * @param string $title
-     * @throws IoException
      * @throws OperateException
      */
     public function start($title = '')
@@ -54,15 +52,12 @@ class OperateStream extends Singleton
                 ErrorDriver::getInstance($this->collector);
                 throw new \Exception(json_encode($this->collector->getErrorMessage()));
             });
-        } catch (IoException $e) {
-            throw new IoException($e->getMessage());
         } catch (\Exception $e) {
             throw new OperateException($e->getMessage());
         }
     }
 
     /**
-     * @throws IoException
      * @throws OperateException
      */
     public function end()
@@ -74,8 +69,6 @@ class OperateStream extends Singleton
             $this->collector->setTraceEnd($trace_to);
             Labour::stop();
             StreamDriver::getInstance($this->collector);
-        } catch (IoException $e) {
-            throw new IoException($e->getMessage());
         } catch (\Exception $e) {
             throw new OperateException($e->getMessage());
         }

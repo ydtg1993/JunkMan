@@ -31,7 +31,6 @@ class OperateFlush extends Singleton
 
     /**
      * @param string $title
-     * @throws IoException
      * @throws OperateException
      */
     public function start($title = '')
@@ -55,15 +54,12 @@ class OperateFlush extends Singleton
                 ErrorDriver::getInstance($this->collector);
                 throw new \Exception(json_encode($this->collector->getErrorMessage()));
             });
-        } catch (IoException $e) {
-            throw new IoException($e->getMessage());
         } catch (\Exception $e) {
             throw new OperateException($e->getMessage());
         }
     }
 
     /**
-     * @throws IoException
      * @throws OperateException
      */
     public function refurbish()
@@ -78,15 +74,12 @@ class OperateFlush extends Singleton
             (new FlushDriver())->execute($this->collector);
 
             xdebug_start_trace($this->collector->getTemp());
-        } catch (IoException $e) {
-            throw new IoException($e->getMessage());
         } catch (\Exception $e) {
             throw new OperateException($e->getMessage());
         }
     }
 
     /**
-     * @throws IoException
      * @throws OperateException
      */
     public function end()
@@ -99,8 +92,6 @@ class OperateFlush extends Singleton
             Labour::stop();
 
             (new FlushDriver())->execute($this->collector);
-        } catch (IoException $e) {
-            throw new IoException($e->getMessage());
         } catch (\Exception $e) {
             throw new OperateException($e->getMessage());
         }

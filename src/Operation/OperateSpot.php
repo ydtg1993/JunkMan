@@ -29,7 +29,6 @@ class OperateSpot
     /**
      * @param string $title
      * @param string $content
-     * @throws IoException
      * @throws OperateException
      */
     public function dot($title = '', $content = '')
@@ -44,8 +43,6 @@ class OperateSpot
             Labour::stop();
 
             (new SpotDriver())->execute($this->collector);
-        } catch (IoException $e) {
-            throw new IoException($e->getMessage());
         } catch (\Exception $e) {
             throw new OperateException($e->getMessage());
         }
