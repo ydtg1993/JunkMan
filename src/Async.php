@@ -5,10 +5,8 @@ $params = getopt('h:c:s:t:');
 
 $collector = new \JunkMan\Container\Collector();
 
-$header = \JunkMan\Instrument\Helper::parseSecret($params['h']);
-$header = is_array($header) ? current($header) : [];
-$config = \JunkMan\Instrument\Helper::parseSecret($params['c']);
-$config = is_array($config) ? current($config) : [];
+$header = current(\JunkMan\Instrument\Helper::parseSecret($params['h']));
+$config = current(\JunkMan\Instrument\Helper::parseSecret($params['c']));
 $trace_start = (int)$params['s'];
 $trace_end = (int)$params['t'];
 
