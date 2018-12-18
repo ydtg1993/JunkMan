@@ -8,7 +8,6 @@
 namespace JunkMan\Driver;
 
 use JunkMan\Container\Collector;
-use JunkMan\E\IoException;
 use JunkMan\E\OperateException;
 use JunkMan\Resolver\SpotAnalyze;
 
@@ -27,7 +26,6 @@ class SpotDriver implements DriverInterface
 
     /**
      * @param null $collector
-     * @throws IoException
      * @throws OperateException
      */
     public function execute($collector = null)
@@ -41,9 +39,7 @@ class SpotDriver implements DriverInterface
             SpotAnalyze::setLine($this->collector->getTraceStart());
             $content = SpotAnalyze::index($this->collector->getMessage());
             $this->SENDER->write($content);
-        } catch (IoException $e){
-            throw new IoException($e->getMessage());
-        }catch (\Exception $e) {
+        } catch (\Exception $e) {
             throw new OperateException($e->getMessage());
         } finally {
             $this->collector = null;
