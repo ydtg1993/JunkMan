@@ -10,12 +10,10 @@
     
     方式二. 使用composer直接引入 composer require stream/junkman
     
-### 初始化配置
+### 初始化配置JunkMan.php文件中的授权密钥 
     
 ![explain](https://github.com/ydtg1993/JunkMan/blob/master/test/explain.png)
-```
-JunkMan.php文件
-```
+
 
 #### 代码段监测
 
