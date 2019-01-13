@@ -7,7 +7,6 @@
  */
 require_once __DIR__.'/../autoload.php';
 use JunkMan\JunkMan;
-//测试调用
 test1();
 //test2();
 //test3();
@@ -21,7 +20,7 @@ test1();
 function test1()
 {
     JunkMan::stream()->start('stream test');
-    //测试代码
+    //test code block on stream
     $array = [1, 2, 3, 4];
     $total = 0;
     foreach ($array as $a) {
@@ -37,7 +36,7 @@ function test1()
 function test2()
 {
     JunkMan::flush()->start('flush test');
-    //测试代码
+    //test code block on flush
     $i = 1;
     $data = [];
     while($i <= 3){
@@ -55,7 +54,7 @@ function test2()
  */
 function test3()
 {
-    //测试代码
+    //test code block on dot
     $data = [1,2,3,4,5];
     JunkMan::spot()->dot('dot test',$data);
 }
@@ -67,7 +66,7 @@ function test3()
 function test4()
 {
     JunkMan::stream()->start('stream test');
-    //测试代码
+    //test code block on error
     $a = 1 / 0;
     JunkMan::stream()->end();
 }
