@@ -45,7 +45,7 @@ class SpotAnalyze extends Analyze
         }
 
         if (is_array($content)) {
-            $type = self::ARRAY;
+            $type = self::ARR;
         }
 
         if (is_object($content)) {

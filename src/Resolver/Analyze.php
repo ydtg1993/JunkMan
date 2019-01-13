@@ -21,7 +21,7 @@ abstract class Analyze
     const INT = 'integer';
     const FLOAT = 'float';
     const STR = 'string';
-    const ARRAY = 'array';
+    const ARR = 'array';
     const CLA = 'stdClass';
     const UNDEFINED = 'undefined';
 

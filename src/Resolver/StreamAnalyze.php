@@ -137,7 +137,7 @@ class StreamAnalyze extends Analyze
 
             return [
                 'val' => $data === true ? [] : json_decode($data,true),
-                'type' => self::ARRAY
+                'type' => self::ARR
             ];
         }
 
