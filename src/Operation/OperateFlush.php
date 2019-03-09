@@ -11,11 +11,6 @@ namespace JunkMan\Operation;
 use JunkMan\Abstracts\Singleton;
 use JunkMan\Configuration\Labour;
 use JunkMan\Container\Collector;
-use JunkMan\Driver\ErrorDriver;
-use JunkMan\Driver\FlushDriver;
-use JunkMan\Driver\StreamDriver;
-use JunkMan\E\IoException;
-use JunkMan\E\OperateException;
 use JunkMan\Instrument\Helper;
 
 /**
@@ -31,7 +26,7 @@ class OperateFlush extends Singleton
 
     /**
      * @param string $title
-     * @throws OperateException
+     * @throws \Exception
      */
     public function start($title = '')
     {
@@ -43,24 +38,25 @@ class OperateFlush extends Singleton
 
             set_error_handler(function ($error_no, $error_message, $error_file, $error_line) {
                 xdebug_stop_trace();
-                $this->collector->setErrorMessage([
+                $this->collector->setTraceType(Collector::TRACE_ERR);
+                $this->collector->setExtend([
                     'error_no' => $error_no,
                     'error_message' => $error_message,
                     'error_file' => $error_file,
                     'error_line' => $error_line
                 ]);
-                $this->collector->setTraceType(Collector::TRACE_ERR);
+                $this->collector->setStatus(Collector::STATUS_END);
                 Labour::stop();
-                ErrorDriver::getInstance($this->collector);
-                throw new \Exception(json_encode($this->collector->getErrorMessage()));
+                $this->collector->getSENDER()->write($this->collector->message);
+                throw new \Exception($error_message);
             });
         } catch (\Exception $e) {
-            throw new OperateException($e->getMessage());
+            throw new \Exception($e->getMessage());
         }
     }
 
     /**
-     * @throws OperateException
+     * @throws \Exception
      */
     public function refurbish()
     {
@@ -69,18 +65,18 @@ class OperateFlush extends Singleton
             $trace_file_info = Helper::multiQuery2Array(debug_backtrace(), ['function' => 'refurbish', 'class' => get_class()]);
             $trace_to = $trace_file_info['line'];
             $this->collector->setTraceEnd($trace_to);
-
+            $this->collector->setStatus(Collector::STATUS_ING);
             Labour::stop();
-            (new FlushDriver())->execute($this->collector);
+            $this->collector->getSENDER()->write($this->collector->message);
 
             xdebug_start_trace($this->collector->getTemp());
         } catch (\Exception $e) {
-            throw new OperateException($e->getMessage());
+            throw new \Exception($e->getMessage());
         }
     }
 
     /**
-     * @throws OperateException
+     * @throws \Exception
      */
     public function end()
     {
@@ -89,11 +85,11 @@ class OperateFlush extends Singleton
             $trace_file_info = Helper::multiQuery2Array(debug_backtrace(), ['function' => 'end', 'class' => get_class()]);
             $trace_to = $trace_file_info['line'];
             $this->collector->setTraceEnd($trace_to);
+            $this->collector->setStatus(Collector::STATUS_END);
             Labour::stop();
-
-            (new FlushDriver())->execute($this->collector);
+            $this->collector->getSENDER()->write($this->collector->message);
         } catch (\Exception $e) {
-            throw new OperateException($e->getMessage());
+            throw new \Exception($e->getMessage());
         }
     }
 

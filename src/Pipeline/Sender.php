@@ -8,7 +8,7 @@
 namespace JunkMan\Pipeline;
 
 use JunkMan\Abstracts\Singleton;
-use JunkMan\E\IoException;
+use Mockery\Exception;
 
 /**
  * Class TcpSender
@@ -22,7 +22,6 @@ class Sender extends Singleton implements PipelineInterface
 
     /**
      * @param null $data
-     * @throws IoException
      */
     public function execute($data = null)
     {
@@ -35,14 +34,14 @@ class Sender extends Singleton implements PipelineInterface
         try {
             $this->socket = stream_socket_client($address, $create_errno, $create_errstr, STREAM_SERVER_BIND);
         }catch (\Exception $e){
-            throw new IoException($create_errno.$e->getMessage());
+            throw new Exception($create_errno.$e->getMessage());
         }
     }
 
     /**
      * @param $data
      * @return $this
-     * @throws IoException
+     * @throws Exception
      */
     public function write($data)
     {
@@ -52,7 +51,7 @@ class Sender extends Singleton implements PipelineInterface
         try {
             fwrite($this->socket, json_encode($data) . PHP_EOL);
         }catch (\Exception $e){
-            throw new IoException($e->getMessage());
+            throw new Exception($e->getMessage());
         }
         return $this;
     }

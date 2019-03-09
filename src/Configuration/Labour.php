@@ -39,7 +39,6 @@ class Labour
         self::$collector->setStreamTitle($title);
         self::$collector->setTraceType($trace_type);
 
-        self::config();
         self::secret();
         self::setTemp();
         self::setXdebug();
@@ -60,32 +59,20 @@ class Labour
                 $stop_line + Collector::SIDE_LINE);
         }
 
-        $data = [
-            'title' => self::$collector->getStreamTitle(),
-            'time' => self::$collector->getTime(),
-            'secret' => self::$collector->getSecret(),
-            'trace_file' => self::$collector->getTraceFile(),
-            'stream_type' => self::$collector->getTraceType()];
-
-        self::$collector->setHeader($data);
-        self::$collector->setTraceFileParagraph(['trace_file_content' => $trace_file_content]);
-    }
-
-    /**
-     * @throws \Exception
-     */
-    private static function config()
-    {
-        $config = [
-            'async' => JunkMan::ASYNC,
-            'php' => JunkMan::PHP
-        ];
-        self::$collector->setConfig($config);
+        self::$collector->message['title'] = self::$collector->getStreamTitle();
+        self::$collector->message['status'] = self::$collector->getStatus();
+        self::$collector->message['time'] = self::$collector->getTime();
+        self::$collector->message['secret'] = self::$collector->getSecret();
+        self::$collector->message['temp_file'] = self::$collector->getTemp();
+        self::$collector->message['trace_file'] = self::$collector->getTraceFile();
+        self::$collector->message['trace_file_content'] = serialize($trace_file_content);
+        self::$collector->message['stream_type'] = self::$collector->getTraceType();
+        self::$collector->message['extend'] = self::$collector->getExtend();
     }
 
     private static function secret()
     {
-        $secret = Helper::secret(JunkMan::PASSPORT_CODE, self::$collector->getTime());
+        $secret = Helper::secret(self::$collector->getStreamTitle(), self::$collector->getTime());
         self::$collector->setSecret($secret);
     }
 

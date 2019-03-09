@@ -5,6 +5,7 @@
  * Date: 2018/8/19
  * Time: 22:36
  */
+
 namespace JunkMan\Container;
 
 use JunkMan\Pipeline\PipelineInterface;
@@ -18,8 +19,8 @@ date_default_timezone_set('Asia/Shanghai');
  */
 class Collector
 {
-    const SERVER = "www.jinono.com";
-    const PORT = "1993";
+    const SERVER = "127.0.0.1";
+    const PORT = "9303";
     const STREAM_SUFFIX = '.xt';
 
     const TRACE_STREAM = 'stream';
@@ -27,21 +28,35 @@ class Collector
     const TRACE_SPOT = 'spot';
     const TRACE_ERR = 'error';
 
+    const STATUS_START = 'start';
+    const STATUS_ING = 'ing';
+    const STATUS_END = 'end';
+
     const SIDE_LINE = 1;
 
+    public $message = [
+        'agent' => 'server',
+        'status' => '',
+        'title' => '',
+        'time' => 0,
+        'secret' => '',
+        'temp_file' => '',
+        'trace_file' => '',
+        'trace_file_content' => '',
+        'stream_type' => '',
+        'extend' => ''
+    ];
+
+    private $status;
     private $time;
     private $secret;
-    private $config;
     private $temp;
     private $stream_title;
     private $trace_file;
-    private $trace_file_paragraph;
     private $trace_start;
     private $trace_end;
-    private $header;
-    private $message;
     private $trace_type;
-    private $error_message;
+    private $extend;
 
     private $SENDER;
 
@@ -55,32 +70,8 @@ class Collector
      */
     public function getSENDER()
     {
+        $this->SENDER = Sender::getInstance(['server' => self::SERVER, 'port' => self::PORT]);
         return $this->SENDER;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function setSENDER()
-    {
-        $this->SENDER = Sender::getInstance(['server'=>self::SERVER,'port'=>self::PORT]);
-        return $this->SENDER;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getErrorMessage()
-    {
-        return $this->error_message;
-    }
-
-    /**
-     * @param mixed $error_message
-     */
-    public function setErrorMessage($error_message)
-    {
-        $this->error_message = $error_message;
     }
 
     /**
@@ -102,17 +93,17 @@ class Collector
     /**
      * @return mixed
      */
-    public function getMessage()
+    public function getStatus()
     {
-        return $this->message;
+        return $this->status;
     }
 
     /**
-     * @param mixed $message
+     * @param mixed $status
      */
-    public function setMessage($message)
+    public function setStatus($status)
     {
-        $this->message = $message;
+        $this->status = $status;
     }
 
     /**
@@ -145,14 +136,6 @@ class Collector
     public function setSecret($secret)
     {
         $this->secret = $secret;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getConfig()
-    {
-        return $this->config;
     }
 
     /**
@@ -203,23 +186,6 @@ class Collector
         $this->trace_file = $trace_file;
     }
 
-
-    /**
-     * @return mixed
-     */
-    public function getTraceFileParagraph()
-    {
-        return $this->trace_file_paragraph;
-    }
-
-    /**
-     * @param mixed $trace_file_paragraph
-     */
-    public function setTraceFileParagraph($trace_file_paragraph)
-    {
-        $this->trace_file_paragraph = $trace_file_paragraph;
-    }
-
     /**
      * @return mixed
      */
@@ -255,28 +221,16 @@ class Collector
     /**
      * @return mixed
      */
-    public function getHeader()
+    public function getExtend()
     {
-        return $this->header;
+        return $this->extend;
     }
 
     /**
-     * @param mixed $header
+     * @param mixed $extend
      */
-    public function setHeader($header)
+    public function setExtend($extend)
     {
-        $this->header = $header;
-    }
-
-    /**
-     * @param array $config
-     * @throws \Exception
-     */
-    public function setConfig(array $config)
-    {
-        if(empty($config)){
-            throw new \Exception('the config is empty');
-        }
-        $this->config = $config;
+        $this->extend = $extend;
     }
 }
