@@ -19,19 +19,32 @@ date_default_timezone_set('Asia/Shanghai');
  */
 class Collector
 {
-    const SERVER = "127.0.0.1";
-    const PORT = "9303";
+    private static $SERVER;
+    private static $PORT;
+
+    /**
+     * suffix
+     */
     const STREAM_SUFFIX = '.xt';
 
+    /**
+     * trace type
+     */
     const TRACE_STREAM = 'stream';
     const TRACE_FLUSH = 'flush';
     const TRACE_SPOT = 'spot';
     const TRACE_ERR = 'error';
 
+    /**
+     * communication status
+     */
     const STATUS_START = 'start';
     const STATUS_ING = 'ing';
     const STATUS_END = 'end';
 
+    /**
+     * trace file cut paragraph
+     */
     const SIDE_LINE = 1;
 
     public $message = [
@@ -65,12 +78,18 @@ class Collector
         $this->setTime(time());
     }
 
+    public function setConfig($config)
+    {
+        self::$SERVER = $config['server'];
+        self::$PORT = $config['port'];
+    }
+
     /**
      * @return mixed
      */
     public function getSENDER()
     {
-        $this->SENDER = Sender::getInstance(['server' => self::SERVER, 'port' => self::PORT]);
+        $this->SENDER = Sender::getInstance(['server' => self::$SERVER, 'port' => self::$PORT]);
         return $this->SENDER;
     }
 

@@ -34,11 +34,13 @@ class Labour
     public static function run($collector, $title, $trace_file_info, $trace_type)
     {
         self::$collector = $collector;
+
         self::$collector->setTraceFile($trace_file_info['file']);
         self::$collector->setTraceStart($trace_file_info['line']);
         self::$collector->setStreamTitle($title);
         self::$collector->setTraceType($trace_type);
 
+        self::config();
         self::secret();
         self::setTemp();
         self::setXdebug();
@@ -68,6 +70,16 @@ class Labour
         self::$collector->message['trace_file_content'] = serialize($trace_file_content);
         self::$collector->message['stream_type'] = self::$collector->getTraceType();
         self::$collector->message['extend'] = self::$collector->getExtend();
+    }
+
+    /**
+     * @throws \Exception
+     */
+    private static function config()
+    {
+        $config = file_get_contents(JunkMan::ROOT_PATH . DIRECTORY_SEPARATOR . 'config.json');
+        $config = (array)json_decode($config, true);
+        self::$collector->setConfig($config);
     }
 
     private static function secret()
