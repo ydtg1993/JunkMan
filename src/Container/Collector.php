@@ -19,7 +19,7 @@ date_default_timezone_set('Asia/Shanghai');
  */
 class Collector
 {
-    private static $SERVER;
+    private static $IP;
     private static $PORT;
 
     /**
@@ -80,7 +80,7 @@ class Collector
 
     public function setConfig($config)
     {
-        self::$SERVER = $config['server'];
+        self::$IP = $config['ip'];
         self::$PORT = $config['port'];
     }
 
@@ -89,7 +89,7 @@ class Collector
      */
     public function getSENDER()
     {
-        $this->SENDER = Sender::getInstance(['server' => self::$SERVER, 'port' => self::$PORT]);
+        $this->SENDER = Sender::getInstance(['server' => self::$IP, 'port' => self::$PORT]);
         return $this->SENDER;
     }
 
