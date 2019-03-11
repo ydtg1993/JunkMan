@@ -1,0 +1,4 @@
+JunkMan v2.0
+Application run to completion. Then it will generate a temp file.
+A process service about the dispatcher will deal with the file And
+distribute the information to JunkManMonitor.
