@@ -17,7 +17,7 @@ use JunkMan\Instrument\Helper;
  * Class OperateStream
  * @package JunkMan\Operation
  */
-class OperateStream extends Singleton
+class OperateFlood extends Singleton
 {
     /**
      * @var Collector
@@ -32,7 +32,7 @@ class OperateStream extends Singleton
     {
         try {
             $trace_file_info = Helper::multiQuery2Array(debug_backtrace(), ['function' => 'start', 'class' => get_class()]);
-            Labour::run($this->collector, $title, $trace_file_info, Collector::TRACE_STREAM);
+            Labour::run($this->collector, $title, $trace_file_info, Collector::TRACE_FLUSH);
 
             xdebug_start_trace($this->collector->getTemp());
 
@@ -55,6 +55,29 @@ class OperateStream extends Singleton
         }
     }
 
+    /**
+     * @throws \Exception
+     */
+    public function flush()
+    {
+        try {
+            xdebug_stop_trace();
+            $trace_file_info = Helper::multiQuery2Array(debug_backtrace(), ['function' => 'refurbish', 'class' => get_class()]);
+            $trace_to = $trace_file_info['line'];
+            $this->collector->setTraceEnd($trace_to);
+            $this->collector->setStatus(Collector::STATUS_ING);
+            Labour::stop();
+            $this->collector->getSENDER()->write($this->collector->message);
+
+            xdebug_start_trace($this->collector->getTemp());
+        } catch (\Exception $e) {
+            throw new \Exception($e->getMessage());
+        }
+    }
+
+    /**
+     * @throws \Exception
+     */
     public function end()
     {
         try {

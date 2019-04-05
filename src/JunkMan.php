@@ -8,7 +8,7 @@
 
 namespace JunkMan;
 
-use JunkMan\Operation\OperateFlush;
+use JunkMan\Operation\OperateFlood;
 use JunkMan\Operation\OperateSpot;
 use JunkMan\Operation\OperateStream;
 
@@ -25,7 +25,7 @@ class JunkMan
     private static $STEAM;
 
     /**
-     * @var OperateFlush
+     * @var OperateFlood
      */
     private static $FLUSH;
 
@@ -44,11 +44,11 @@ class JunkMan
      * trace the code bloke.if your task executes too much time.
      * flush the stream of the trace block.
      *
-     * @return OperateFlush
+     * @return OperateFlood
      */
-    public static function flush()
+    public static function flood()
     {
-        self::$FLUSH = OperateFlush::getInstance();
+        self::$FLUSH = OperateFlood::getInstance();
         return self::$FLUSH;
     }
 

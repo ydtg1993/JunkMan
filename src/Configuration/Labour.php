@@ -44,6 +44,7 @@ class Labour
         self::secret();
         self::setTemp();
         self::setXdebug();
+        self::$collector->message['trace_start_time'] = (string)microtime();
     }
 
     public static function stop()
@@ -51,25 +52,28 @@ class Labour
         $trace_file = self::$collector->getTraceFile();
         $trace_file_content = '';
 
-        $start_line = (int)self::$collector->getTraceStart();
-        $stop_line = self::$collector->getTraceEnd() ? (int)self::$collector->getTraceEnd() : (int)self::$collector->getTraceStart();
+        $start_line = (int)self::$collector->getTraceStart() - Collector::SIDE_LINE;
+        $stop_line = self::$collector->getTraceEnd() ? (int)self::$collector->getTraceEnd() + Collector::SIDE_LINE : (int)self::$collector->getTraceStart();
 
         if (is_file($trace_file)) {
             $trace_file_content = Io::cutFile(
                 $trace_file,
-                $start_line - Collector::SIDE_LINE,
-                $stop_line + Collector::SIDE_LINE);
+                $start_line,
+                $stop_line);
         }
 
-        self::$collector->message['title'] = self::$collector->getStreamTitle();
-        self::$collector->message['status'] = self::$collector->getStatus();
-        self::$collector->message['time'] = self::$collector->getTime();
-        self::$collector->message['secret'] = self::$collector->getSecret();
-        self::$collector->message['temp_file'] = self::$collector->getTemp();
-        self::$collector->message['trace_file'] = self::$collector->getTraceFile();
-        self::$collector->message['trace_file_content'] = serialize($trace_file_content);
-        self::$collector->message['stream_type'] = self::$collector->getTraceType();
-        self::$collector->message['extend'] = self::$collector->getExtend();
+        self::$collector->message['title'] = (string)self::$collector->getStreamTitle();
+        self::$collector->message['status'] = (string)self::$collector->getStatus();
+        self::$collector->message['time'] = (string)self::$collector->getTime();
+        self::$collector->message['secret'] = (string)self::$collector->getSecret();
+        self::$collector->message['temp_file'] = (string)self::$collector->getTemp() . Collector::STREAM_SUFFIX;
+        self::$collector->message['trace_file'] = (string)self::$collector->getTraceFile();
+        self::$collector->message['trace_file_content'] = (string)serialize($trace_file_content);
+        self::$collector->message['trace_start_line'] = (string)$start_line;
+        self::$collector->message['trace_end_line'] = (string)$stop_line;
+        self::$collector->message['trace_end_time'] = (string)microtime();
+        self::$collector->message['stream_type'] = (string)self::$collector->getTraceType();
+        self::$collector->message['extend'] = (string)self::$collector->getExtend();
     }
 
     /**
@@ -91,10 +95,7 @@ class Labour
     private static function setTemp()
     {
         $path = JunkMan::ROOT_PATH . DIRECTORY_SEPARATOR . 'Temp';
-        if (!is_dir($path)) {
-            mkdir($path);
-        }
-        $file = $path . DIRECTORY_SEPARATOR . self::$collector->getSecret() . Collector::STREAM_SUFFIX;
+        $file = $path . DIRECTORY_SEPARATOR . self::$collector->getSecret();
         self::$collector->setTemp($file);
     }
 

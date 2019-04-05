@@ -26,10 +26,10 @@ class OperateSpot
 
     /**
      * @param string $title
-     * @param string $content
+     * @param mixed $content
      * @throws \Exception
      */
-    public function dot($title = '', $content = '')
+    public function dot($title = '', $content = null)
     {
         try {
             $this->collector = new Collector();

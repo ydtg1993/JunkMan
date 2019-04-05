@@ -51,11 +51,15 @@ class Collector
         'agent' => 'server',
         'status' => '',
         'title' => '',
-        'time' => 0,
+        'time' => '',
         'secret' => '',
         'temp_file' => '',
         'trace_file' => '',
         'trace_file_content' => '',
+        'trace_start_line' => '',
+        'trace_end_line' => '',
+        'trace_start_time' => '',
+        'trace_end_time' => '',
         'stream_type' => '',
         'extend' => ''
     ];

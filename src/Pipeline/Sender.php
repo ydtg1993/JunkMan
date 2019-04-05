@@ -48,7 +48,7 @@ class Sender extends Singleton
             return $this;
         }
         try {
-            fwrite($this->socket, json_encode($data) . PHP_EOL);
+            fwrite($this->socket, json_encode($data));
         }catch (\Exception $e){
             throw new \Exception($e->getMessage());
         }
