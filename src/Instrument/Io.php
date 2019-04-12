@@ -19,12 +19,12 @@ class Io
      * @param $file
      * @param $start
      * @param $to
-     * @return string
-     * @throws IoException
+     * @return array
+     * @throws \Exception
      */
     public static function cutFile($file, $start, $to)
     {
-        $txt = '';
+        $txt = [];
         $line = 1;
         try {
             $handle = fopen($file, "r");
@@ -32,14 +32,14 @@ class Io
                 while (!feof($handle)) {
                     $buffer = fgets($handle);
                     if ($line <= $to && $line >= $start) {
-                        $txt .= $buffer;
+                        $txt[(string)$line] = $buffer;
                     }
                     $line++;
                 }
                 fclose($handle);
             }
         }catch (\Exception $e){
-            throw new IoException($e->getMessage());
+            throw new \Exception($e->getMessage());
         }
 
         return $txt;

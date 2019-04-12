@@ -68,7 +68,7 @@ class Labour
         self::$collector->message['secret'] = (string)self::$collector->getSecret();
         self::$collector->message['temp_file'] = (string)self::$collector->getTemp() . Collector::STREAM_SUFFIX;
         self::$collector->message['trace_file'] = (string)self::$collector->getTraceFile();
-        self::$collector->message['trace_file_content'] = (string)serialize($trace_file_content);
+        self::$collector->message['trace_file_content'] = (array)$trace_file_content;
         self::$collector->message['trace_start_line'] = (string)$start_line;
         self::$collector->message['trace_end_line'] = (string)$stop_line;
         self::$collector->message['trace_end_time'] = (string)microtime();
