@@ -44,4 +44,32 @@ class Io
 
         return $txt;
     }
+
+    /**
+     * @param $file
+     * @param $line
+     * @return bool|string
+     * @throws \Exception
+     */
+    public static function readLine($file, $line)
+    {
+        $index = 1;
+        try {
+            $handle = fopen($file, "r");
+            if ($handle) {
+                while (!feof($handle)) {
+                    $buffer = fgets($handle);
+                    if ($line == $index) {
+                        return $buffer;
+                    }
+                    $index++;
+                }
+                fclose($handle);
+            }
+        }catch (\Exception $e){
+            throw new \Exception($e->getMessage());
+        }
+
+        return false;
+    }
 }

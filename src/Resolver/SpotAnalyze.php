@@ -15,7 +15,12 @@ namespace JunkMan\Resolver;
  */
 class SpotAnalyze extends Analyze
 {
+    private static $var;
     private static $line;
+
+    public static function setVar($var){
+        self::$var = $var;
+    }
 
     /**
      * @param mixed $line
@@ -27,7 +32,7 @@ class SpotAnalyze extends Analyze
 
     /**
      * @param $content
-     * @return array|mixed
+     * @return array
      */
     public static function index($content)
     {
@@ -53,11 +58,10 @@ class SpotAnalyze extends Analyze
         }
 
         return [
-            'variable' => [
-                'val' => $content,
-                'type' => $type
-            ],
-            'line' => self::$line
+            'Variable' => self::$var,
+            'Value' => $content,
+            'Type' => $type,
+            'Line' => self::$line
         ];
     }
 

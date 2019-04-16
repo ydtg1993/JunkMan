@@ -32,7 +32,7 @@ class OperateFlood extends Singleton
     {
         try {
             $trace_file_info = Helper::multiQuery2Array(debug_backtrace(), ['function' => 'start', 'class' => get_class()]);
-            Labour::run($this->collector, $title, $trace_file_info, Collector::TRACE_FLUSH);
+            Labour::run($this->collector, $title, $trace_file_info, Collector::TRACE_FLOOD);
 
             xdebug_start_trace($this->collector->getTemp());
 

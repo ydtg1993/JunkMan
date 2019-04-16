@@ -11,6 +11,7 @@ namespace JunkMan\Operation;
 use JunkMan\Configuration\Labour;
 use JunkMan\Container\Collector;
 use JunkMan\Instrument\Helper;
+use JunkMan\Instrument\Io;
 use JunkMan\Resolver\SpotAnalyze;
 
 /**
@@ -34,7 +35,13 @@ class OperateSpot
         try {
             $this->collector = new Collector();
             $trace_file_info = Helper::multiQuery2Array(debug_backtrace(), ['function' => 'dot', 'class' => get_class()]);
+
             Labour::run($this->collector, $title, $trace_file_info, Collector::TRACE_SPOT);
+
+            $lineContent = Io::readLine($trace_file_info['file'],$trace_file_info['line']);
+            preg_match("/dot\(.*,(.*)\)/U",$lineContent,$match);
+            $var = isset($match[1]) ? $match[1] : 'variable';
+            SpotAnalyze::setVar($var);
             SpotAnalyze::setLine($this->collector->getTraceStart());
             $this->collector->setExtend(SpotAnalyze::index($content));
             $this->collector->setStatus(Collector::STATUS_END);
@@ -42,7 +49,7 @@ class OperateSpot
 
             $this->collector->getSENDER()->write($this->collector->message);
         } catch (\Exception $e) {
-            return $e->getMessage();
+            return $e->getFile();
         }
         return '';
     }

@@ -31,7 +31,7 @@ class Collector
      * trace type
      */
     const TRACE_STREAM = 'stream';
-    const TRACE_FLUSH = 'flush';
+    const TRACE_FLOOD = 'flood';
     const TRACE_SPOT = 'spot';
     const TRACE_ERR = 'error';
 
@@ -250,10 +250,10 @@ class Collector
     }
 
     /**
-     * @param mixed $extend
+     * @param $extend
      */
     public function setExtend($extend)
     {
-        $this->extend = $extend;
+        $this->extend = json_encode($extend);
     }
 }

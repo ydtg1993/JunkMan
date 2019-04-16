@@ -53,7 +53,7 @@ class Labour
         $trace_file_content = '';
 
         $start_line = (int)self::$collector->getTraceStart() - Collector::SIDE_LINE;
-        $stop_line = self::$collector->getTraceEnd() ? (int)self::$collector->getTraceEnd() + Collector::SIDE_LINE : (int)self::$collector->getTraceStart();
+        $stop_line = self::$collector->getTraceEnd() ? (int)self::$collector->getTraceEnd() + Collector::SIDE_LINE : (int)self::$collector->getTraceStart() + Collector::SIDE_LINE ;
 
         if (is_file($trace_file)) {
             $trace_file_content = Io::cutFile(
