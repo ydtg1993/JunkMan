@@ -26,7 +26,7 @@ class OperateStream extends Singleton
 
     /**
      * @param string $title
-     * @throws \Exception
+     * @return string
      */
     public function start($title = '')
     {
@@ -51,10 +51,14 @@ class OperateStream extends Singleton
                 throw new \Exception($error_message);
             });
         } catch (\Exception $e) {
-            throw new \Exception($e->getMessage());
+            return $e->getMessage();
         }
+        return '';
     }
 
+    /**
+     * @return string
+     */
     public function end()
     {
         try {
@@ -66,8 +70,9 @@ class OperateStream extends Singleton
             Labour::stop();
             $this->collector->getSENDER()->write($this->collector->message);
         } catch (\Exception $e) {
-            throw new \Exception($e->getMessage());
+            return $e->getMessage();
         }
+        return '';
     }
 
     /**

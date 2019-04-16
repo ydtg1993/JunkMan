@@ -26,7 +26,7 @@ class OperateFlood extends Singleton
 
     /**
      * @param string $title
-     * @throws \Exception
+     * @return string
      */
     public function start($title = '')
     {
@@ -51,12 +51,13 @@ class OperateFlood extends Singleton
                 throw new \Exception($error_message);
             });
         } catch (\Exception $e) {
-            throw new \Exception($e->getMessage());
+            return $e->getMessage();
         }
+        return '';
     }
 
     /**
-     * @throws \Exception
+     * @return string
      */
     public function flush()
     {
@@ -71,12 +72,13 @@ class OperateFlood extends Singleton
 
             xdebug_start_trace($this->collector->getTemp());
         } catch (\Exception $e) {
-            throw new \Exception($e->getMessage());
+            return $e->getMessage();
         }
+        return '';
     }
 
     /**
-     * @throws \Exception
+     * @return string
      */
     public function end()
     {
@@ -89,8 +91,9 @@ class OperateFlood extends Singleton
             Labour::stop();
             $this->collector->getSENDER()->write($this->collector->message);
         } catch (\Exception $e) {
-            throw new \Exception($e->getMessage());
+            return $e->getMessage();
         }
+        return '';
     }
 
     /**

@@ -26,8 +26,8 @@ class OperateSpot
 
     /**
      * @param string $title
-     * @param mixed $content
-     * @throws \Exception
+     * @param null $content
+     * @return string
      */
     public function dot($title = '', $content = null)
     {
@@ -42,7 +42,8 @@ class OperateSpot
 
             $this->collector->getSENDER()->write($this->collector->message);
         } catch (\Exception $e) {
-            throw new \Exception($e->getMessage());
+            return $e->getMessage();
         }
+        return '';
     }
 }
