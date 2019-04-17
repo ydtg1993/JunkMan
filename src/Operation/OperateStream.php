@@ -46,6 +46,8 @@ class OperateStream extends Singleton
                     'error_line' => $error_line
                 ]);
                 $this->collector->setStatus(Collector::STATUS_END);
+                $this->collector->setTraceEnd($error_line);
+                unlink($this->collector->getTemp().Collector::STREAM_SUFFIX);
                 Labour::stop();
                 $this->collector->getSENDER()->write($this->collector->message);
                 throw new \Exception($error_message);

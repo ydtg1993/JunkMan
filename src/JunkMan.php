@@ -27,7 +27,7 @@ class JunkMan
     /**
      * @var OperateFlood
      */
-    private static $FLUSH;
+    private static $FLOOD;
 
     /**
      * trace the code bloke.collect the GC stream
@@ -48,8 +48,8 @@ class JunkMan
      */
     public static function flood()
     {
-        self::$FLUSH = OperateFlood::getInstance();
-        return self::$FLUSH;
+        self::$FLOOD = OperateFlood::getInstance();
+        return self::$FLOOD;
     }
 
     /**
