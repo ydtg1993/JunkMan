@@ -88,7 +88,7 @@ class Labour
 
     private static function secret()
     {
-        $secret = Helper::secret(self::$collector->getStreamTitle(), self::$collector->getTime());
+        $secret = Helper::secret(Helper::randomCode());
         self::$collector->setSecret($secret);
     }
 

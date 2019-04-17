@@ -58,7 +58,6 @@ class Helper
      */
     public static function randomCode()
     {
-        $str = uniqid(mt_rand(),1).microtime();
-        return sha1($str);
+        return md5(uniqid(mt_rand()).microtime());
     }
 }
