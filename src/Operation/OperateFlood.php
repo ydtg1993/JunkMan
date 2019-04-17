@@ -14,7 +14,7 @@ use JunkMan\Container\Collector;
 use JunkMan\Instrument\Helper;
 
 /**
- * Class OperateStream
+ * Class OperateFlood
  * @package JunkMan\Operation
  */
 class OperateFlood extends Singleton
