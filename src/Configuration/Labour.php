@@ -47,6 +47,12 @@ class Labour
         self::$collector->message['trace_start_time'] = (string)microtime();
     }
 
+    public static function retry()
+    {
+        self::secret();
+        self::setTemp();
+    }
+
     public static function stop()
     {
         $trace_file = self::$collector->getTraceFile();

@@ -12,6 +12,8 @@ use JunkMan\Configuration\Labour;
 use JunkMan\Container\Collector;
 use JunkMan\Instrument\Helper;
 use JunkMan\Instrument\Io;
+use JunkMan\Pipeline\Sender;
+use JunkMan\Pipeline\Speaker;
 use JunkMan\Resolver\SpotAnalyze;
 
 /**
@@ -47,7 +49,7 @@ class OperateSpot
             $this->collector->setStatus(Collector::STATUS_END);
             Labour::stop();
 
-            $this->collector->getSENDER()->write($this->collector->message);
+            $this->collector->getSpeaker()->write($this->collector->message);
         } catch (\Exception $e) {
             return $e->getFile();
         }

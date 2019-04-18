@@ -10,6 +10,7 @@ namespace JunkMan\Container;
 
 use JunkMan\Pipeline\PipelineInterface;
 use JunkMan\Pipeline\Sender;
+use JunkMan\Pipeline\Speaker;
 
 date_default_timezone_set('Asia/Shanghai');
 
@@ -53,6 +54,7 @@ class Collector
         'title' => '',
         'time' => '',
         'secret' => '',
+        'process' => '',
         'temp_file' => '',
         'trace_file' => '',
         'trace_file_content' => '',
@@ -67,6 +69,7 @@ class Collector
     private $status;
     private $time;
     private $secret;
+    private $process;
     private $temp;
     private $stream_title;
     private $trace_file;
@@ -74,8 +77,6 @@ class Collector
     private $trace_end;
     private $trace_type;
     private $extend;
-
-    private $SENDER;
 
     public function __construct()
     {
@@ -93,8 +94,12 @@ class Collector
      */
     public function getSENDER()
     {
-        $this->SENDER = Sender::getInstance(['server' => self::$IP, 'port' => self::$PORT]);
-        return $this->SENDER;
+        return Sender::getInstance(['server' => self::$IP, 'port' => self::$PORT]);
+    }
+
+    public function getSpeaker()
+    {
+        return (new Speaker(['server' => self::$IP, 'port' => self::$PORT]));
     }
 
     /**
@@ -151,6 +156,16 @@ class Collector
     public function getSecret()
     {
         return $this->secret;
+    }
+
+    public function getProcess()
+    {
+        return $this->process;
+    }
+
+    public function setProcess($process)
+    {
+        $this->process = $process;
     }
 
     /**

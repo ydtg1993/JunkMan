@@ -33,7 +33,7 @@ class OperateFlood extends Singleton
         try {
             $trace_file_info = Helper::multiQuery2Array(debug_backtrace(), ['function' => 'start', 'class' => get_class()]);
             Labour::run($this->collector, $title, $trace_file_info, Collector::TRACE_FLOOD);
-
+            $this->collector->setProcess($this->collector->getSecret());
             xdebug_start_trace($this->collector->getTemp());
 
             set_error_handler(function ($error_no, $error_message, $error_file, $error_line) {
@@ -65,13 +65,14 @@ class OperateFlood extends Singleton
     {
         try {
             xdebug_stop_trace();
-            $trace_file_info = Helper::multiQuery2Array(debug_backtrace(), ['function' => 'refurbish', 'class' => get_class()]);
+            $trace_file_info = Helper::multiQuery2Array(debug_backtrace(), ['function' => 'flush', 'class' => get_class()]);
             $trace_to = $trace_file_info['line'];
             $this->collector->setTraceEnd($trace_to);
             $this->collector->setStatus(Collector::STATUS_ING);
             Labour::stop();
             $this->collector->getSENDER()->write($this->collector->message);
 
+            Labour::retry();
             xdebug_start_trace($this->collector->getTemp());
         } catch (\Exception $e) {
             return $e->getMessage();
