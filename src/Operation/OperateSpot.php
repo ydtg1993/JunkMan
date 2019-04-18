@@ -12,8 +12,6 @@ use JunkMan\Configuration\Labour;
 use JunkMan\Container\Collector;
 use JunkMan\Instrument\Helper;
 use JunkMan\Instrument\Io;
-use JunkMan\Pipeline\Sender;
-use JunkMan\Pipeline\Speaker;
 use JunkMan\Resolver\SpotAnalyze;
 
 /**
