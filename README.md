@@ -10,9 +10,9 @@
 </tr></tbody></table>
 
 ### 安装方式
-    方式一. 直接clone到项目目录 require_once YOUR_PATH/JunkMan/autoload.php;
+方式一 `使用composer直接引入 composer require stream/junkman`  
     
-    方式二. 使用composer直接引入 composer require stream/junkman
+方式二 `直接clone到项目工具库目录 在使用时require_once (YOUR_PATH)/JunkMan/autoload.php`
 
 #### 代码段监测 stream
 
