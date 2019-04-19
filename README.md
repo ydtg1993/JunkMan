@@ -5,7 +5,7 @@
 <th style="text-align:left;">PHP</th>
 <th style="text-align:left;">xdebug</th>
 </tr></thead><tbody><tr><td style="text-align:left;">v1.0</td>
-<td style="text-align:left;">&gt;=5.6.1</td>
+<td style="text-align:left;">&gt;=7.0.x</td>
 <td style="text-align:left;">&gt;=2.6.0</td>
 </tr></tbody></table>
 
