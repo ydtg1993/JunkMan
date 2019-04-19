@@ -25,6 +25,11 @@ class OperateFlood extends Singleton
     private $collector = null;
 
     /**
+     * @var Labour
+     */
+    private $labour;
+
+    /**
      * @param string $title
      * @return string
      */
@@ -32,7 +37,8 @@ class OperateFlood extends Singleton
     {
         try {
             $trace_file_info = Helper::multiQuery2Array(debug_backtrace(), ['function' => 'start', 'class' => get_class()]);
-            Labour::run($this->collector, $title, $trace_file_info, Collector::TRACE_FLOOD);
+            $this->labour = new Labour();
+            $this->labour->run($this->collector, $title, $trace_file_info, Collector::TRACE_FLOOD);
             $this->collector->setProcess($this->collector->getSecret());
             xdebug_start_trace($this->collector->getTemp());
 
@@ -48,7 +54,7 @@ class OperateFlood extends Singleton
                 $this->collector->setStatus(Collector::STATUS_END);
                 $this->collector->setTraceEnd($error_line);
                 unlink($this->collector->getTemp().Collector::STREAM_SUFFIX);
-                Labour::stop();
+                $this->labour->stop();
                 $this->collector->getSENDER()->write($this->collector->message);
                 throw new \Exception($error_message);
             });
@@ -69,10 +75,10 @@ class OperateFlood extends Singleton
             $trace_to = $trace_file_info['line'];
             $this->collector->setTraceEnd($trace_to);
             $this->collector->setStatus(Collector::STATUS_ING);
-            Labour::stop();
+            $this->labour->stop();
             $this->collector->getSENDER()->write($this->collector->message);
 
-            Labour::retry();
+            $this->labour->retry();
             xdebug_start_trace($this->collector->getTemp());
         } catch (\Exception $e) {
             return $e->getMessage();
@@ -91,7 +97,7 @@ class OperateFlood extends Singleton
             $trace_to = $trace_file_info['line'];
             $this->collector->setTraceEnd($trace_to);
             $this->collector->setStatus(Collector::STATUS_END);
-            Labour::stop();
+            $this->labour->stop();
             $this->collector->getSENDER()->write($this->collector->message);
         } catch (\Exception $e) {
             return $e->getMessage();

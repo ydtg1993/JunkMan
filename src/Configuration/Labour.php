@@ -22,7 +22,7 @@ class Labour
     /**
      * @var Collector
      */
-    private static $collector;
+    private $collector;
 
     /**
      * @param $collector
@@ -31,35 +31,35 @@ class Labour
      * @param $trace_type
      * @throws \Exception
      */
-    public static function run($collector, $title, $trace_file_info, $trace_type)
+    public function run($collector, $title, $trace_file_info, $trace_type)
     {
-        self::$collector = $collector;
+        $this->collector = $collector;
 
-        self::$collector->setTraceFile($trace_file_info['file']);
-        self::$collector->setTraceStart($trace_file_info['line']);
-        self::$collector->setStreamTitle($title);
-        self::$collector->setTraceType($trace_type);
+        $this->collector->setTraceFile($trace_file_info['file']);
+        $this->collector->setTraceStart($trace_file_info['line']);
+        $this->collector->setStreamTitle($title);
+        $this->collector->setTraceType($trace_type);
 
-        self::config();
-        self::secret();
-        self::setTemp();
-        self::setXdebug();
-        self::$collector->message['trace_start_time'] = (string)microtime();
+        $this->config();
+        $this->secret();
+        $this->setTemp();
+        $this->setXdebug();
+        $this->collector->message['trace_start_time'] = (string)microtime();
     }
 
-    public static function retry()
+    public function retry()
     {
-        self::secret();
-        self::setTemp();
+        $this->secret();
+        $this->setTemp();
     }
 
-    public static function stop()
+    public function stop()
     {
-        $trace_file = self::$collector->getTraceFile();
+        $trace_file = $this->collector->getTraceFile();
         $trace_file_content = '';
 
-        $start_line = (int)self::$collector->getTraceStart() - Collector::SIDE_LINE;
-        $stop_line = self::$collector->getTraceEnd() ? (int)self::$collector->getTraceEnd() + Collector::SIDE_LINE : (int)self::$collector->getTraceStart() + Collector::SIDE_LINE ;
+        $start_line = (int)$this->collector->getTraceStart() - Collector::SIDE_LINE;
+        $stop_line = $this->collector->getTraceEnd() ? (int)$this->collector->getTraceEnd() + Collector::SIDE_LINE : (int)$this->collector->getTraceStart() + Collector::SIDE_LINE ;
 
         if (is_file($trace_file)) {
             $trace_file_content = Io::cutFile(
@@ -68,47 +68,47 @@ class Labour
                 $stop_line);
         }
 
-        self::$collector->message['title'] = (string)self::$collector->getStreamTitle();
-        self::$collector->message['status'] = (string)self::$collector->getStatus();
-        self::$collector->message['time'] = (string)self::$collector->getTime();
-        self::$collector->message['secret'] = (string)self::$collector->getSecret();
-        self::$collector->message['temp_file'] = (string)self::$collector->getTemp() . Collector::STREAM_SUFFIX;
-        self::$collector->message['trace_file'] = (string)self::$collector->getTraceFile();
-        self::$collector->message['trace_file_content'] = (array)$trace_file_content;
-        self::$collector->message['trace_start_line'] = (string)$start_line;
-        self::$collector->message['trace_end_line'] = (string)$stop_line;
-        self::$collector->message['trace_end_time'] = (string)microtime();
-        self::$collector->message['stream_type'] = (string)self::$collector->getTraceType();
-        self::$collector->message['extend'] = (string)self::$collector->getExtend();
+        $this->collector->message['title'] = (string)$this->collector->getStreamTitle();
+        $this->collector->message['status'] = (string)$this->collector->getStatus();
+        $this->collector->message['time'] = (string)$this->collector->getTime();
+        $this->collector->message['secret'] = (string)$this->collector->getSecret();
+        $this->collector->message['temp_file'] = (string)$this->collector->getTemp() . Collector::STREAM_SUFFIX;
+        $this->collector->message['trace_file'] = (string)$this->collector->getTraceFile();
+        $this->collector->message['trace_file_content'] = (array)$trace_file_content;
+        $this->collector->message['trace_start_line'] = (string)$start_line;
+        $this->collector->message['trace_end_line'] = (string)$stop_line;
+        $this->collector->message['trace_end_time'] = (string)microtime();
+        $this->collector->message['stream_type'] = (string)$this->collector->getTraceType();
+        $this->collector->message['extend'] = (string)$this->collector->getExtend();
     }
 
     /**
      * @throws \Exception
      */
-    private static function config()
+    private function config()
     {
         $config = file_get_contents(JunkMan::ROOT_PATH . DIRECTORY_SEPARATOR . 'config.json');
         $config = (array)json_decode($config, true);
-        self::$collector->setConfig($config);
+        $this->collector->setConfig($config);
     }
 
-    private static function secret()
+    private function secret()
     {
         $secret = Helper::secret(Helper::randomCode());
-        self::$collector->setSecret($secret);
+        $this->collector->setSecret($secret);
     }
 
-    private static function setTemp()
+    private function setTemp()
     {
         $path = JunkMan::ROOT_PATH . DIRECTORY_SEPARATOR . 'Temp';
-        $file = $path . DIRECTORY_SEPARATOR . self::$collector->getSecret();
-        self::$collector->setTemp($file);
+        $file = $path . DIRECTORY_SEPARATOR . $this->collector->getSecret();
+        $this->collector->setTemp($file);
     }
 
     /**
      * @throws \Exception
      */
-    private static function setXdebug()
+    private function setXdebug()
     {
         ini_set('xdebug.collect_params', 4);
         ini_set('xdebug.collect_return', 1);
@@ -123,7 +123,7 @@ class Labour
         xdebug_set_filter(
             XDEBUG_FILTER_TRACING,
             XDEBUG_PATH_BLACKLIST,
-            [self::$collector->getTraceFile()]
+            [$this->collector->getTraceFile()]
         );
     }
 }

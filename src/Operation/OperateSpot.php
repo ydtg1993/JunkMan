@@ -26,6 +26,11 @@ class OperateSpot
     private $collector = null;
 
     /**
+     * @var Labour
+     */
+    private $labour;
+
+    /**
      * @param string $title
      * @param null $content
      * @return string
@@ -35,8 +40,8 @@ class OperateSpot
         try {
             $this->collector = new Collector();
             $trace_file_info = Helper::multiQuery2Array(debug_backtrace(), ['function' => 'dot', 'class' => get_class()]);
-
-            Labour::run($this->collector, $title, $trace_file_info, Collector::TRACE_SPOT);
+            $this->labour = new Labour();
+            $this->labour->run($this->collector, $title, $trace_file_info, Collector::TRACE_SPOT);
 
             $lineContent = Io::readLine($trace_file_info['file'],$trace_file_info['line']);
             preg_match("/dot\(.*,(.*)\)/U",$lineContent,$match);
@@ -45,7 +50,7 @@ class OperateSpot
             SpotAnalyze::setLine($this->collector->getTraceStart());
             $this->collector->setExtend(SpotAnalyze::index($content));
             $this->collector->setStatus(Collector::STATUS_END);
-            Labour::stop();
+            $this->labour->stop();
 
             $this->collector->getSpeaker()->write($this->collector->message);
         } catch (\Exception $e) {
