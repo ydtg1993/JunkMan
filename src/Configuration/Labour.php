@@ -44,7 +44,7 @@ class Labour
         $this->secret();
         $this->setTemp();
         $this->setXdebug();
-        $this->collector->message['trace_start_time'] = (string)microtime();
+        $this->collector->message['trace_start_time'] = (string)array_sum(explode( ' ' ,microtime()));
     }
 
     public function retry()
@@ -77,7 +77,7 @@ class Labour
         $this->collector->message['trace_file_content'] = (array)$trace_file_content;
         $this->collector->message['trace_start_line'] = (string)$start_line;
         $this->collector->message['trace_end_line'] = (string)$stop_line;
-        $this->collector->message['trace_end_time'] = (string)microtime();
+        $this->collector->message['trace_end_time'] = (string)array_sum(explode( ' ' ,microtime()));
         $this->collector->message['stream_type'] = (string)$this->collector->getTraceType();
         $this->collector->message['extend'] = (string)$this->collector->getExtend();
     }

@@ -44,7 +44,7 @@ class OperateFlood extends Singleton
 
             set_error_handler(function ($error_no, $error_message, $error_file, $error_line) {
                 xdebug_stop_trace();
-                $this->collector->setTraceType(Collector::TRACE_ERR);
+                $this->collector->message['error'] = 1;
                 $this->collector->setExtend([
                     'error_no' => $error_no,
                     'error_message' => $error_message,
@@ -53,7 +53,6 @@ class OperateFlood extends Singleton
                 ]);
                 $this->collector->setStatus(Collector::STATUS_END);
                 $this->collector->setTraceEnd($error_line);
-                unlink($this->collector->getTemp().Collector::STREAM_SUFFIX);
                 $this->labour->stop();
                 $this->collector->getSENDER()->write($this->collector->message);
                 throw new \Exception($error_message);

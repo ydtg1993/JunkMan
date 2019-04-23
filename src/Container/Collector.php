@@ -34,13 +34,12 @@ class Collector
     const TRACE_STREAM = 'stream';
     const TRACE_FLOOD = 'flood';
     const TRACE_SPOT = 'spot';
-    const TRACE_ERR = 'error';
 
     /**
      * communication status
      */
     const STATUS_START = 'start';
-    const STATUS_ING = 'ing';
+    const STATUS_ING = 'running';
     const STATUS_END = 'end';
 
     /**
@@ -55,6 +54,7 @@ class Collector
         'time' => '',
         'secret' => '',
         'process' => '',
+        'error' => 0,
         'temp_file' => '',
         'trace_file' => '',
         'trace_file_content' => '',
@@ -166,6 +166,7 @@ class Collector
     public function setProcess($process)
     {
         $this->process = $process;
+        $this->message['process'] = $process;
     }
 
     /**
