@@ -55,9 +55,9 @@ class OperateFlood extends Singleton
                 $this->collector->setTraceEnd($error_line);
                 $this->labour->stop();
                 $this->collector->getSENDER()->write($this->collector->message);
-                throw new \Exception($error_message);
             });
         } catch (\Exception $e) {
+            unlink($this->collector->getTemp().Collector::STREAM_SUFFIX);
             return $e->getMessage();
         }
         return '';
@@ -80,6 +80,7 @@ class OperateFlood extends Singleton
             $this->labour->retry();
             xdebug_start_trace($this->collector->getTemp());
         } catch (\Exception $e) {
+            unlink($this->collector->getTemp().Collector::STREAM_SUFFIX);
             return $e->getMessage();
         }
         return '';
@@ -99,6 +100,7 @@ class OperateFlood extends Singleton
             $this->labour->stop();
             $this->collector->getSENDER()->write($this->collector->message);
         } catch (\Exception $e) {
+            unlink($this->collector->getTemp().Collector::STREAM_SUFFIX);
             return $e->getMessage();
         }
         return '';
