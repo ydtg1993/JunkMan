@@ -34,6 +34,7 @@ class Labour
     public function run($collector, $title, $trace_file_info, $trace_type)
     {
         $this->collector = $collector;
+        $this->transfer();
 
         $this->collector->setTraceFile($trace_file_info['file']);
         $this->collector->setTraceStart($trace_file_info['line']);
@@ -45,6 +46,19 @@ class Labour
         $this->setTemp();
         $this->setXdebug();
         $this->collector->message['trace_start_time'] = (string)array_sum(explode( ' ' ,microtime()));
+    }
+
+    private function transfer()
+    {
+        if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
+            exec("tasklist | findstr JunkManTransfer.exe",$output,$return);
+            if($return != 0) {
+                $JunkManTransfer = JunkMan::ROOT_PATH . DIRECTORY_SEPARATOR . "JunkManTransfer.exe";
+                    exec("start /b ".$JunkManTransfer);
+            }
+        } else {
+            echo 'This is a server not using Windows!';
+        }
     }
 
     public function retry()
