@@ -270,6 +270,6 @@ class Collector
      */
     public function setExtend($extend)
     {
-        $this->extend = json_encode($extend);
+        $this->extend = json_encode($extend,JSON_FORCE_OBJECT);
     }
 }
