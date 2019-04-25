@@ -5,6 +5,7 @@
  * Date: 2018/8/20
  * Time: 23:08
  */
+
 namespace JunkMan\Pipeline;
 
 use JunkMan\Abstracts\Singleton;
@@ -26,14 +27,11 @@ class Sender extends Singleton
     {
         $this->ip = $data['server'];
         $this->port = $data['port'];
-
-        $create_errno = '';
-        $create_errstr = '';
-        $address = 'tcp://' . $this->ip . ':' . $this->port;
-        try {
-            $this->socket = stream_socket_client($address, $create_errno, $create_errstr, STREAM_SERVER_BIND);
-        }catch (\Exception $e){
-            throw new \Exception($create_errno.$e->getMessage());
+        $this->socket = socket_create(AF_INET,SOCK_STREAM,SOL_TCP);
+        socket_set_block($this->socket);
+        socket_set_option($this->socket, SOL_SOCKET, SO_LINGER, 1);
+        if(socket_connect($this->socket,$this->ip,$this->port) == false){
+            throw new \Exception('JunkManTransfer connect fail');
         }
     }
 
@@ -44,24 +42,19 @@ class Sender extends Singleton
      */
     public function write($data)
     {
-        if(!$data){
-            return $this;
+        if ($this->socket) {
+            return (bool)socket_write($this->socket, json_encode($data));
         }
-        try {
-            fwrite($this->socket, json_encode($data));
-        }catch (\Exception $e){
-            throw new \Exception($e->getMessage());
-        }
-        return $this;
+        return false;
     }
 
     public function close()
     {
-        fclose($this->socket);
+        socket_close($this->socket);
     }
 
     public function __destruct()
     {
-        fclose($this->socket);
+        socket_close($this->socket);
     }
 }

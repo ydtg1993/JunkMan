@@ -78,6 +78,8 @@ class Collector
     private $trace_type;
     private $extend;
 
+    private $discontinue = false;
+
     public function __construct()
     {
         $this->setTime(time());
@@ -271,5 +273,15 @@ class Collector
     public function setExtend($extend)
     {
         $this->extend = json_encode($extend,JSON_FORCE_OBJECT);
+    }
+
+    public function setDiscontinue($discontinue)
+    {
+        $this->discontinue = (bool)$discontinue;
+    }
+
+    public function getDiscontinue()
+    {
+        return $this->discontinue;
     }
 }

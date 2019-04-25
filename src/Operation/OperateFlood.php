@@ -12,6 +12,7 @@ use JunkMan\Abstracts\Singleton;
 use JunkMan\Configuration\Labour;
 use JunkMan\Container\Collector;
 use JunkMan\Instrument\Helper;
+use Mockery\Exception;
 
 /**
  * Class OperateFlood
@@ -43,7 +44,8 @@ class OperateFlood extends Singleton
             xdebug_start_trace($this->collector->getTemp());
 
             set_error_handler(function ($error_no, $error_message, $error_file, $error_line) {
-                xdebug_stop_trace();
+                @xdebug_stop_trace();
+                $this->collector->setDiscontinue(true);
                 $this->collector->message['error'] = 1;
                 $this->collector->setExtend([
                     'error_no' => $error_no,
@@ -54,10 +56,12 @@ class OperateFlood extends Singleton
                 $this->collector->setStatus(Collector::STATUS_END);
                 $this->collector->setTraceEnd($error_line);
                 $this->labour->stop();
-                $this->collector->getSENDER()->write($this->collector->message);
+                $flag = $this->collector->getSENDER()->write($this->collector->message);
+                if(!$flag && is_file($this->collector->getTemp().Collector::STREAM_SUFFIX)){
+                    unlink($this->collector->getTemp() . Collector::STREAM_SUFFIX);
+                }
             });
         } catch (\Exception $e) {
-            unlink($this->collector->getTemp().Collector::STREAM_SUFFIX);
             return $e->getMessage();
         }
         return '';
@@ -69,18 +73,27 @@ class OperateFlood extends Singleton
     public function flush()
     {
         try {
+            if($this->collector->getDiscontinue()){
+                return;
+            }
             xdebug_stop_trace();
             $trace_file_info = Helper::multiQuery2Array(debug_backtrace(), ['function' => 'flush', 'class' => get_class()]);
             $trace_to = $trace_file_info['line'];
             $this->collector->setTraceEnd($trace_to);
             $this->collector->setStatus(Collector::STATUS_ING);
             $this->labour->stop();
-            $this->collector->getSENDER()->write($this->collector->message);
-
+            $flag = $this->collector->getSENDER()->write($this->collector->message);
+            if(!$flag && is_file($this->collector->getTemp().Collector::STREAM_SUFFIX)){
+                unlink($this->collector->getTemp() . Collector::STREAM_SUFFIX);
+                $this->collector->setDiscontinue(true);
+                return;
+            }
             $this->labour->retry();
             xdebug_start_trace($this->collector->getTemp());
         } catch (\Exception $e) {
-            unlink($this->collector->getTemp().Collector::STREAM_SUFFIX);
+            if(is_file($this->collector->getTemp().Collector::STREAM_SUFFIX)) {
+                unlink($this->collector->getTemp() . Collector::STREAM_SUFFIX);
+            }
             return $e->getMessage();
         }
         return '';
@@ -92,15 +105,24 @@ class OperateFlood extends Singleton
     public function end()
     {
         try {
+            if($this->collector->getDiscontinue()){
+                return;
+            }
             xdebug_stop_trace();
             $trace_file_info = Helper::multiQuery2Array(debug_backtrace(), ['function' => 'end', 'class' => get_class()]);
             $trace_to = $trace_file_info['line'];
             $this->collector->setTraceEnd($trace_to);
             $this->collector->setStatus(Collector::STATUS_END);
             $this->labour->stop();
-            $this->collector->getSENDER()->write($this->collector->message);
+
+            $flag = $this->collector->getSENDER()->write($this->collector->message);
+            if(!$flag && is_file($this->collector->getTemp().Collector::STREAM_SUFFIX)){
+                unlink($this->collector->getTemp() . Collector::STREAM_SUFFIX);
+            }
         } catch (\Exception $e) {
-            unlink($this->collector->getTemp().Collector::STREAM_SUFFIX);
+            if(is_file($this->collector->getTemp().Collector::STREAM_SUFFIX)) {
+                unlink($this->collector->getTemp() . Collector::STREAM_SUFFIX);
+            }
             return $e->getMessage();
         }
         return '';

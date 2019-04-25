@@ -44,6 +44,7 @@ class OperateStream extends Singleton
 
             set_error_handler(function ($error_no, $error_message, $error_file, $error_line) {
                 xdebug_stop_trace();
+                $this->collector->setDiscontinue(true);
                 $this->collector->message['error'] = 1;
                 $this->collector->setExtend([
                     'error_no' => $error_no,
@@ -54,10 +55,12 @@ class OperateStream extends Singleton
                 $this->collector->setStatus(Collector::STATUS_END);
                 $this->collector->setTraceEnd($error_line);
                 $this->labour->stop();
-                $this->collector->getSENDER()->write($this->collector->message);
+                $flag = $this->collector->getSENDER()->write($this->collector->message);
+                if(!$flag && is_file($this->collector->getTemp().Collector::STREAM_SUFFIX)){
+                    unlink($this->collector->getTemp() . Collector::STREAM_SUFFIX);
+                }
             });
         } catch (\Exception $e) {
-            unlink($this->collector->getTemp().Collector::STREAM_SUFFIX);
             return $e->getMessage();
         }
         return '';
@@ -69,15 +72,23 @@ class OperateStream extends Singleton
     public function end()
     {
         try {
+            if($this->collector->getDiscontinue()){
+                return;
+            }
             xdebug_stop_trace();
             $trace_file_info = Helper::multiQuery2Array(debug_backtrace(), ['function' => 'end', 'class' => get_class()]);
             $trace_to = $trace_file_info['line'];
             $this->collector->setTraceEnd($trace_to);
             $this->collector->setStatus(Collector::STATUS_END);
             $this->labour->stop();
-            $this->collector->getSENDER()->write($this->collector->message);
+            $flag = $this->collector->getSENDER()->write($this->collector->message);
+            if(!$flag && is_file($this->collector->getTemp().Collector::STREAM_SUFFIX)){
+                unlink($this->collector->getTemp() . Collector::STREAM_SUFFIX);
+            }
         } catch (\Exception $e) {
-            unlink($this->collector->getTemp().Collector::STREAM_SUFFIX);
+            if(is_file($this->collector->getTemp().Collector::STREAM_SUFFIX)) {
+                unlink($this->collector->getTemp() . Collector::STREAM_SUFFIX);
+            }
             return $e->getMessage();
         }
         return '';

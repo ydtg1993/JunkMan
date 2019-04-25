@@ -27,14 +27,11 @@ class Speaker
     {
         $this->ip = $data['server'];
         $this->port = $data['port'];
-
-        $create_errno = '';
-        $create_errstr = '';
-        $address = 'tcp://' . $this->ip . ':' . $this->port;
-        try {
-            $this->socket = stream_socket_client($address, $create_errno, $create_errstr, STREAM_SERVER_BIND);
-        }catch (\Exception $e){
-            throw new \Exception($create_errno.$e->getMessage());
+        $this->socket = socket_create(AF_INET,SOCK_STREAM,SOL_TCP);
+        socket_set_block($this->socket);
+        socket_set_option($this->socket, SOL_SOCKET, SO_LINGER, 1);
+        if(socket_connect($this->socket,$this->ip,$this->port) == false){
+            throw new \Exception('JunkManTransfer connect fail');
         }
     }
 
@@ -45,24 +42,11 @@ class Speaker
      */
     public function write($data)
     {
-        if(!$data){
-            return $this;
-        }
         try {
-            fwrite($this->socket, json_encode($data));
+            socket_write($this->socket, json_encode($data));
+            socket_close($this->socket);
         }catch (\Exception $e){
             throw new \Exception($e->getMessage());
         }
-        return $this;
-    }
-
-    public function close()
-    {
-        fclose($this->socket);
-    }
-
-    public function __destruct()
-    {
-        fclose($this->socket);
     }
 }
