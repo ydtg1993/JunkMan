@@ -55,7 +55,7 @@ class OperateSpot
 
             $this->collector->getSpeaker()->write($this->collector->message);
         } catch (JunkException $e) {
-            return $e->getFile();
+            return $e->getMessage();
         }
         return '';
     }

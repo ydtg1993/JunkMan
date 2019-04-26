@@ -30,7 +30,7 @@ class Speaker
         $this->socket = socket_create(AF_INET,SOCK_STREAM,SOL_TCP);
         socket_set_block($this->socket);
         socket_set_option($this->socket, SOL_SOCKET, SO_LINGER, ['l_linger' => 1, 'l_onoff' => 1]);
-        if(socket_connect($this->socket,$this->ip,$this->port) == false){
+        if(@socket_connect($this->socket,$this->ip,$this->port) == false){
             throw new JunkException('JunkManTransfer connect fail');
         }
     }
