@@ -16,7 +16,6 @@
             "JunkMan\\Abstracts\\": "src/Abstracts",
             "JunkMan\\Configuration\\": "src/Configuration",
             "JunkMan\\Container\\": "src/Container",
-            "JunkMan\\Driver\\": "src/Driver",
             "JunkMan\\E\\": "src/E",
             "JunkMan\\Instrument\\": "src/Instrument",
             "JunkMan\\Operation\\": "src/Operation",

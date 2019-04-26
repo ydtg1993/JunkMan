@@ -7,7 +7,7 @@
  */
 namespace JunkMan\Pipeline;
 
-
+use JunkMan\E\JunkException;
 /**
  * Class TcpSender
  * @package JunkMan\Pipeline
@@ -31,7 +31,7 @@ class Speaker
         socket_set_block($this->socket);
         socket_set_option($this->socket, SOL_SOCKET, SO_LINGER, ['l_linger' => 1, 'l_onoff' => 1]);
         if(socket_connect($this->socket,$this->ip,$this->port) == false){
-            throw new \Exception('JunkManTransfer connect fail');
+            throw new JunkException('JunkManTransfer connect fail');
         }
     }
 
@@ -45,8 +45,8 @@ class Speaker
         try {
             socket_write($this->socket, json_encode($data));
             socket_close($this->socket);
-        }catch (\Exception $e){
-            throw new \Exception($e->getMessage());
+        }catch (JunkException $e){
+            throw new JunkException($e->getMessage());
         }
     }
 }

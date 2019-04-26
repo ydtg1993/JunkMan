@@ -9,6 +9,7 @@
 namespace JunkMan\Pipeline;
 
 use JunkMan\Abstracts\Singleton;
+use JunkMan\E\JunkException;
 
 /**
  * Class TcpSender
@@ -20,9 +21,6 @@ class Sender extends Singleton
     private $port;
     private $socket;
 
-    /**
-     * @param null $data
-     */
     public function execute($data = null)
     {
         $this->ip = $data['server'];
@@ -31,7 +29,7 @@ class Sender extends Singleton
         socket_set_block($this->socket);
         socket_set_option($this->socket, SOL_SOCKET, SO_LINGER, ['l_linger' => 1, 'l_onoff' => 1]);
         if(socket_connect($this->socket,$this->ip,$this->port) == false){
-            throw new \Exception('JunkManTransfer connect fail');
+            throw new JunkException('JunkManTransfer connect fail');
         }
     }
 

@@ -11,6 +11,7 @@ namespace JunkMan\Operation;
 use JunkMan\Abstracts\Singleton;
 use JunkMan\Configuration\Labour;
 use JunkMan\Container\Collector;
+use JunkMan\E\JunkException;
 use JunkMan\Instrument\Helper;
 
 /**
@@ -60,7 +61,7 @@ class OperateStream extends Singleton
                     unlink($this->collector->getTemp() . Collector::STREAM_SUFFIX);
                 }
             });
-        } catch (\Exception $e) {
+        } catch (JunkException $e) {
             return $e->getMessage();
         }
         return '';
@@ -85,7 +86,7 @@ class OperateStream extends Singleton
             if(!$flag && is_file($this->collector->getTemp().Collector::STREAM_SUFFIX)){
                 unlink($this->collector->getTemp() . Collector::STREAM_SUFFIX);
             }
-        } catch (\Exception $e) {
+        } catch (JunkException $e) {
             if(is_file($this->collector->getTemp().Collector::STREAM_SUFFIX)) {
                 unlink($this->collector->getTemp() . Collector::STREAM_SUFFIX);
             }

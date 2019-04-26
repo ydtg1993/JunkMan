@@ -7,8 +7,7 @@
  */
 namespace JunkMan\Instrument;
 
-use JunkMan\E\IoException;
-
+use JunkMan\E\JunkException;
 /**
  * Class Io
  * @package JunkMan\Instrument
@@ -20,7 +19,7 @@ class Io
      * @param $start
      * @param $to
      * @return array
-     * @throws \Exception
+     * @throws JunkException
      */
     public static function cutFile($file, $start, $to)
     {
@@ -38,8 +37,8 @@ class Io
                 }
                 fclose($handle);
             }
-        }catch (\Exception $e){
-            throw new \Exception($e->getMessage());
+        }catch (JunkException $e){
+            throw new JunkException($e->getMessage());
         }
 
         return $txt;
@@ -49,7 +48,7 @@ class Io
      * @param $file
      * @param $line
      * @return bool|string
-     * @throws \Exception
+     * @throws JunkException
      */
     public static function readLine($file, $line)
     {
@@ -66,8 +65,8 @@ class Io
                 }
                 fclose($handle);
             }
-        }catch (\Exception $e){
-            throw new \Exception($e->getMessage());
+        }catch (JunkException $e){
+            throw new JunkException($e->getMessage());
         }
 
         return false;

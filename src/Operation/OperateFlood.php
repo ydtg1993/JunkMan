@@ -11,8 +11,8 @@ namespace JunkMan\Operation;
 use JunkMan\Abstracts\Singleton;
 use JunkMan\Configuration\Labour;
 use JunkMan\Container\Collector;
+use JunkMan\E\JunkException;
 use JunkMan\Instrument\Helper;
-use Mockery\Exception;
 
 /**
  * Class OperateFlood
@@ -61,7 +61,7 @@ class OperateFlood extends Singleton
                     unlink($this->collector->getTemp() . Collector::STREAM_SUFFIX);
                 }
             });
-        } catch (\Exception $e) {
+        } catch (JunkException $e) {
             return $e->getMessage();
         }
         return '';
@@ -90,7 +90,7 @@ class OperateFlood extends Singleton
             }
             $this->labour->retry();
             xdebug_start_trace($this->collector->getTemp());
-        } catch (\Exception $e) {
+        } catch (JunkException $e) {
             if(is_file($this->collector->getTemp().Collector::STREAM_SUFFIX)) {
                 unlink($this->collector->getTemp() . Collector::STREAM_SUFFIX);
             }
@@ -119,7 +119,7 @@ class OperateFlood extends Singleton
             if(!$flag && is_file($this->collector->getTemp().Collector::STREAM_SUFFIX)){
                 unlink($this->collector->getTemp() . Collector::STREAM_SUFFIX);
             }
-        } catch (\Exception $e) {
+        } catch (JunkException $e) {
             if(is_file($this->collector->getTemp().Collector::STREAM_SUFFIX)) {
                 unlink($this->collector->getTemp() . Collector::STREAM_SUFFIX);
             }

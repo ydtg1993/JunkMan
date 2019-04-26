@@ -10,6 +10,7 @@ namespace JunkMan\Operation;
 
 use JunkMan\Configuration\Labour;
 use JunkMan\Container\Collector;
+use JunkMan\E\JunkException;
 use JunkMan\Instrument\Helper;
 use JunkMan\Instrument\Io;
 use JunkMan\Resolver\SpotAnalyze;
@@ -53,7 +54,7 @@ class OperateSpot
             $this->labour->stop();
 
             $this->collector->getSpeaker()->write($this->collector->message);
-        } catch (\Exception $e) {
+        } catch (JunkException $e) {
             return $e->getFile();
         }
         return '';

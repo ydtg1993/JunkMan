@@ -8,7 +8,6 @@
 
 namespace JunkMan\Container;
 
-use JunkMan\Pipeline\PipelineInterface;
 use JunkMan\Pipeline\Sender;
 use JunkMan\Pipeline\Speaker;
 
