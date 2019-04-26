@@ -1,6 +1,5 @@
 {
   "ip":"127.0.0.1",
   "port":"9303",
-  "network": "tcp",
-  "IPv": "4"
+  "network": "tcp"
 }
