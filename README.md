@@ -9,25 +9,27 @@
 <td style="text-align:left;">&gt;=2.6.0</td>
 </tr></tbody></table>
 
-### 安装方式
+### 1. 安装方式
 方式一 `composer安装 composer require stream/junkman`  
     
 方式二 `直接clone工具包 require_once (YOUR_PATH)/JunkMan/autoload.php`
 
-### 命令行启动transfer服务
+### 2. 命令行启动transfer服务
 
 windows `start /B (YOUR_PATH)/JunkMan/src/JunkManTransfer.exe`
 
 linux `(YOUR_PATH)/JunkMan/src/JunkManTransfer &`
 
-#### 代码段监测 stream
+### 3. code添加监测点
+
+##### 代码段监测 stream
 
     JunkMan::stream()->start('监测点名称');
     #监测代码段
     JunkMan::stream()->end();
     
     
-#### 运行长时任务监测 flood
+##### 运行长时任务监测 flood
 
     JunkMan::flood()->start('监测点名称');
     
@@ -40,7 +42,7 @@ linux `(YOUR_PATH)/JunkMan/src/JunkManTransfer &`
     
     JunkMan::flood()->end();   
     
-#### 单条数据监测 spot
+##### 单条数据监测 spot
 
     JunkMan::spot()->dot('监测点名称',$data); 
     
