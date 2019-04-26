@@ -10,7 +10,7 @@
 </tr></tbody></table>
 
 ### 1. 安装方式
-方式一 `composer安装 composer require stream/junkman`  
+方式一 `composer安装 composer require stream/junkman "1.0.0"`  
     
 方式二 `直接clone工具包 require_once (YOUR_PATH)/JunkMan/autoload.php`
 
