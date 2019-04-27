@@ -20,6 +20,8 @@ windows `start /B (YOUR_PATH)/JunkMan/src/JunkManTransfer.exe`
 
 linux `(YOUR_PATH)/JunkMan/src/JunkManTransfer &`
 
+#### 提示进程会生成临时堆栈文件 linux上是需要chmod授权junkman目录以面报错 
+
 ### 3. code添加监测点
 
 ##### 代码段监测 stream
