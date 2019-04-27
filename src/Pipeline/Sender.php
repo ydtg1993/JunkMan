@@ -25,12 +25,11 @@ class Sender extends Singleton
     {
         $this->ip = $data['server'];
         $this->port = $data['port'];
-        $this->socket = socket_create(AF_INET,SOCK_STREAM,SOL_TCP);
-        socket_set_block($this->socket);
-        socket_set_option($this->socket, SOL_SOCKET, SO_LINGER, ['l_linger' => 1, 'l_onoff' => 1]);
-        if(@socket_connect($this->socket,$this->ip,$this->port) == false){
+        $this->socket = stream_socket_client("tcp://{$this->ip}:{$this->port}",$errno,$errstr,3);
+        if(!$this->socket){
             throw new JunkException('JunkManTransfer connect fail');
         }
+        stream_set_blocking($this->socket,true);
     }
 
     /**
@@ -41,18 +40,19 @@ class Sender extends Singleton
     public function write($data)
     {
         if ($this->socket) {
-            return (bool)socket_write($this->socket, json_encode($data));
+            sleep(1);
+            return (bool)fwrite($this->socket, json_encode($data));;
         }
         return false;
     }
 
     public function close()
     {
-        socket_close($this->socket);
+        stream_socket_shutdown($this->socket,STREAM_SOCK_DGRAM);
     }
 
     public function __destruct()
     {
-        socket_close($this->socket);
+        stream_socket_shutdown($this->socket,STREAM_SOCK_DGRAM);
     }
 }
