@@ -2,8 +2,8 @@
   
 ## About JunkMan
 
-JunkMan is a toolkit for what it can trace the PHP GC logs by xdebug. And distribute GC logs to the JunkManMonitor.
-so that you could monitor the applicaton in time.
+JunkMan is a toolkit for what it can trace the PHP GC by xdebug. And distribute its to the JunkMonitor.
+so that you could monitor the applicaton working GC logs in time.
 
 <table><thead><tr><th style="text-align:center;">JunkMan</th>
 <th style="text-align:left;">PHP</th>
