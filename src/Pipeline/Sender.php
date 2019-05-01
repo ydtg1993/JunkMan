@@ -40,8 +40,7 @@ class Sender extends Singleton
     public function write($data)
     {
         if ($this->socket) {
-            sleep(1);
-            return (bool)fwrite($this->socket, json_encode($data));;
+            return (bool)fwrite($this->socket, json_encode($data,JSON_FORCE_OBJECT));
         }
         return false;
     }

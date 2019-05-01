@@ -88,6 +88,7 @@ class OperateFlood extends Singleton
                 $this->collector->setDiscontinue(true);
                 return;
             }
+            sleep(1);
             $this->labour->retry();
             xdebug_start_trace($this->collector->getTemp());
         } catch (JunkException $e) {
