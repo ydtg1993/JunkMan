@@ -1,6 +1,5 @@
-# JunkMan
-    php生产环境代码段监控,gc日志收集分析
-    
+<p align="center"><img src="https://github.com/ydtg1993/JunkMan/blob/master/src/image/iconfinder_Eye.png" width="400px"></p>   
+  
 <table><thead><tr><th style="text-align:center;">JunkMan</th>
 <th style="text-align:left;">PHP</th>
 <th style="text-align:left;">xdebug</th>
@@ -9,45 +8,50 @@
 <td style="text-align:left;">&gt;=2.6.0</td>
 </tr></tbody></table>
 
-### 1. 安装方式
-方式一 `composer安装 composer require stream/junkman "v1.0"`  
-    
-方式二 `直接clone工具包 require_once (YOUR_PATH)/JunkMan/autoload.php`
+## About JunkMan
 
-### 2. 命令行启动transfer服务
+JunkMan is a toolkit for what it can trace the PHP GC logs by xdebug. And distribute GC logs to the JunkManMonitor.
+so that you could monitor the applicaton in time.
 
-windows `start /B (YOUR_PATH)/JunkMan/src/JunkManTransfer.exe`
 
-linux `(YOUR_PATH)/JunkMan/src/JunkManTransfer &`
+### 1. build
 
-    提示进程会生成临时堆栈碎片文件 linux上是需要chmod授权junkman目录以免报错 
+`composer require stream/junkman "v1.0"`    
 
-### 3. code添加监测点
+### 2. startup JunkManTransfer service
 
-##### 代码段监测 stream
+windows   `start /B (YOUR_PATH)/JunkMan/src/JunkManTransfer.exe`
 
-    JunkMan::stream()->start('监测点名称');
-    #监测代码段
+linux   `(YOUR_PATH)/JunkMan/src/JunkManTransfer &`
+
+    tips： chmod -R 0777 (YOUR_PATH)/JunkMan/src/  
+
+### 3. set your outpost
+
+##### stream monitor
+
+    JunkMan::stream()->start('stream watching');
+    #code
     JunkMan::stream()->end();
     
     
-##### 运行长时任务监测 flood
+##### flood monitor (for long time application process)
 
-    JunkMan::flood()->start('监测点名称');
+    JunkMan::flood()->start('flood watching');
     
     while(true){
-      #监测代码段
+      #code
       #if ... break
-      #flush将日志消息冲刷出去
+      #flush the message to monitor
       JunkMan::flood()->flush();
     }
     
     JunkMan::flood()->end();   
     
 ##### 单条数据监测 spot
-
-    JunkMan::spot()->dot('监测点名称',$data); 
+    $data = 'some message';
+    JunkMan::spot()->dot('spot watching',$data); 
     
     
-## 客户端下载安装
+## JunkMonitor for watch the GC logs
 [JunkMonitor](https://github.com/ydtg1993/JunkMonitor.git)
