@@ -42,7 +42,7 @@ class Speaker
     public function write($data)
     {
         try {
-            fwrite($this->socket, json_encode($data));
+            fwrite($this->socket, json_encode($data,JSON_FORCE_OBJECT));
             stream_socket_shutdown($this->socket,STREAM_SOCK_DGRAM);
         }catch (JunkException $e){
             throw new JunkException($e->getMessage());
