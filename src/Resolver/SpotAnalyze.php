@@ -54,7 +54,7 @@ class SpotAnalyze extends Analyze
         }
 
         if (is_object($content)) {
-            $type = get_class($content);
+            $type = 'object';
             $content = self::explainObject($content);
         }
 
