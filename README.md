@@ -20,11 +20,11 @@ so that you could monitor the applicaton working GC logs in time.
 
 ### 2. startup JunkManTransfer service
 
-windows    `start /B (YOUR_PATH)/JunkMan/src/JunkManTransfer.exe`
+windows    `start /B (YOUR_PATH)vendor/stream/junkman/src/JunkManTransfer.exe`
 
-linux    `(YOUR_PATH)/JunkMan/src/JunkManTransfer &`
+linux    `(YOUR_PATH)vendor/stream/junkman/src/JunkManTransfer &`
 
-    tips： chmod -R 0777 (YOUR_PATH)/JunkMan/src/  
+    tips： chmod -R 0777 (YOUR_PATH)vendor/stream/junkman/  
 
 ### 3. set your outpost
 
