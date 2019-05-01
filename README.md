@@ -1,9 +1,9 @@
-<p align="center"><img src="https://github.com/ydtg1993/JunkMan/blob/master/src/image/iconfinder_Eye.png" width="400px"></p>   
+<p align="center"><a href="" alt="JunkMan"><img src="https://github.com/ydtg1993/JunkMan/blob/master/src/image/iconfinder_Eye.png" width="400px"></a></p>   
   
 ## About JunkMan
 
-JunkMan is a toolkit for what it can trace the PHP GC logs by xdebug. And distribute GC logs to the JunkManMonitor.
-so that you could monitor the applicaton in time.
+JunkMan is a toolkit for what it can trace the PHP GC by xdebug. And distribute its to the JunkMonitor.
+so that you could monitor the applicaton working GC logs in time.
 
 <table><thead><tr><th style="text-align:center;">JunkMan</th>
 <th style="text-align:left;">PHP</th>
@@ -20,11 +20,11 @@ so that you could monitor the applicaton in time.
 
 ### 2. startup JunkManTransfer service
 
-windows    `start /B (YOUR_PATH)/JunkMan/src/JunkManTransfer.exe`
+windows    `start /B (YOUR_PATH)vendor/stream/junkman/src/JunkManTransfer.exe`
 
-linux    `(YOUR_PATH)/JunkMan/src/JunkManTransfer &`
+linux    `(YOUR_PATH)vendor/stream/junkman/src/JunkManTransfer &`
 
-    tips： chmod -R 0777 (YOUR_PATH)/JunkMan/src/  
+    tips： chmod -R 0777 (YOUR_PATH)vendor/stream/junkman/  
 
 ### 3. set your outpost
 
@@ -56,8 +56,11 @@ linux    `(YOUR_PATH)/JunkMan/src/JunkManTransfer &`
 ## JunkMonitor for watch the GC logs
 [JunkMonitor](https://github.com/ydtg1993/JunkMonitor.git)
 
-    tips： the remote server should open firewall port for 9303
+    tips： 
+      the remote server should open firewall port of 9303, 
+      that you could connect the server
+           
     command:
-    iptables -A INPUT -p tcp --dport 9303 -j ACCEPT
-    iptables -A OUTPUT -p tcp --sport 9303 -j ACCEPT
-    service iptables save
+      iptables -A INPUT -p tcp --dport 9303 -j ACCEPT
+      iptables -A OUTPUT -p tcp --sport 9303 -j ACCEPT
+      service iptables save
