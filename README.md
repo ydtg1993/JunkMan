@@ -1,4 +1,4 @@
-<p align="center"><img src="https://github.com/ydtg1993/JunkMan/blob/master/src/image/iconfinder_Eye.png" width="400px"></p>   
+<p align="center"><a href="" alt="JunkMan"><img src="https://github.com/ydtg1993/JunkMan/blob/master/src/image/iconfinder_Eye.png" width="400px"></a></p>   
   
 ## About JunkMan
 
@@ -56,8 +56,11 @@ linux    `(YOUR_PATH)/JunkMan/src/JunkManTransfer &`
 ## JunkMonitor for watch the GC logs
 [JunkMonitor](https://github.com/ydtg1993/JunkMonitor.git)
 
-    tips： the remote server should open firewall port for 9303
+    tips： 
+      the remote server should open firewall port of 9303, 
+      that you could connect the server
+           
     command:
-    iptables -A INPUT -p tcp --dport 9303 -j ACCEPT
-    iptables -A OUTPUT -p tcp --sport 9303 -j ACCEPT
-    service iptables save
+      iptables -A INPUT -p tcp --dport 9303 -j ACCEPT
+      iptables -A OUTPUT -p tcp --sport 9303 -j ACCEPT
+      service iptables save
