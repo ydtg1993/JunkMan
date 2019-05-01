@@ -55,6 +55,7 @@ class SpotAnalyze extends Analyze
 
         if (is_object($content)) {
             $type = get_class($content);
+            $content = self::explainObject($content);
         }
 
         return [
@@ -63,6 +64,51 @@ class SpotAnalyze extends Analyze
             'Type' => $type,
             'Line' => self::$line
         ];
+    }
+
+    private static function explainObject($object)
+    {
+        $data = [];
+        $reflection = new \ReflectionClass($object);
+        $data['namespace'] = $reflection->getNamespaceName();
+        $data['name'] = $reflection->getShortName();
+        $data['file'] = $reflection->getFileName();
+
+        $attribute = [];
+        $attribute['isInstantiable'] = $reflection->isInstantiable();
+        $attribute['isFinal'] = $reflection->isFinal();
+        $attribute['isAbstract'] = $reflection->isAbstract();
+        $attribute['isInterface'] = $reflection->isInterface();
+        $attribute['isAnonymous'] = $reflection->isAnonymous();
+        $attribute['isInterface'] = $reflection->isInterface();
+        $attribute['isTrait'] = $reflection->isTrait();
+        $data['attribute'] = $attribute;
+
+        $data['traits'] = $reflection->getTraitNames();
+        $data['interfaces'] = $reflection->getInterfaceNames();
+        $data['constants'] = $reflection->getConstants();
+        $data['static_properties'] = $reflection->getStaticProperties();
+        $data['default_properties'] = $reflection->getDefaultProperties();
+
+        $methods = [];
+        $reflection_methods = $reflection->getMethods();
+        foreach ($reflection_methods as $reflection_method){
+            $method = [];
+            $method['name'] = $reflection_method->getShortName();
+            $method['abstract'] = $reflection_method->isAbstract();
+            $method['final'] = $reflection_method->isFinal();
+            $method['static'] = $reflection_method->isStatic();
+            if($reflection_method->isPublic()){
+                $method['attribute'] = 'public';
+            }elseif ($reflection_method->isProtected()){
+                $method['attribute'] = 'protected';
+            }elseif ($reflection_method->isPrivate()){
+                $method['attribute'] = 'private';
+            }
+            $methods[] = $method;
+        }
+        $data['methods'] = $methods;
+        return $data;
     }
 
 }
