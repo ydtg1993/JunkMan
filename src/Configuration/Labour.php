@@ -111,19 +111,23 @@ class Labour
     private function setXdebug()
     {
         ini_set('xdebug.collect_params', 4);
-        ini_set('xdebug.collect_return', 1);
+        ini_set('xdebug.collect_return', 0);
         ini_set('xdebug.show_mem_delta', 0);
         ini_set('xdebug.collect_assignments', 1);
         ini_set('xdebug.collect_includes', 0);
         ini_set('xdebug.trace_format', 0);
         ini_set('xdebug.profiler_enable', 1);
-        ini_set('xdebug.var_display_max_depth', 10);
+        ini_set('xdebug.var_display_max_data', -1);
+        ini_set('xdebug.var_display_max_depth', 500);
         ini_set('collect_assignments', 1);
         ini_set('xdebug.coverage_enable', 1);
-        xdebug_set_filter(
-            XDEBUG_FILTER_TRACING,
-            XDEBUG_PATH_BLACKLIST,
-            [$this->collector->getTraceFile()]
-        );
+        
+        if (function_exists('xdebug_set_filter')) {
+            xdebug_set_filter(
+                XDEBUG_FILTER_TRACING,
+                XDEBUG_NAMESPACE_WHITELIST,
+                [$this->collector->getTraceFile()]
+            );
+        }
     }
 }
