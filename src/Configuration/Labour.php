@@ -121,7 +121,7 @@ class Labour
         ini_set('xdebug.var_display_max_depth', 500);
         ini_set('collect_assignments', 1);
         ini_set('xdebug.coverage_enable', 1);
-        
+
         if (function_exists('xdebug_set_filter')) {
             xdebug_set_filter(
                 XDEBUG_FILTER_TRACING,
