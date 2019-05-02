@@ -16,7 +16,7 @@ so that you could monitor the applicaton working GC logs in time.
 
 ### 1. build
 
-`composer require stream/junkman "v1.0"`    
+`composer require stream/junkman`    
 
 ### 2. startup JunkManTransfer service
 
