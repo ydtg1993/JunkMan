@@ -9,8 +9,8 @@ so that you could monitor the applicaton working GC logs in time.
 <th style="text-align:left;">PHP</th>
 <th style="text-align:left;">xdebug</th>
 </tr></thead><tbody><tr><td style="text-align:left;">v1.0</td>
-<td style="text-align:left;">&gt;=7.0.x</td>
-<td style="text-align:left;">&gt;=2.6.0</td>
+<td style="text-align:left;">&gt;=7.0</td>
+<td style="text-align:left;">&gt;=2.1</td>
 </tr></tbody></table>
 
 
