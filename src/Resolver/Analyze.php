@@ -22,7 +22,7 @@ abstract class Analyze
     const FLOAT = 'float';
     const STR = 'string';
     const ARR = 'array';
-    const CLA = 'stdClass';
+    const OBJ = 'object';
     const UNDEFINED = 'undefined';
 
     /**

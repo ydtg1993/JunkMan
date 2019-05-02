@@ -145,7 +145,7 @@ class StreamAnalyze extends Analyze
         if ($flag) {
             return [
                 'val' => isset($matches[2]) && $matches[2] ? '{' . $matches[2] . '}' : '{}',
-                'type' => isset($matches[1]) && $matches[1] ? $matches[1] : self::CLA
+                'type' => self::OBJ
             ];
         }
 
