@@ -57,8 +57,8 @@ linux    `(YOUR_PATH)vendor/stream/junkman/src/JunkManTransfer &`
 [JunkMonitor](https://github.com/ydtg1993/JunkMonitor.git)
 
     tips： 
-      the remote server should open firewall port of 9303, 
-      that you could connect the server
+      the remote server should open firewall to enable port of 9303, 
+      that you could connect the server by JunkMonitor
            
     command:
       iptables -A INPUT -p tcp --dport 9303 -j ACCEPT
