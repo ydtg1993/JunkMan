@@ -53,7 +53,7 @@ linux    `(YOUR_PATH)vendor/stream/junkman/src/JunkManTransfer &`
     JunkMan::spot()->dot('spot watching',$data); 
     
     
-## JunkMonitor for watch the GC logs
+### 4. Download JunkMonitor
 [JunkMonitor](https://github.com/ydtg1993/JunkMonitor.git)
 
     tips： 
