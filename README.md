@@ -2,8 +2,8 @@
   
 ## About JunkMan
 
-JunkMan is a toolkit for what it can trace the PHP GC by xdebug. And distribute its to the JunkMonitor.
-so that you could monitor the applicaton working GC logs in time.
+`JunkMan is a toolkit for what it can trace the PHP GC by xdebug. And distribute its to the JunkMonitor.
+so that you could monitor the applicaton working GC logs in time.`
 
 <table><thead><tr><th style="text-align:center;">JunkMan</th>
 <th style="text-align:left;">PHP</th>
@@ -16,13 +16,17 @@ so that you could monitor the applicaton working GC logs in time.
 
 ### 1. build
 
-`composer require stream/junkman`    
+    composer require stream/junkman   
 
 ### 2. startup JunkManTransfer service
 
-windows    `start /B (YOUR_PATH)vendor/stream/junkman/src/JunkManTransfer.exe`
+`windows`    
 
-linux    `(YOUR_PATH)vendor/stream/junkman/src/JunkManTransfer &`
+    start /B (YOUR_PATH)vendor/stream/junkman/src/JunkManTransfer.exe
+
+`linux`    
+
+    (YOUR_PATH)vendor/stream/junkman/src/JunkManTransfer &
 
     tips： chmod -R 0777 (YOUR_PATH)vendor/stream/junkman/  
 
