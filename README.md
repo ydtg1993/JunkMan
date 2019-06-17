@@ -65,6 +65,5 @@ so that you could monitor the applicaton working GC logs in time.`
       that you could connect the server by JunkMonitor
            
     command:
-      iptables -A INPUT -p tcp --dport 9303 -j ACCEPT
-      iptables -A OUTPUT -p tcp --sport 9303 -j ACCEPT
-      service iptables save
+      firewall-cmd --zone=public --add-port=9303/tcp --permanent
+      firewall-cmd --reload
